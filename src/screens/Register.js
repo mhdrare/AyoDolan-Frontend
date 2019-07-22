@@ -140,10 +140,10 @@ export default class Login extends Component {
                 </View>
                 <View style={{flex:1,marginTop:15}}>
                     <View style={{flexDirection:'row',alignSelf:'center'}}>
-                    <Text style={{color:'#777'}}>Have an account ? </Text>
-                    <TouchableOpacity style={{justifyContent:'center',alignItems:'center',borderRadius:10}}>
-                        <Text style={{color:'#444'}}>Login</Text>
-                    </TouchableOpacity>  
+                        <Text style={{color:'#777'}}>Already have an account ? </Text>
+                        <TouchableOpacity style={{justifyContent:'center',alignItems:'center',borderRadius:10}}>
+                            <Text style={{color:'#444'}}>Login</Text>
+                        </TouchableOpacity>  
                     </View>
                 </View>
             </View>
