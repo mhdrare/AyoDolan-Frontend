@@ -3,6 +3,7 @@ import React, {Component, Fragment} from 'react';
 import {Platform, StyleSheet, Text, View} from 'react-native';
 import Main from './src/screen/main';
 import Categories from './src/screen/categories';
+import Details from './src/screen/detail';
 
 export default class App extends Component
 {
@@ -11,7 +12,8 @@ export default class App extends Component
     return (
       <Fragment>
         {/* <Main/> */}
-        <Categories />
+        {/* <Categories /> */}
+        <Details />
       </Fragment>
     );
   }
