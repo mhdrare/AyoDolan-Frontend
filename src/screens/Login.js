@@ -89,7 +89,7 @@ export default class Login extends Component {
         elevation:5
     },
     bgImage: {
-        backgroundColor:'#4dd0e1',
+        backgroundColor:'#03a9f4',
         borderRadius:30,
         justifyContent:'center',
         height:65,
