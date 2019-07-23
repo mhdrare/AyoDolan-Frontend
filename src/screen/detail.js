@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { View, Text, StyleSheet, ScrollView, FlatList, Image, ImageBackground} from 'react-native';
+import { View, Text, StyleSheet, ScrollView, FlatList, Image, ImageBackground, Button, TouchableOpacity} from 'react-native';
 
 export default class details extends Component {
     constructor(props) {
@@ -100,6 +100,16 @@ export default class details extends Component {
                         <ImageBackground source={{ uri: 'https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg' }} style={styles.innerBox} imageStyle={{ borderRadius: 15 }}>
                             <Text style={{ marginBottom: 8, fontWeight: "bold", fontSize: 16, color: "#fff" }}>Surfing Spots</Text>
                         </ImageBackground>
+                        <View style={styles.innerBoxOrder}>
+                            <Text style={{ marginBottom: 8, fontWeight: "bold", fontSize: 16 }}>Order ?</Text>
+                            {/* <Button title="Order" color="#841584" style={{ width: 20, borderRadius: 50 }} /> */}
+                            <TouchableOpacity >
+                                <View style={{ borderColor: "#fff", borderRadius: 150, width: 50,Height:50, padding: 20, borderWidth: 0.9 }}>
+                                    <Text style={{ textAlign: "center" }}>></Text>
+                                </View>
+                            </TouchableOpacity>
+                            <Text style={{ marginTop: 8 }}>Want to order this Trip</Text>
+                        </View>
                     </View>
                 </ScrollView>
             </Fragment>
@@ -139,6 +149,15 @@ const styles = StyleSheet.create({
         backgroundColor: "#EEEEEE",
         margin: 5,
         padding: 20
+    },
+    innerBoxOrder: {
+        width: 140,
+        height: 140,
+        borderRadius: 15,
+        backgroundColor: "#4dd0e1",
+        margin: 5,
+        padding: 20,
+        alignItems: "center"
     },
     minipictA:{
         width: 50,
