@@ -1,11 +1,11 @@
 import { combineReducers } from 'redux';
 
 // import all reducers
-import user from './user';
+import auth from './auth';
 
 // combine them
 const appReducer = combineReducers({
-    user,
+    auth,
 
 })
 

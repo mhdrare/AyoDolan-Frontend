@@ -16,7 +16,7 @@ import ImagePicker from "react-native-image-picker";
 
 //redux
 import { connect } from "react-redux";
-import { addUser } from "../public/redux/action/user";
+import { addUser } from "../public/redux/action/auth";
 
 const { width, height } = Dimensions.get("window");
 const options = {
@@ -66,7 +66,7 @@ class Register extends Component {
   // onChangeTextLatitude = latitude => this.setState({ latitude });
   // onChangeTextLongitude = longitude => this.setState({ longitude });
 
-  register = () => {
+  register = async () => {
     if (
       this.state.name != "" &&
       this.state.username != "" &&
@@ -88,7 +88,7 @@ class Register extends Component {
           type: "image/jpg"
         }
       };
-      this.props.dispatch(addUser(dataReg));
+      await this.props.dispatch(addUser(dataReg));
       this.props.navigation.navigate("Login")
       alert("register")
     }
@@ -236,7 +236,7 @@ class Register extends Component {
 
 const mapStateToProps = state => {
   return {
-    user: state.user
+    auth: state.auth
     // auth: state.auth
   };
 };

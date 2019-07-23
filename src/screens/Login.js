@@ -7,11 +7,17 @@ import {
   TextInput,
   Image,
   StyleSheet,
-  StatusBar
+  StatusBar,
+  AsyncStorage
 } from "react-native";
+
+//redux
+import { connect } from "react-redux";
+import { loginUser } from "../public/redux/action/auth";
+
 const { width, height } = Dimensions.get("window");
 
-export default class Login extends Component {
+class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -22,7 +28,44 @@ export default class Login extends Component {
   onChangeTextEmail = email => this.setState({ email });
   onChangeTextPassword = password => this.setState({ password });
 
+  login = async () => {
+    if (this.state.email === "" || this.state.password === "") {
+      alert("Insert email dan password");
+    } else {
+      let user = {
+        email: this.state.email,
+        password: this.state.password
+      };
+      await this.props.dispatch(loginUser(user));
+      
+      AsyncStorage.getItem("token", (error, result) => {
+        if (result) {
+          this.props.navigation.navigate("Home");
+          alert("Welcome To Ayodolan!");
+        } else {
+          alert("salah");
+        }
+      });
+
+      // console.log("this.state.data");
+      // console.log(this.state.data);
+
+      // console.log("this.props.user");
+      // console.log(this.props.user.data);
+
+      // // await AsyncStorage.setItem(
+      // //   "user_id",
+      // //   `${this.props.user.data.data["0"].user_id}`
+      // // );
+      // // await AsyncStorage.setItem("token", this.props.user.data.token);
+      // // this.props.navigation.navigate("Home");
+      // alert("Welcome To Ayodolan!");
+    }
+  };
+
   render() {
+    console.log(this.state);
+
     return (
       <View style={styles.container}>
         <StatusBar backgroundColor="#00b8d4" barStyle="light-content" />
@@ -74,7 +117,12 @@ export default class Login extends Component {
               />
             </View>
             <View style={{ flex: 1, width: "100%", alignItems: "center" }}>
-              <TouchableOpacity style={styles.btnLogin}>
+              <TouchableOpacity
+                style={styles.btnLogin}
+                onPress={() => {
+                  this.login();
+                }}
+              >
                 <Text style={{ color: "#fff", fontSize: 18 }}>Login</Text>
               </TouchableOpacity>
             </View>
@@ -113,6 +161,17 @@ export default class Login extends Component {
     );
   }
 }
+
+const mapStateToProps = state => {
+  return {
+    auth: state.auth
+    // auth: state.auth
+  };
+};
+
+// connect with redux,first param is map and second is component
+export default connect(mapStateToProps)(Login);
+
 const styles = StyleSheet.create({
   container: {
     position: "absolute",
