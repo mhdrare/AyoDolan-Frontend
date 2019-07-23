@@ -1,5 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { View, Text, StyleSheet, ScrollView, FlatList, Image, ImageBackground, TouchableOpacity } from 'react-native';
+import Icon from 'react-native-vector-icons/AntDesign';
+
 
 export default class categories extends Component {
     constructor(props) {
@@ -24,17 +26,10 @@ export default class categories extends Component {
         }
     }
 
-    listMain = ({ item }) => (
-        <TouchableOpacity>
-            <ImageBackground source={{ uri: 'https://images.pexels.com/photos/248797/pexels-photo-248797.jpeg' }} style={styles.BgList} imageStyle={{ borderRadius: 25 }}>
-                <Text style={styles.TitleList}>{item.title}</Text>
-                <Text>{item.hours}</Text>
-            </ImageBackground>
-        </TouchableOpacity>
-    )
+    
 
     listMainB = ({ item }) => (
-        <TouchableOpacity>
+        <TouchableOpacity activeOpacity={0.8}>
             <View style={{ marginLeft: 15, marginBottom: 25 }}>
                 <Image source={{ uri: 'https://images.pexels.com/photos/248797/pexels-photo-248797.jpeg' }} style={styles.BgListB} />
                 <View style={{ marginTop: 15, marginLeft: 12 }}>
@@ -51,7 +46,8 @@ export default class categories extends Component {
                 <ScrollView>
                     <View style={styles.container}>
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: "12%", marginTop: 40 }}>
-                            <Text>back</Text>
+                            {/* <Text>back</Text> */}
+                            <Icon name="arrowleft" size={30} />
                             <Text style={{ fontSize: 28 }}>Found 8</Text>
                         </View>
                         <View style={styles.contentTitle}>
