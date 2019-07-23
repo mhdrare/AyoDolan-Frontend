@@ -30,11 +30,11 @@ export default class categories extends Component {
 
     listMainB = ({ item }) => (
         <TouchableOpacity activeOpacity={0.8}>
-            <View style={{ marginLeft: 15, marginBottom: 25 }}>
+            <View style={{ marginLeft: "8%", marginBottom: 25 }}>
                 <Image source={{ uri: 'https://images.pexels.com/photos/248797/pexels-photo-248797.jpeg' }} style={styles.BgListB} />
-                <View style={{ marginTop: 15, marginLeft: 12 }}>
+                <View style={{ marginTop: 15, marginLeft: "8%" }}>
                     <Text style={{ fontSize: 20 }}>{item.title}</Text>
-                    <Text>{item.hours}</Text>
+                    <Text>{item.hours} Hours</Text>
                 </View>
             </View>
         </TouchableOpacity>
@@ -45,17 +45,19 @@ export default class categories extends Component {
             <Fragment>
                 <ScrollView>
                     <View style={styles.container}>
-                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: "12%", marginTop: 40 }}>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: "12%", marginTop: 40, marginBottom: 20 }}>
                             {/* <Text>back</Text> */}
-                            <Icon name="arrowleft" size={30} />
-                            <Text style={{ fontSize: 28 }}>Found 8</Text>
+                            <TouchableOpacity>
+                                <Icon name="arrowleft" size={30} />
+                            </TouchableOpacity>
+                            <Text style={{ fontSize: 28 }}>Trendings</Text>
                         </View>
-                        <View style={styles.contentTitle}>
+                        {/* <View style={styles.contentTitle}>
                             <Text style={styles.Title}>Trendings</Text>
                         </View>
                         <View style={styles.contentSub}>
                             <Text>High season, everyone here</Text>
-                        </View>
+                        </View> */}
                         <View style={styles.flatlisB}>
                             <FlatList
                                 horizontal={false}
