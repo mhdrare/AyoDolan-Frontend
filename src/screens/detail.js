@@ -67,7 +67,7 @@ export default class details extends Component {
                     <ImageBackground source={{ uri: 'https://images.pexels.com/photos/248797/pexels-photo-248797.jpeg' }} style={{ width:"100%", height: 250 }}>
                         <View style={styles.container}>
                             <View style={styles.header}>
-                                <TouchableOpacity>
+                                <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
                                     <Icon name="arrowleft" size={30} style={{ color: "#fff" }}/>
                                 </TouchableOpacity>
                             </View>

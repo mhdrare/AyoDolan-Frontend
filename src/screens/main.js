@@ -1,36 +1,56 @@
 import React, {Component, Fragment} from 'react';
-import { View, Text, StyleSheet, ScrollView, FlatList, Image, ImageBackground, TouchableOpacity, Modal} from 'react-native';
+import { AsyncStorage, View, Text, StyleSheet, ScrollView, FlatList, Image, ImageBackground, TouchableOpacity, Modal} from 'react-native';
 import { Button, Icon } from "native-base";
 
-export default class main extends Component 
-{
-    constructor(props)
-    {
+export default class main extends Component {
+    constructor(props) {
         super(props);
-        this.state = 
+        this.state = {
+            data: [{
+                title: "bali",
+                hours: 20
+            },
             {
-                data: [{
-                    title: "bali",
-                    hours: 20
-                },
-                {
-                    title: "bali",
-                    hours: 20
-                },
-                {
-                    title: "bali",
-                    hours: 20
-                },
-                {
-                    title: "bali",
-                    hours: 20
-                }], 
-                modalVisible: false,
-                selected: []
-            }
+                title: "bali",
+                hours: 20
+            },
+            {
+                title: "bali",
+                hours: 20
+            },
+            {
+                title: "bali",
+                hours: 20
+            }], 
+            modalVisible: false,
+            selected: [],
+            loading: true
+        }
+        this.bootstrapAsync();
     }
 
-    listMain = ({ item }) =>(
+    goDetails = async () => {
+        await this.props.navigation.navigate('Details')
+        this.setModalVisible(false)
+    }
+
+    exit = async () => {
+        await AsyncStorage.removeItem("user_id");
+        await AsyncStorage.removeItem("token");
+        this.props.navigation.navigate("Login");
+    };
+
+    bootstrapAsync = async () => {
+        let user_id = await AsyncStorage.getItem("user_id");
+        let token = await AsyncStorage.getItem("token");
+        this.setState({
+            id: user_id,
+            token: token,
+            loading: false
+        });
+    };
+
+    listMain = ({ item }) => (
         <TouchableOpacity activeOpacity={0.8} onPress={() => this.setState({ modalVisible: true, selected: item })}>  
         <ImageBackground source={{ uri: 'https://images.pexels.com/photos/248797/pexels-photo-248797.jpeg' }} style={styles.BgList} imageStyle={{ borderRadius: 25 }}>
                 <Text style={styles.TitleList}>{item.title}</Text>
@@ -169,9 +189,7 @@ export default class main extends Component
                                             </Text>
                                         </Button>
                                         <Button
-                                            onPress={() => {
-                                                alert('ctx');
-                                            }}
+                                            onPress={this.goDetails}
                                             success
                                             light
                                             style={{

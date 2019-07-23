@@ -38,12 +38,11 @@ export default class singleTransact extends Component {
 
     listMain = ({ item }) => (
         <ScrollView>
-        <TouchableOpacity activeOpacity={0.8}>
+        <TouchableOpacity activeOpacity={0.8} onPress={() => this.props.navigation.navigate('Details')}>
             <View style={{ padding: 40, borderBottomColor: "#EEEEEE", borderWidth: 0.3 }}>
                 <Text style={{ margingLeft: 12, marginTop: 10, fontSize: 25 }}>{item.dest}</Text>
                 <Text style={{ margingLeft: 12, marginTop: 10, fontSize: 15 }}>Rp. {item.price}</Text>
                 <Text style={{ margingLeft: 12, marginTop: 10, textAlign: "right" }}>{item.date}</Text>
-
             </View>
         </TouchableOpacity>
         </ScrollView>
