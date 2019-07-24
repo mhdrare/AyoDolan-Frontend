@@ -11,57 +11,76 @@ import {
     FlatList,
     ScrollView
 } from 'react-native';
+import axios from 'axios'
+import {detaiPaket} from '../public/redux/action/paket'
+import {postOrder, postTransaksi} from '../public/redux/action/order'
+import { connect } from "react-redux"
+
 const { width, height } = Dimensions.get('window');
 
-export default class Login extends Component {
+class detaiPackage extends Component {
     constructor(props){
         super(props);
         this.state = {
             data: {
                 category: 'Wisata Alam',
-                title: "Sunrise in Gunung Bromo - Tur 1 Hari",
+                title: this.props.navigation.state.params.nama_paket,
                 jarak: '107 m dari Mount Bromo',
                 review: '(734 review)',
                 price: 'Rp 300.000'
             },
-            image: [
-                {uri:'https://images.unsplash.com/photo-1540040496035-b3e1d8c127b0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80'},
-                {uri:'https://images.unsplash.com/photo-1532518166026-5c82c8583b9d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1051&q=80'},
-                {uri:'https://images.unsplash.com/photo-1531500510780-9847487a9518?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80'},
-                {uri:'https://images.unsplash.com/photo-1509421063299-06b684502b0e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80'}
-            ],
-            harga: [
-                {
-                    title: 'Open Trip (Warga Negara Indonesia) - Keberangkatan Malang',
-                    price: 'Rp 300.000',
-                    paspor: ''
-                },
-                {
-                    title: 'Open Trip (Turis Asing) - Keberangkatan Malang - Hari Kerja',
-                    price: 'Rp 492.000',
-                    paspor: 'paspor'
-                },
-                {
-                    title: 'Open Trip (Turis Asing) - Keberangkatan Malang - Akhir Pekan',
-                    price: 'Rp 587.000',
-                    paspor: 'paspor'
-                }
-            ],
             modalVisible: false,
-            img: ''
+            img: '',
+            id: this.props.navigation.state.params.id_paket,
+            price:'',
+            datas: []
         }
     }
     setModalVisible(visible) {
         this.setState({modalVisible: visible});
     }
+
+    fatchData = () =>{
+        let id = this.state.id
+        this.props.dispatch(detaiPaket(id))
+    }
+
+    componentDidMount(){
+        this.fatchData()
+    }
+
+    booking = async(total) =>{
+        let data = {
+            key: 'A31409C1-631F-4392-A823-B6A5EEDECF5B',
+            price: total,
+            uniqid: "130797",
+            notify_url: "http://websiteanda.com/notify.php"
+        }
+
+        await axios.post("https://my.ipaymu.com/api/getbniva", data).then(res => {
+            this.setState({
+                datas: res.data
+            })
+        }).catch(error => {
+            alert('transaction failed'+JSON.stringify(error));
+        });
+
+        let value = {
+            
+        }
+        
+        //console.log(this.state.datas)
+        this.props.dispatch(postTransaksi(this.state.datas))
+    }
+
     listMain = ({ item }) =>(
         <TouchableOpacity 
             onPress={() => {
                 this.setModalVisible(true);
-                this.setState({img:item.uri});
+                this.setState({img:item.image});
             }} 
             style={{height:210,width:width*0.25,backgroundColor:'#fff',flexDirection:'row',alignSelf:'center',marginRight:2,borderRadius:5,elevation:3}}>  
-            <Image source={{uri:item.uri}} style={{height:'100%',width:'100%',borderTopLeftRadius:5,borderBottomLeftRadius:5}}/>
+            <Image source={{uri:item.image}} style={{height:'100%',width:'100%',borderTopLeftRadius:5,borderBottomLeftRadius:5}}/>
         </TouchableOpacity>
     )
     listHarga = ({ item }) =>(
@@ -69,8 +88,7 @@ export default class Login extends Component {
             style={{flex:1,height:110,width,flexDirection:'row',borderBottomWidth:2,borderColor:'#ddd'}}
         >  
             <View style={{flex:2,padding:10}}>
-                <Text style={{fontSize:14,color:'#000'}}>{item.title}</Text> 
-                <Text style={{fontSize:12,color:'#000'}}>{item.paspor}</Text> 
+                <Text style={{fontSize:14,color:'#000'}}>{item.destination}</Text>
             </View>
             <View style={{flex:1,paddingTop:10,alignItems:'center'}}>
                 <Text style={{color:'red'}}>{item.price}</Text> 
@@ -122,7 +140,7 @@ export default class Login extends Component {
                     <View style={{height:60}}>
                         <FlatList 
                             horizontal={true}
-                            data={this.state.image}
+                            data={this.props.paket.image}
                             renderItem={this.listMain}
                             showsHorizontalScrollIndicator={false}
                             keyExtractor={(item,index)=>index.toString()}
@@ -139,6 +157,7 @@ export default class Login extends Component {
                         <Text style={[styles.title,{marginBottom:15}]}>Detail Perjalanan Tur</Text>
                         <View style={styles.tur}>
                             <Text style={styles.point}>.</Text>
+                            <Text style={styles.text}>00:15-00:30 Penjemputan di area Malang (dapat dilakukan di hotel)</Text>
                             <Text style={styles.text}>00:15-00:30 Penjemputan di area Malang (dapat dilakukan di hotel)</Text>
                         </View>
                         <View style={styles.tur}>
@@ -157,7 +176,7 @@ export default class Login extends Component {
                     <View style={{borderBottomWidth:2,borderColor:'#ddd'}}>
                         <Text style={{marginTop:3,marginLeft:10,marginBottom:15,fontSize:18,color:'#000'}}>Harga</Text>
                         <FlatList 
-                            data={this.state.harga}
+                            data={this.props.paket.price}
                             renderItem={this.listHarga}
                             showsVerticalScrollIndicator={false}
                             keyExtractor={(item,index)=>index.toString()}
@@ -190,12 +209,12 @@ export default class Login extends Component {
 
                 <View style={{height:70,borderTopWidth:2,borderColor:'#ddd',flexDirection:'row'}}>
                     <View style={{flex:1,margin:10,marginHorizontal:20}}>
-                        <Text style={{color:'#000'}}>Mulai dari</Text>
-                        <Text style={{color:'red',fontSize:17}}>{this.state.data.price}</Text>
+                        <Text style={{color:'#000'}}>Harga Paket 4 orang</Text>
+                        <Text style={{color:'red',fontSize:17}}>{this.props.paket.total}</Text>
                     </View>
                    <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
-                       <TouchableOpacity style={{width:'80%',backgroundColor:'#00b8d4',alignItems:'center',borderRadius:5}}>
-                           <Text style={{margin:10,color:'#fff'}}>Cari Pilihan</Text>
+                       <TouchableOpacity style={{width:'80%',backgroundColor:'#00b8d4',alignItems:'center',borderRadius:5}} onPress={() => this.booking(this.props.paket.total)}>
+                           <Text style={{margin:10,color:'#fff'}}>Booking</Text>
                        </TouchableOpacity>
                    </View>
                 </View>
@@ -203,6 +222,16 @@ export default class Login extends Component {
         )
     }
 }
+
+const mapStateToProps = state => {
+    return {
+      paket: state.paket
+      // auth: state.auth
+    };
+  };
+  
+export default connect(mapStateToProps)(detaiPackage);
+
 const styles = StyleSheet.create({
     container: {
         flex:1,
