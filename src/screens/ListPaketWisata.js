@@ -51,7 +51,8 @@ export default class Login extends Component {
         }
     }
     listMain = ({ item }) =>(
-        <TouchableOpacity style={{height:210,width:width*0.92,backgroundColor:'#fff', flexDirection:'row', alignSelf:'center', marginTop:5, marginBottom:5,borderRadius:5,elevation:3}}>  
+        <TouchableOpacity style={{height:210,width:width*0.92,backgroundColor:'#fff', flexDirection:'row', alignSelf:'center', marginTop:5, marginBottom:5,borderRadius:5,elevation:3}}
+            onPress={() => this.props.navigation.navigate('DetailPackage')}>  
             <View style={{flex:1}}>
                 <Image source={{uri:item.img}} style={{height:'100%',width:'100%',borderTopLeftRadius:5,borderBottomLeftRadius:5}}/>
             </View>

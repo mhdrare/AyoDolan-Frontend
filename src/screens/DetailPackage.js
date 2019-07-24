@@ -82,7 +82,9 @@ export default class Login extends Component {
         return (
             <View style={styles.container}>
                 <View style={styles.header}>
-                    <Image source={require('../assets/back.png')} style={{ width:25,height:20,marginRight:8 }} />
+                    <TouchableOpacity onPress={()=> this.props.navigation.goBack()}>
+                        <Image source={require('../assets/back.png')} style={{ width:25,height:20,marginRight:8 }} />
+                    </TouchableOpacity>
                     <ScrollView
                         style={{flex:1,height:40,paddingVertical:8}} 
                         horizontal={true} 

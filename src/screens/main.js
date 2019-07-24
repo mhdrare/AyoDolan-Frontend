@@ -46,12 +46,6 @@ class main extends Component {
         this.setModalVisible(false)
     }
 
-    exit = async () => {
-        await AsyncStorage.removeItem("user_id");
-        await AsyncStorage.removeItem("token");
-        this.props.navigation.navigate("Login");
-    };
-
     bootstrapAsync = async () => {
         let user_id = await AsyncStorage.getItem("user_id");
         let token = await AsyncStorage.getItem("token");
@@ -64,7 +58,6 @@ class main extends Component {
 
     componentDidMount(){
         this.props.dispatch(getDestinasi(5))
-        this.props.dispatch(getPopular(5))
     }
 
     listMain = ({ item }) => (
@@ -116,7 +109,9 @@ class main extends Component {
                         <View style={styles.content}>
                             <Image source={require('../img/menu.png')} style={{ width: 15, height: 15 }} />
                             {/* <Text>This Main</Text> */}
-                            <Image source={{ uri: 'https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg' }} style={{ width: 28, height: 28, borderRadius: 10 }} />
+                            <TouchableOpacity onPress={() => { this.props.navigation.navigate('userProfile') }}>
+                                <Image source={{ uri: 'https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg' }} style={{ width: 28, height: 28, borderRadius: 10 }} />
+                            </TouchableOpacity>
                         </View>
                         <View style={styles.contentTitle}>
                             <Text style={styles.Title}>Surf Destination</Text>

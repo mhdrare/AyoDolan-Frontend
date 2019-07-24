@@ -114,11 +114,11 @@ export default class details extends Component {
                             <Text style={{ marginBottom: 8, fontWeight: "bold", fontSize: 16, color: "#fff" }}>Surfing Spots</Text>
                         </ImageBackground>
                         <View style={styles.innerBoxOrder}>
-                            <Text style={{ marginBottom: 8, fontWeight: "bold", fontSize: 16 }}>Order ?</Text>
+                            <Text style={{ marginBottom: 4, fontWeight: "bold", fontSize: 16 }}>Order ?</Text>
                             {/* <Button title="Order" color="#841584" style={{ width: 20, borderRadius: 50 }} /> */}
-                            <Text style={{ marginTop: 8 }}>Want to order this Trip</Text>
-                            <TouchableOpacity >
-                                <View style={{ borderColor: "#fff", backgroundColor:"#EEEEEE", borderRadius: 25, width: "100%",Height:50, padding: 15, borderWidth: 0.4, marginTop: 15 }}>
+                            <Text style={{ marginTop: 3 }}>Want to order this Trip</Text>
+                            <TouchableOpacity onPress={() => this.props.navigation.navigate('SingleTransact')}>
+                                <View style={{ borderColor: "#fff", backgroundColor:"#EEEEEE", borderRadius: 25, width: "100%",Height:50, padding: 15, borderWidth: 0.4, marginTop: 10 }}>
                                     <Text style={{ textAlign: "center" }}>Order Now</Text>
                                 </View>
                             </TouchableOpacity>
@@ -145,7 +145,7 @@ const styles = StyleSheet.create({
         marginTop: 20
     },
     contentHead:{
-        fontSize: 50,
+        fontSize: 35,
         marginBottom: 15
     },
     boxContent:{

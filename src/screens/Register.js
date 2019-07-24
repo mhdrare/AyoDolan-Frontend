@@ -224,6 +224,7 @@ class Register extends Component {
                 alignItems: "center",
                 borderRadius: 10
               }}
+              onPress={()=>this.props.navigation.navigate('Login')}
             >
               <Text style={{ color: "#444" }}>Login</Text>
             </TouchableOpacity>
