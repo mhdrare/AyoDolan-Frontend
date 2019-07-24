@@ -29,6 +29,8 @@ export default class singleTransact extends Component {
 
         return (
             <Fragment>
+                <ImageBackground source={require('../img/bgb.png')} style={{ width: "100%", height: "100%" }}>
+
                 <ScrollView>
                     <View style={styles.container}>
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: "12%", marginTop: 40, marginBottom: 20 }}>
@@ -68,10 +70,11 @@ export default class singleTransact extends Component {
                     {/* <View><Text>my text</Text></View> */}
                     <View style={{ position: 'absolute', left: 0, right: 0, bottom: 0, backgroundColor: "#81C784", padding: 20 }}>
                         <TouchableOpacity>
-                            <Text style={{ textAlign: "center" }}>Order Now</Text>
+                            <Text style={{ textAlign: "center", fontSize: 20 }}>Order Now</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
+                </ImageBackground>
             </Fragment>
         )
     }
@@ -132,7 +135,7 @@ const styles = StyleSheet.create({
         borderRadius: 15,
         width: "90%",
         height: 250,
-        backgroundColor: "#B2EBF2",
+        backgroundColor: "#EEEEEE",
         padding: 20
         
     },
