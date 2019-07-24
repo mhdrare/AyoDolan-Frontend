@@ -13,6 +13,7 @@ import Home from '../screens/main';
 import Categories from '../screens/categories';
 import Details from '../screens/detail';
 import SingleTransact from '../screens/singleTransact';
+import ListPaketWisata from '../screens/ListPaketWisata';
 import SingleTrip from '../screens/singleTripList';
 
 const AuthNavigator = createStackNavigator({
@@ -29,6 +30,7 @@ const HomeNavigator = createStackNavigator({
     Categories,
     Details,
     SingleTransact,
+    ListPaketWisata,
     SingleTrip,
     Login
 }, {

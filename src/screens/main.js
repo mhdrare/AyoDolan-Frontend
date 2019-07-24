@@ -41,6 +41,11 @@ class main extends Component {
         this.setModalVisible(false)
     }
 
+    goPackage = async () => {
+        await this.props.navigation.navigate('ListPaketWisata')
+        this.setModalVisible(false)
+    }
+
     exit = async () => {
         await AsyncStorage.removeItem("user_id");
         await AsyncStorage.removeItem("token");
@@ -127,6 +132,7 @@ class main extends Component {
                                 horizontal={true}
                                 data={this.props.destinasi.datadestinasi}
                                 renderItem={this.listMain}
+                                keyExtractor={(item,index)=>index.toString()}
                                 showsHorizontalScrollIndicator={false}
                             />
                         </View>
@@ -144,6 +150,7 @@ class main extends Component {
                                 style={{width: '100%', paddingLeft: 20, paddingRight: 20}}
                                 horizontal={false}
                                 data={this.props.destinasi.datadestinasi}
+                                keyExtractor={(item,index)=>index.toString()}
                                 renderItem={this.listMainB}
                                 showsHorizontalScrollIndicator={false}
                             />
@@ -170,9 +177,7 @@ class main extends Component {
                                             </Text>
                                             <View style={{flexDirection: "row",width: "100%",paddingLeft: 20,paddingRight: 20,marginTop: 5,marginBottom: 15}}>
                                                 <Button
-                                                    onPress={() => {
-                                                        alert('this chat btn');
-                                                    }}
+                                                    onPress={this.goPackage}
                                                     primary
                                                     light
                                                     style={{
