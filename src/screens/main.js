@@ -2,7 +2,10 @@ import React, {Component, Fragment} from 'react';
 import { AsyncStorage, View, Text, StyleSheet, ScrollView, FlatList, Image, ImageBackground, TouchableOpacity, Modal} from 'react-native';
 import { Button, Icon } from "native-base";
 
-export default class main extends Component {
+import {getDestinasi, getPopular} from '../public/redux/action/destinasi'
+import { connect } from "react-redux"
+
+class main extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -25,10 +28,10 @@ export default class main extends Component {
                 title: "Raja Ampat",
                 hours: 20,
                 url: 'https://www.indonesia.travel/content/dam/indtravelrevamp/en/destinations/destination-update-may-2019/RA_Pianemoisland_indtravel.jpg'
-            }], 
+            }],
             modalVisible: false,
             selected: [],
-            loading: true
+            loading: false
         }
         this.bootstrapAsync();
     }
@@ -54,26 +57,29 @@ export default class main extends Component {
         });
     };
 
+    componentDidMount(){
+        this.props.dispatch(getDestinasi(5))
+        this.props.dispatch(getPopular(5))
+    }
+
     listMain = ({ item }) => (
-        <TouchableOpacity activeOpacity={0.8} onPress={() => this.setState({ modalVisible: true, selected: item })}>  
-            <ImageBackground source={{ uri: item.url }} style={styles.BgList} imageStyle={{ borderRadius: 15 }}>
+        <TouchableOpacity activeOpacity={0.8} onPress={() => this.setState({ modalVisible: true, selected: item })}>
+            <ImageBackground source={{ uri: item.image }} style={styles.BgList} imageStyle={{ borderRadius: 15 }}>
                 <View style={{flex: 4}}></View>
                 <View style={{flex: 2, justifyContent: 'center'}}>
-                    <Text style={styles.TitleList} numberOfLines={1} >{item.title}</Text>
-                    <Text style={styles.DescList} numberOfLines={1} >{item.hours}</Text>
+                    <Text style={styles.TitleList} numberOfLines={2} >{item.destination}</Text>
                 </View>
             </ImageBackground>
         </TouchableOpacity>
     )
 
     listMainB = ({ item }) => (
-        <TouchableOpacity activeOpacity={0.8} style={{flex: 1}}>
+        <TouchableOpacity activeOpacity={0.8} style={{flex: 1}} onPress={() => this.setState({ modalVisible: true, selected: item })}>
             <View>
-                <ImageBackground source={{ uri: item.url }} style={styles.imagesSecond} imageStyle={{borderRadius: 15}}>
+                <ImageBackground source={{ uri: item.image }} style={styles.imagesSecond} imageStyle={{borderRadius: 15}}>
                     <View style={{flex: 4}}></View>
                     <View style={{flex: 3, justifyContent: 'center'}}>
-                        <Text style={styles.TitleListSecond} numberOfLines={1} >{item.title}</Text>
-                        <Text style={styles.DescListSecond} numberOfLines={1} >{item.hours}</Text>
+                        <Text style={styles.TitleListSecond} numberOfLines={1} >{item.destination}</Text>
                     </View>
                 </ImageBackground>
             </View>
@@ -97,7 +103,6 @@ export default class main extends Component {
             });
         }
     }
-    
     render() {
         return(
             <Fragment>
@@ -120,7 +125,7 @@ export default class main extends Component {
                         <View style={styles.flatlis}>
                             <FlatList 
                                 horizontal={true}
-                                data={this.state.data}
+                                data={this.props.destinasi.datadestinasi}
                                 renderItem={this.listMain}
                                 showsHorizontalScrollIndicator={false}
                             />
@@ -138,7 +143,7 @@ export default class main extends Component {
                             <FlatList
                                 style={{width: '100%', paddingLeft: 20, paddingRight: 20}}
                                 horizontal={false}
-                                data={this.state.data}
+                                data={this.props.destinasi.datadestinasi}
                                 renderItem={this.listMainB}
                                 showsHorizontalScrollIndicator={false}
                             />
@@ -157,11 +162,11 @@ export default class main extends Component {
                             style={styles.modelstyle}>
                             <View style={styles.imageModal}>
                                 <View style={{flex: 2,backgroundColor: "#fff",borderRadius: 5,padding: 5}}>
-                                    <ImageBackground source={{ uri: this.state.selected.url }} style={styles.images}>
+                                    <ImageBackground source={{ uri: this.state.selected.image }} style={styles.images}>
                                         <View style={{flex: 4}}></View>
-                                        <View style={{flex: 1}}>
+                                        <View style={{flex: 2, justifyContent: 'flex-end'}}>
                                             <Text style={{fontSize: 20,textAlign: "center",fontWeight: "bold",color: "#ffffff",padding: 5}}>
-                                                {this.state.selected.title}
+                                                {this.state.selected.destination}
                                             </Text>
                                             <View style={{flexDirection: "row",width: "100%",paddingLeft: 20,paddingRight: 20,marginTop: 5,marginBottom: 15}}>
                                                 <Button
@@ -204,6 +209,15 @@ export default class main extends Component {
     }
 }
 
+const mapStateToProps = state => {
+    return {
+      destinasi: state.destinasi
+      // auth: state.auth
+    };
+  };
+  
+export default connect(mapStateToProps)(main);
+
 const styles = StyleSheet.create({
     modelstyle: {
         position: "absolute",
@@ -225,7 +239,6 @@ const styles = StyleSheet.create({
         elevation: 3
     },
     images: {
-        // marginTop: 10,
         height: "100%",
         width: "100%",
         alignSelf: "center"
@@ -282,11 +295,11 @@ const styles = StyleSheet.create({
         width: '100%',
         height: 157,
         margin: 5,
-        borderRadius: 25,
+        borderRadius: 10,
     },
     TitleList:{
         fontFamily: 'sans-serif-condensed',
-        fontSize: 23,
+        fontSize: 18,
         paddingLeft: 10,
         color: '#fff',
     },
@@ -297,7 +310,7 @@ const styles = StyleSheet.create({
     },
     TitleListSecond:{
         fontFamily: 'sans-serif-condensed',
-        fontSize: 23,
+        fontSize: 18,
         paddingLeft: 10,
         color: '#fff',
     },
