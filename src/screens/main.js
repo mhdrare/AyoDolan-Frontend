@@ -48,7 +48,7 @@ class main extends Component {
 
     bootstrapAsync = async () => {
         let user_id = await AsyncStorage.getItem("user_id");
-        let token = await AsyncStorage.getItem("token");
+        let token = await AsyncStorage.getItem("Token");
         this.setState({
             id: user_id,
             token: token,
@@ -118,7 +118,7 @@ class main extends Component {
                         </View>
                         <View style={styles.contentSub}>
                             <Text>Best surf destination for you</Text>
-                            <TouchableOpacity onPress={() => alert}>
+                            <TouchableOpacity onPress={()=>this.props.navigation.navigate('ViewAllDestination')}>
                                 <Text style={{ color: "#FF8A65" }}>View All</Text>
                             </TouchableOpacity>
                         </View>
@@ -136,7 +136,7 @@ class main extends Component {
                         </View>
                         <View style={styles.contentSub}>
                             <Text>High season, everyone here</Text>
-                            <TouchableOpacity>
+                            <TouchableOpacity onPress={()=>this.props.navigation.navigate('ViewAllDestination')}>
                                 <Text style={{ color: "#FF8A65" }}>View All</Text>
                             </TouchableOpacity>
                         </View>

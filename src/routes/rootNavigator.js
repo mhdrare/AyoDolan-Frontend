@@ -13,6 +13,7 @@ import Home from '../screens/main';
 import Categories from '../screens/categories';
 import Details from '../screens/detail';
 import DetailPackage from '../screens/DetailPackage';
+import ViewAllDestination from '../screens/ViewAllDestination';
 import SingleTransact from '../screens/singleTransact';
 import ListPaketWisata from '../screens/ListPaketWisata';
 import SingleTrip from '../screens/singleTripList';
@@ -34,6 +35,7 @@ const HomeNavigator = createStackNavigator({
     DetailPackage,
     SingleTransact,
     ListPaketWisata,
+    ViewAllDestination,
     SingleTrip,
 	userProfile,
     AuthCheck,
