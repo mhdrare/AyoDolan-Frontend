@@ -4,6 +4,7 @@ import {
   createDrawerNavigator,
   createSwitchNavigator
 } from "react-navigation";
+
 import Login from "../screens/Login";
 import ForgetPassword from "../screens/ForgetPassword";
 import Register from "../screens/Register";

@@ -2,26 +2,13 @@ import React, {Component, Fragment} from 'react';
 import { AsyncStorage, View, Text, StyleSheet, ScrollView, FlatList, Image, ImageBackground, TouchableOpacity, Modal} from 'react-native';
 import { Button, Icon } from "native-base";
 
-export default class main extends Component {
+import {getDestinasi, getPopular} from '../public/redux/action/destinasi'
+import { connect } from "react-redux"
+
+class main extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            data: [{
-                title: "bali",
-                hours: 20
-            },
-            {
-                title: "bali",
-                hours: 20
-            },
-            {
-                title: "bali",
-                hours: 20
-            },
-            {
-                title: "bali",
-                hours: 20
-            }], 
             modalVisible: false,
             selected: [],
             loading: true
@@ -50,22 +37,25 @@ export default class main extends Component {
         });
     };
 
+    componentDidMount(){
+        this.props.dispatch(getDestinasi())
+        this.props.dispatch(getPopular())
+    }
+
     listMain = ({ item }) => (
         <TouchableOpacity activeOpacity={0.8} onPress={() => this.setState({ modalVisible: true, selected: item })}>  
-        <ImageBackground source={{ uri: 'https://images.pexels.com/photos/248797/pexels-photo-248797.jpeg' }} style={styles.BgList} imageStyle={{ borderRadius: 25 }}>
-                <Text style={styles.TitleList}>{item.title}</Text>
-                <Text>{item.hours}</Text>
+        <ImageBackground source={{ uri: item.image }} style={styles.BgList} imageStyle={{ borderRadius: 25 }}>
+                <Text style={styles.TitleList}>{item.destination}</Text>
         </ImageBackground>
         </TouchableOpacity>
     )
 
     listMainB = ({ item }) => (
-        <TouchableOpacity activeOpacity={0.8}>
-            <View style={{ marginLeft: "10%", marginBottom: 25 }}>
-                <Image source={{ uri: 'https://images.pexels.com/photos/248797/pexels-photo-248797.jpeg' }} style={styles.BgListB} />
-                <View style={{ marginTop: 5, marginLeft: "10%" }}>
-                    <Text style={{fontSize: 20}}>{item.title}</Text>
-                    <Text>{item.hours}</Text>
+        <TouchableOpacity activeOpacity={0.8} onPress={() => this.setState({ modalVisible: true, selected: item })}>
+            <View style={{ flex:1, marginLeft:'5%', marginBottom: 25 }}>
+                <Image source={{ uri: item.image }} style={styles.BgListB} />
+                <View style={{ marginLeft: "5%" }}>
+                    <Text style={{fontSize: 20}}>{item.destination}</Text>
                 </View>
             </View>
         </TouchableOpacity>
@@ -91,6 +81,8 @@ export default class main extends Component {
     
     render()
     {
+        console.log(this.props.destinasi.datadestinasi)
+        console.log(this.props.destinasi.datapopuler)
         return(
             <Fragment>
                 <ScrollView>
@@ -112,7 +104,7 @@ export default class main extends Component {
                         <View style={styles.flatlis}>
                             <FlatList 
                                 horizontal={true}
-                                data={this.state.data}
+                                data={this.props.destinasi.datadestinasi}
                                 renderItem={this.listMain}
                                 showsHorizontalScrollIndicator={false}
                             />
@@ -129,14 +121,13 @@ export default class main extends Component {
                         <View style={styles.flatlisB}>
                             <FlatList
                                 horizontal={false}
-                                data={this.state.data}
+                                data={this.props.destinasi.datadestinasi}
                                 renderItem={this.listMainB}
                                 showsHorizontalScrollIndicator={false}
                             />
                         </View>
                     </View>
                 </ScrollView>
-
 
                 <Modal
                     transparent={true}
@@ -160,15 +151,18 @@ export default class main extends Component {
                                 >
                                     <Image
                                         // source={require('https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg')}
-                                        source={{ uri: `https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg`}}
+                                        source={{ uri: this.state.selected.image}}
                                         style={styles.images}
                                     />
                                     <Text
-                                        style={{fontSize: 20,textAlign: "center",fontWeight: "bold",color: "#FAFAFA",padding: 5}}
+                                        style={{fontSize: 15,textAlign: "center",color: "#eee",padding: 3}}
                                     >
-
-                                        {this.state.selected.title}
-                                    
+                                        Start Your Jurney
+                                    </Text>
+                                    <Text
+                                        style={{fontSize: 20,textAlign: "center",fontWeight: "bold",color: "#FAFAFA",padding: 2}}
+                                    >
+                                        {this.state.selected.destination}
                                     </Text>
                                     <View style={{flexDirection: "row",width: "100%",paddingLeft: 20,paddingRight: 20,marginTop: 5,marginBottom: 15}}>
                                         <Button
@@ -199,7 +193,6 @@ export default class main extends Component {
                                             }}
                                         >
                                             <Text>
-
                                             Single Trip
                                             </Text>
                                         </Button>
@@ -214,6 +207,16 @@ export default class main extends Component {
         )
     }
 }
+
+const mapStateToProps = state => {
+    return {
+      destinasi: state.destinasi
+      // auth: state.auth
+    };
+  };
+  
+  // connect with redux,first param is map and second is component
+  export default connect(mapStateToProps)(main);
 
 const styles = StyleSheet.create({
     modelstyle: {
@@ -237,7 +240,7 @@ const styles = StyleSheet.create({
     },
     images: {
         // marginTop: 10,
-        height: "80%",
+        height: "75%",
         width: "100%",
         alignSelf: "center"
     },
@@ -288,10 +291,10 @@ const styles = StyleSheet.create({
         elevation: 7,
     },
     BgListB: {
-        width: "85%",
+        width: "90%",
         height: 157,
         margin: 5,
-        borderRadius: 25,
+        borderRadius: 10,
     },
     TitleList:{
         fontSize: 25,
