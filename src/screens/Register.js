@@ -138,7 +138,7 @@ class Register extends Component {
                 paddingBottom: 10
               }}
             >
-              <ScrollView style={{ width: "100%" }}>
+              <ScrollView style={{ width: "100%" }} showsVerticalScrollIndicator={false}>
                 <TextInput
                   style={styles.input}
                   placeholder={"Name"}
@@ -169,6 +169,7 @@ class Register extends Component {
                       this.setState({ gender: itemValue })
                     }
                   >
+                    <Picker.Item label="Choose" value="" />
                     <Picker.Item label="Male" value="l" />
                     <Picker.Item label="Female" value="p" />
                   </Picker>

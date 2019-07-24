@@ -60,8 +60,8 @@ export default class Login extends Component {
                 this.setModalVisible(true);
                 this.setState({img:item.uri});
             }} 
-            style={{height:210,width:width*0.25,backgroundColor:'#fff',flexDirection:'row',alignSelf:'center',marginRight:2,borderRadius:5,elevation:3}}>  
-            <Image source={{uri:item.uri}} style={{height:'100%',width:'100%',borderTopLeftRadius:5,borderBottomLeftRadius:5}}/>
+            style={{height:270,width,backgroundColor:'#fff',flexDirection:'row',alignSelf:'center',marginRight:2,borderRadius:5,elevation:3}}>  
+            <Image source={{uri:item.uri}} style={{height:'100%',width:'100%'}}/>
         </TouchableOpacity>
     )
     listHarga = ({ item }) =>(
@@ -115,18 +115,16 @@ export default class Login extends Component {
                             this.setModalVisible(true);
                             this.setState({img:'https://images.unsplash.com/photo-1493604480588-31082be2c411?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=729&q=80'});
                         }} >
-                             <Image source={{uri:'https://images.unsplash.com/photo-1493604480588-31082be2c411?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=729&q=80'}} style={{height:235,width:'100%',borderTopLeftRadius:5,borderBottomLeftRadius:5}}/>    
-                        </TouchableOpacity>
-                    </View>
-
-                    <View style={{height:60}}>
-                        <FlatList 
+                             {/* <Image source={{uri:'https://images.unsplash.com/photo-1493604480588-31082be2c411?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=729&q=80'}} style={{height:235,width:'100%',borderTopLeftRadius:5,borderBottomLeftRadius:5}}/> 
+                                */}
+                            <FlatList 
                             horizontal={true}
                             data={this.state.image}
                             renderItem={this.listMain}
                             showsHorizontalScrollIndicator={false}
                             keyExtractor={(item,index)=>index.toString()}
                         />
+                        </TouchableOpacity>
                     </View>
 
                     <View style={{height:108,paddingHorizontal:15,borderBottomWidth:2,borderColor:'#ddd'}}>
