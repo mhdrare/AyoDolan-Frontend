@@ -13,6 +13,7 @@ import Categories from '../screens/categories';
 import Details from '../screens/detail';
 import SingleTransact from '../screens/singleTransact';
 import SingleTrip from '../screens/singleTripList';
+import userProfile from '../screens/userProfile';
 
 const AuthNavigator = createStackNavigator({
 	Login,
@@ -28,7 +29,8 @@ const HomeNavigator = createStackNavigator({
     Categories,
     Details,
     SingleTransact,
-    SingleTrip,
+	SingleTrip,
+	userProfile,
     Login
 }, {
 	initialRouteName: 'Home',

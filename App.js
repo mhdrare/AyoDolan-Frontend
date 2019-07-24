@@ -4,11 +4,12 @@ import AppNavigator from "./src/routes/rootNavigator";
 import { Provider } from "react-redux";
 import store from "./src/public/redux/store";
 import OneSignal from 'react-native-onesignal';
+import { ONESIGNAL_API_KEY } from 'react-native-dotenv';
 
 export default class App extends Component {
   constructor(properties) {
     super(properties);
-    OneSignal.init("7f3ad7b9-c240-47d5-bdb2-21bd7a14ff04");
+    OneSignal.init(ONESIGNAL_API_KEY);
 
     OneSignal.addEventListener('received', this.onReceived);
     OneSignal.addEventListener('opened', this.onOpened);

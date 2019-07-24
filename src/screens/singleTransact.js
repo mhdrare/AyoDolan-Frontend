@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { View, Text, StyleSheet, ScrollView, FlatList, Image, ImageBackground, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, FlatList, Image, ImageBackground, TouchableOpacity, Animated, Easing } from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
 
 
@@ -11,7 +11,7 @@ export default class singleTransact extends Component {
         }
     }
 
-
+    
 
     listMainB = ({ item }) => (
         <TouchableOpacity activeOpacity={0.8}>
@@ -26,13 +26,14 @@ export default class singleTransact extends Component {
     )
 
     render() {
+
         return (
             <Fragment>
                 <ScrollView>
                     <View style={styles.container}>
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: "12%", marginTop: 40, marginBottom: 20 }}>
                             {/* <Text>back</Text> */}
-                            <TouchableOpacity>
+                            <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
                                 <Icon name="arrowleft" size={30} />
                             </TouchableOpacity>
                             <Text style={{ fontSize: 28 }}>Payment</Text>
@@ -49,21 +50,28 @@ export default class singleTransact extends Component {
                                 <Text style={styles.dates}>15 jul 2018</Text>
                             </View>
                         </View>
-                        <View style={styles.containtB}>
-                            <Text style={styles.AdditionTitle}>Person</Text>
-                            <Text style={styles.AdditionValue}>3</Text>
-                        </View>
-                        <View style={styles.containtB}>
-                            <Text style={styles.AdditionTitle}>Total</Text>
-                            <Text style={styles.AdditionValue}>Rp.60.000</Text>
+                        
+                        <View style={{ marginTop: 50 }}>
+                            <View style={styles.containtB}>
+                                <Text style={styles.AdditionTitle}>Tax</Text>
+                                <Text style={styles.AdditionValue}>Rp.5.000</Text>
+                            </View>
+                            <View style={styles.containtB}>
+                                <Text style={styles.AdditionTitle}>Total</Text>
+                                <Text style={styles.AdditionValue}>Rp.25.000</Text>
+                            </View>
                         </View>
                     </View>
-                    <View style={styles.btnA}>
+                    
+                </ScrollView>
+                <View style={{ flex: 1 }}>
+                    {/* <View><Text>my text</Text></View> */}
+                    <View style={{ position: 'absolute', left: 0, right: 0, bottom: 0, backgroundColor: "#81C784", padding: 20 }}>
                         <TouchableOpacity>
-                            <Text style={{ textAlign: "center" }}>Order Now!</Text>
+                            <Text style={{ textAlign: "center" }}>Order Now</Text>
                         </TouchableOpacity>
                     </View>
-                </ScrollView>
+                </View>
             </Fragment>
         )
     }
@@ -102,7 +110,7 @@ const styles = StyleSheet.create({
     },
     money:{
         marginTop: 12,
-        fontSize: 40
+        fontSize: 30
     },
     PaymentTitle:{
         flex: 1,
@@ -119,10 +127,11 @@ const styles = StyleSheet.create({
     containt:{
         marginTop: 15,
         marginBottom: 20,
-        marginHorizontal: "5%",
+        // marginHorizontal: "5%",
+        marginLeft: "5%",
         borderRadius: 15,
-        width: "100%",
-        height: 230,
+        width: "90%",
+        height: 250,
         backgroundColor: "#B2EBF2",
         padding: 20
         
