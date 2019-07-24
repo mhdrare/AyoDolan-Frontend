@@ -9,26 +9,6 @@ class main extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            data: [{
-                title: "Bali",
-                hours: 20,
-                url: 'https://www.indonesia.travel/content/dam/indtravelrevamp/en/destinations/bali-nusa-tenggara/bali/bali/Image3.jpg'
-            },
-            {
-                title: "Yogyakarta",
-                hours: 20,
-                url: 'https://www.indonesia.travel/content/dam/indtravelrevamp/en/destinations/java/di-yogyakarta/image11.jpg'
-            },
-            {
-                title: "Bayuwangi",
-                hours: 20,
-                url: 'https://www.indonesia.travel/content/dam/indtravelrevamp/en/destinations/destination-update-may-2019/banyuwangiartikel1.jpg'
-            },
-            {
-                title: "Raja Ampat",
-                hours: 20,
-                url: 'https://www.indonesia.travel/content/dam/indtravelrevamp/en/destinations/destination-update-may-2019/RA_Pianemoisland_indtravel.jpg'
-            }],
             modalVisible: false,
             selected: [],
             loading: false
@@ -42,7 +22,8 @@ class main extends Component {
     }
 
     goPackage = async () => {
-        await this.props.navigation.navigate('ListPaketWisata')
+        let id = this.state.selected.id_destination
+        await this.props.navigation.navigate('ListPaketWisata', id)
         this.setModalVisible(false)
     }
 
