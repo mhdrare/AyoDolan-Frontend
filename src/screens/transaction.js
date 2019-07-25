@@ -7,7 +7,8 @@ export default class singleTransact extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            data: [{
+            data: [
+            {
                 id: 1,
                 dest: 'Sleman-Pogung',
                 date: '2015-06-09',
@@ -15,21 +16,9 @@ export default class singleTransact extends Component {
             },
             {
                 id: 2,
-                dest: 'Sleman-Jak',
+                dest: 'Sleman-Pogung',
                 date: '2015-06-09',
-                price: '2100'
-            },
-            {
-                id: 3,
-                dest: 'kidul-Pogung',
-                date: '2015-06-09',
-                price: '2500'
-            },
-            {
-                id: 4,
-                dest: 'Sleman-Kidul',
-                date: '2015-06-09',
-                price: '10000'
+                price: '2000'
             }]
         }
     }
@@ -37,44 +26,57 @@ export default class singleTransact extends Component {
 
 
     listMain = ({ item }) => (
-        <ScrollView>
         <TouchableOpacity activeOpacity={0.8} onPress={() => this.props.navigation.navigate('OrderPackage')}>
-            <View style={{ padding: 40, borderBottomColor: "#EEEEEE", borderWidth: 0.3 }}>
-                <Text style={{ margingLeft: 12, marginTop: 10, fontSize: 25 }}>{item.dest}</Text>
-                <Text style={{ margingLeft: 12, marginTop: 10, fontSize: 15 }}>Rp. {item.price}</Text>
-                <Text style={{ margingLeft: 12, marginTop: 10, textAlign: "right" }}>{item.date}</Text>
+            <View style={{ padding: 10, backgroundColor: '#f2f2f2', margin: 10, borderRadius: 10}}>
+                <Text style={{ marginLeft: 12, marginTop: 10, fontSize: 20, fontFamily: 'sans-serif-condensed' }}>{item.dest}</Text>
+                <Text style={{ marginLeft: 12, marginTop: 10, fontSize: 15 }}>Rp. {item.price}</Text>
+                <Text style={{ marginLeft: 12, marginTop: 10, textAlign: 'right', fontFamily: 'sans-serif-thin' }}>{item.date}</Text>
             </View>
         </TouchableOpacity>
-        </ScrollView>
     )
 
     render() {
         return (
             <Fragment>
-                <ScrollView>
-                    <View style={styles.container}>
-                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: "12%", marginTop: 10, marginBottom: 5 }}>
-                            <TouchableOpacity onPress={()=>this.props.navigation.goBack()}>
-                                <Icon name="arrowleft" size={30} />
-                            </TouchableOpacity>
-                            <Text style={{ fontSize: 24 }}>Transaction</Text>
-                        </View>
-                    </View>
-                    <View>
-                        <FlatList
+                <View style={component.header}>
+                    <TouchableOpacity style={{flex: 1}} onPress={() => this.props.navigation.goBack()}>
+                        <Icon name='left' size={24}/>
+                    </TouchableOpacity>
+                    <Text style={text.headerTitle}>{'Transaction'.toUpperCase()}</Text>
+                </View>
+                <View style={{paddingTop: 40}}>
+                    <FlatList
                         data={this.state.data}
+                        keyExtractor={(item, index) => index.toString()}
                         renderItem={this.listMain}
-                        />
-                    </View>
-                </ScrollView>
+                    />
+                </View>
             </Fragment>
         )
     }
 }
 
-const styles = StyleSheet.create({
-    container: {
-        display: "flex",
+const text = StyleSheet.create({
+    headerTitle: {
+        flex: 1, 
+        fontFamily: 'sans-serif-thin', 
+        fontSize: 18,
+        textAlign: 'right'
     }
+})
 
-});
+const component = StyleSheet.create({
+    header: {
+        flexDirection: 'row',
+        position: 'absolute',
+        width: '100%',
+        height: 40,
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingLeft: 15,
+        paddingRight: 20,
+        backgroundColor: '#ffff',
+        borderWidth: 1,
+        borderBottomColor: '#f2f2f2'
+    }
+})
