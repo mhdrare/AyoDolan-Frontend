@@ -10,7 +10,8 @@ import {
     StatusBar,
     FlatList,
     ScrollView,
-    Button
+    Button,
+    ActivityIndicator
 } from 'react-native';
 import axios from 'axios'
 import {detaiPaket} from '../public/redux/action/paket'
@@ -79,11 +80,7 @@ class detaiPackage extends Component {
     }
 
     listMain = ({ item }) =>(
-        <TouchableOpacity 
-            onPress={() => {
-                this.setModalVisible(true);
-                this.setState({img:item.image});
-            }}
+        <TouchableOpacity
             style={{height:270,width,backgroundColor:'#fff',flexDirection:'row',alignSelf:'center',marginRight:2,borderRadius:5,elevation:3}}>  
             <Image source={{uri:item.image}} style={{height:'100%',width:'100%'}}/>
         </TouchableOpacity>
@@ -131,23 +128,25 @@ class detaiPackage extends Component {
                             onPress={() => {this.setModalVisible(!this.state.modalVisible)}}>
                         </TouchableOpacity>
                     </Modal>
-
-                    <View style={{marginBottom:2}}>
-                        <TouchableOpacity onPress={() => {
-                            this.setModalVisible(true);
-                            this.setState({img:'https://images.unsplash.com/photo-1493604480588-31082be2c411?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=729&q=80'});
-                        }} >
-                             {/* <Image source={{uri:'https://images.unsplash.com/photo-1493604480588-31082be2c411?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=729&q=80'}} style={{height:235,width:'100%',borderTopLeftRadius:5,borderBottomLeftRadius:5}}/> 
-                                */}
-                            <FlatList 
-                            horizontal={true}
-                            data={this.props.paket.image}
-                            renderItem={this.listMain}
-                            showsHorizontalScrollIndicator={false}
-                            keyExtractor={(item,index)=>index.toString()}
-                        />
-                        </TouchableOpacity>
-                    </View>
+                    { this.props.paket.isLoading ? 
+                        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+                            <ActivityIndicator size="large" color="#4dd0e1"/>
+                        </View> : 
+                        <View style={{marginBottom:2}}>
+                            <TouchableOpacity onPress={() => {
+                                this.setModalVisible(true);
+                                this.setState({img:'https://images.unsplash.com/photo-1493604480588-31082be2c411?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=729&q=80'});
+                            }} >
+                                <FlatList 
+                                    horizontal={true}
+                                    data={this.props.paket.image}
+                                    renderItem={this.listMain}
+                                    showsHorizontalScrollIndicator={false}
+                                    keyExtractor={(item,index)=>index.toString()}
+                            />
+                            </TouchableOpacity>
+                        </View>
+                    }
 
                     <View style={{height:108,paddingHorizontal:15,borderBottomWidth:2,borderColor:'#ddd'}}>
                         <Text style={{marginTop:15,color:'red'}}>{this.state.data.category}</Text>

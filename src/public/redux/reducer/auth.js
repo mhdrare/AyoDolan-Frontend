@@ -35,8 +35,7 @@ export default (reducer = async (state = initialState, action) => {
       };
     case "LOGIN_USER_FULFILLED":
       await AsyncStorage.setItem("Token", action.payload.data.token);
-      await AsyncStorage.setItem(
-        "user_id",
+      await AsyncStorage.setItem("user_id", 
         `${action.payload.data.data["0"].user_id}`
       );
       return {

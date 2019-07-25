@@ -1,5 +1,5 @@
 import React, {Component, Fragment} from 'react';
-import { AsyncStorage, View, Text, StyleSheet, ScrollView, FlatList, Image, ImageBackground, TouchableOpacity, Modal} from 'react-native';
+import { ActivityIndicator, AsyncStorage, View, Text, StyleSheet, ScrollView, FlatList, Image, ImageBackground, TouchableOpacity, Modal} from 'react-native';
 import { Button, Icon } from "native-base";
 import Icons from 'react-native-vector-icons/Entypo'
 import {getDestinasi, getPopular} from '../public/redux/action/destinasi'
@@ -84,27 +84,32 @@ class main extends Component {
                     </View>
                     <View style={{flex: 1}}/>
                 </View>
-                <ScrollView>
-                    <View style={styles.container}>
-                        <View style={styles.contentTitle}>
-                            <Text style={styles.Title}>Trendings</Text>
+                {this.props.destinasi.isLoading ? 
+                    <View style={{marginTop: 60}}>
+                        <ActivityIndicator size="large" color="#4dd0e1"/>
+                    </View> :
+                    <ScrollView>
+                        <View style={styles.container}>
+                            <View style={styles.contentTitle}>
+                                <Text style={styles.Title}>Trendings</Text>
+                            </View>
+                            <View style={styles.contentSub}>
+                                <Text>High season, everyone here</Text>
+                                <Text style={{ color: "#ffffff" }}>View All</Text>
+                            </View>
+                            <View style={styles.flatlisB}>
+                                <FlatList
+                                    style={{width: '100%', paddingLeft: 20, paddingRight: 20}}
+                                    horizontal={false}
+                                    data={this.props.destinasi.datadestinasi}
+                                    renderItem={this.listMainB}
+                                    keyExtractor={(item,index)=>index.toString()}
+                                    showsHorizontalScrollIndicator={false}
+                                />
+                            </View>
                         </View>
-                        <View style={styles.contentSub}>
-                            <Text>High season, everyone here</Text>
-                            <Text style={{ color: "#ffffff" }}>View All</Text>
-                        </View>
-                        <View style={styles.flatlisB}>
-                            <FlatList
-                                style={{width: '100%', paddingLeft: 20, paddingRight: 20}}
-                                horizontal={false}
-                                data={this.props.destinasi.datadestinasi}
-                                renderItem={this.listMainB}
-                                keyExtractor={(item,index)=>index.toString()}
-                                showsHorizontalScrollIndicator={false}
-                            />
-                        </View>
-                    </View>
-                </ScrollView>
+                    </ScrollView>
+                }
 
                 <Modal
                     transparent={true}

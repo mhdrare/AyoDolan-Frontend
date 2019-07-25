@@ -1,5 +1,5 @@
 import React, {Component, Fragment} from 'react';
-import { AsyncStorage, View, Text, StyleSheet, ScrollView, FlatList, Image, ImageBackground, TouchableOpacity, Modal} from 'react-native';
+import { ActivityIndicator, AsyncStorage, View, Text, StyleSheet, ScrollView, FlatList, Image, ImageBackground, TouchableOpacity, Modal} from 'react-native';
 import { Button, Icon } from "native-base";
 
 import {getDestinasi, getPopular} from '../public/redux/action/destinasi'
@@ -86,6 +86,11 @@ class main extends Component {
     render() {
         return(
             <Fragment>
+                { (this.props.destinasi.isLoading) ? 
+                    <View style={{flex: 1, justifyContent: 'flex-end', alignItems: 'center'}}>
+                        <ActivityIndicator size="large" color="#4dd0e1"/>
+                        <Image source={require('../assets/loading.png')} style={{ width: '100%', height: 400}}/>
+                    </View>:
                     <View style={styles.container}>
                         <View style={styles.content}>
                             <Text style={{ fontSize: 20, fontFamily: 'sans-serif-condensed', paddingLeft: 5 }}>AyoDolan</Text>
@@ -93,7 +98,6 @@ class main extends Component {
                                 <Image source={{ uri: 'https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg' }} style={{ width: 28, height: 28, borderRadius: 10, paddingRight: 5 }} />
                             </TouchableOpacity>
                         </View>
-
                     <ScrollView>
                         <View style={styles.container}>
                             
@@ -137,6 +141,7 @@ class main extends Component {
                         </View>
                     </ScrollView>
                 </View>
+                }
 
                 <Modal
                     transparent={true}
