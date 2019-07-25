@@ -88,9 +88,7 @@ class Login extends Component {
     }
   };
 
-  render() {
-    console.log(this.state);
-
+  render () {
     return (
       <View style={styles.container}>
         <StatusBar backgroundColor="#00b8d4" barStyle="light-content" />

@@ -4,7 +4,7 @@ import Icon from 'react-native-vector-icons/AntDesign';
 
 export default class Profile extends Component {
     logout = async () => {
-        await AsyncStorage.removeItem('id')
+        await AsyncStorage.removeItem('user_id')
         AsyncStorage.removeItem('Token', (error) => {
             if (error) {
                 alert(error)

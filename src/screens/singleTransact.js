@@ -5,9 +5,12 @@ import {IPAYMU_API_KEY} from 'react-native-dotenv';
 import phoneID from '../store/phoneID';
 import axios from 'axios';
 import moment from 'moment'
+import { connect } from "react-redux"
+import {postOrder, postTransaksi} from '../public/redux/action/order'
 import DateTimePicker from "react-native-modal-datetime-picker";
+import { AsyncStorage } from "react-native";
 
-export default class singleTransact extends Component {
+class singleTransact extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -16,11 +19,12 @@ export default class singleTransact extends Component {
             processing: false,
             stat: '',
             date: moment(new Date()).format('DD-MM-YYYY'),
-            isDateTimePickerVisible: false
+            isDateTimePickerVisible: false,
+            datas:[]
         }
     }
 
-    orderNow = () =>{
+    orderNow = async() =>{
         // alert('hello');
 
         this.setState({ processing: true });
@@ -32,12 +36,45 @@ export default class singleTransact extends Component {
                 notify_url: "http://websiteanda.com/notify.php"
             }
 
-        axios.post("https://my.ipaymu.com/api/getbniva", data).then(res => {
+        await axios.post("https://my.ipaymu.com/api/getbniva", data).then(res => {
             // alert(JSON.stringify(res.data));
-            this.setState({ va: res.data.va, processing: false, stat: 'finish' });
+            this.setState({ va: res.data.va, processing: false, stat: 'finish', datas: res.data });
         }).catch(error => {
             alert('transaction failed'+JSON.stringify(error));
         });
+
+        await this.props.dispatch(postTransaksi(this.state.datas))
+    }
+
+    confirmOrder = async() =>{
+
+        let id = await AsyncStorage.getItem('user_id')
+        let value = ''
+        let a = this.state.date;
+        let b = a.split('-');
+        let newDate = b[2]+"-"+b[1]+"-"+b[0];
+        
+        if (this.state.data.category) {
+            value = {
+                id_user: id,
+                id_destination: this.state.data.id_destination,
+                id_transaksi: this.state.datas.id,
+                date: newDate,
+                price: this.state.data.price,
+                category: this.state.data.category
+            }    
+        }else{
+            value = {
+                id_user: id,
+                id_destination: this.state.data.id_destination,
+                id_transaksi: this.state.datas.id,
+                date: newDate,
+                price: this.state.data.price,
+                category: 0
+            }
+        }
+
+        await this.props.dispatch(postOrder(value))
     }
 
     setModalVisible(visible) {
@@ -53,6 +90,7 @@ export default class singleTransact extends Component {
     };
 
     handleDatePicked = date => {
+        console.log(date)
         this.setState({
             date: moment(new Date(date)).format('DD-MM-YYYY')
         })
@@ -153,8 +191,9 @@ export default class singleTransact extends Component {
     };
 
     render() {
-        // console.warn("[single GET] : "+JSON.stringify(this.state.data));
-        console.warn("Phone ID notification : ",phoneID.phoneID);
+        // console.log(this.state.data)
+        // // console.warn("[single GET] : "+JSON.stringify(this.state.data));
+        // console.warn("Phone ID notification : ",phoneID.phoneID);
         return (
             <Fragment>
                 <ImageBackground source={require('../img/bgb.png')} style={{ width: "100%", height: "100%" }}>
@@ -223,20 +262,20 @@ export default class singleTransact extends Component {
                     
                 </ScrollView>
                 <View style={{ flex: 1 }}>
-                    <View style={{ position: 'absolute', left: 0, right: 0, bottom: 0, backgroundColor: "#81C784", padding: 20 }}>
+                    <View style={{ position: 'absolute', left: 0, right: 0, bottom: 0, padding: 20 }}>
                         {
                         this.state.processing
                         ?
-                            <Text style={{ textAlign: "center", fontSize: 20 }}>Processing...</Text>
+                            <Text style={{ textAlign: "center", fontSize: 20,backgroundColor: "#18d92b", padding:15}}>Processing...</Text>
                         :
                             this.state.stat == ''
                             ?
-                            <TouchableOpacity onPress={() => {this.orderNow()}}>
+                            <TouchableOpacity onPress={() => {this.orderNow()}} style={{backgroundColor: "#18d92b", padding:15}}>
                                 <Text style={{ textAlign: "center", fontSize: 20 }}>Order Now</Text>
                             </TouchableOpacity>
                             :
-                            <TouchableOpacity onPress={() => { alert('comming soon') }}>
-                                <Text style={{ textAlign: "center", fontSize: 20 }}>Go to order list</Text>
+                            <TouchableOpacity onPress={() => {this.confirmOrder()}} style={{backgroundColor: "#7ce619", padding:15}}>
+                                <Text style={{ textAlign: "center", fontSize: 20 }}>confirmation</Text>
                             </TouchableOpacity>
 
                         }
@@ -247,6 +286,15 @@ export default class singleTransact extends Component {
         )
     }
 }
+
+const mapStateToProps = state => {
+    return {
+      paket: state.paket
+      // auth: state.auth
+    };
+  };
+  
+export default connect(mapStateToProps)(singleTransact);
 
 const component = StyleSheet.create({
     header: {
