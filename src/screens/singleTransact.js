@@ -38,6 +38,7 @@ class singleTransact extends Component {
         await axios.post("https://my.ipaymu.com/api/getbniva", data).then(res => {
             // alert(JSON.stringify(res.data));
             this.setState({ va: res.data.va, processing: false, stat: 'finish', datas: res.data });
+            this.triggerNotif();
         }).catch(error => {
             alert('transaction failed'+JSON.stringify(error));
         });
@@ -60,7 +61,6 @@ class singleTransact extends Component {
     }
 
     confirmOrder = async() =>{
-
         let id = await AsyncStorage.getItem('id')
         let value = ''
         let a = this.state.date;
@@ -75,7 +75,7 @@ class singleTransact extends Component {
                 date: newDate,
                 price: this.state.data.price,
                 category: this.state.data.category
-            }    
+            }
         }else{
             value = {
                 id_user: id,
@@ -86,9 +86,19 @@ class singleTransact extends Component {
                 category: 0
             }
         }
-
         await this.props.dispatch(postOrder(value))
         this.props.navigation.navigate('Home')
+    }
+
+    triggerNotif = () =>{
+
+        let data = {
+            phoneid: phoneID.phoneID,
+            msg: "Please continue the payment via BNI",
+            header: "Transaction"
+        }
+
+        axios.post("https://ayodolanbackend.herokuapp.com/singleorder/notif", data);
     }
 
     setModalVisible(visible) {
@@ -205,7 +215,6 @@ class singleTransact extends Component {
     };
 
     render() {
-        console.log(this.state.data.price)
         return (
             <Fragment>
                 <ImageBackground source={require('../img/bgb.png')} style={{ width: "100%", height: "100%" }}>

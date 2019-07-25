@@ -108,20 +108,6 @@ class Login extends Component {
             );
           });
       }
-
-      // console.log("this.state.data");
-      // console.log(this.state.data);
-
-      // console.log("this.props.user");
-      // console.log(this.props.user.data);
-
-      // // await AsyncStorage.setItem(
-      // //   "user_id",
-      // //   `${this.props.user.data.data["0"].user_id}`
-      // // );
-      // // await AsyncStorage.setItem("token", this.props.user.data.token);
-      // // this.props.navigation.navigate("Home");
-      // alert("Welcome To Ayodolan!");
     }
   };
 
@@ -227,7 +213,6 @@ const mapStateToProps = state => {
   return {
     auth: state.auth,
     users: state.users
-    // auth: state.auth
   };
 };
 

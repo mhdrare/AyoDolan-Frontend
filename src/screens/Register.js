@@ -36,7 +36,8 @@ class Register extends Component {
       gender: "",
       avatarSource: null,
       fileName: "",
-      phone: ""
+      phone: "",
+      process: false
       // latitude: "",
       // langitude: ""
     };
@@ -314,14 +315,13 @@ class Register extends Component {
               </ScrollView>
             </View>
             <View style={{ flex: 1, width: "100%", alignItems: "center" }}>
-              <TouchableOpacity
-                style={styles.btnLogin}
-                onPress={() => {
-                  this.register();
-                }}
-              >
-                <Text style={{ color: "#fff", fontSize: 18 }}>Register</Text>
+              
+                
+              <TouchableOpacity style={styles.btnLogin} onPress={() => { this.register();}}>
+                <Text style={{ color: "#fff", fontSize: 18 }}>Register</Text>              
               </TouchableOpacity>
+              
+              
             </View>
           </View>
         </View>

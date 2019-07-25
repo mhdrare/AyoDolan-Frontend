@@ -43,7 +43,7 @@ const HomeNavigator = createStackNavigator({
     ListPaketWisata,
     ViewAllDestination,
     SingleTrip,
-	userProfile,
+	  userProfile,
     AuthCheck,
     OrderPackage,
     ConfirmCode,

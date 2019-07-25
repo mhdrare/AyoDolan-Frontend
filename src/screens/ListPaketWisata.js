@@ -38,6 +38,10 @@ class ListPaketWisata extends Component {
         });
     }
 
+    formatNumber = nums => {
+        return nums.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+    };
+
     componentDidMount(){
         this.fetchdata()
     }
@@ -54,7 +58,7 @@ class ListPaketWisata extends Component {
                 <View style={{flexDirection: 'row', flex: 2, alignItems: 'flex-end'}}>
                     <View style={{flex: 1}} />
                     <Text style={{color:'red', fontSize:19, flex: 1, textAlign: 'right'}}>
-                        Rp {item.price}
+                        Rp {this.formatNumber(item.price)}
                     </Text>
                 </View>
             </View>

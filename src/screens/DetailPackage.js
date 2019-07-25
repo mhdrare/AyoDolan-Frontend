@@ -46,6 +46,10 @@ class detaiPackage extends Component {
         this.props.dispatch(detaiPaket(id))
     }
 
+    formatNumber = nums => {
+        return nums.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+    };
+
     componentDidMount(){
         this.fatchData()
     }
@@ -95,7 +99,7 @@ class detaiPackage extends Component {
                 <Text style={{fontSize:14,color:'#000'}}>{item.destination}</Text>
             </View>
             <View style={{flex:1,paddingTop:10,alignItems:'center'}}>
-                <Text style={{color:'red'}}>Rp {item.price}</Text> 
+                <Text style={{color:'red'}}>Rp {this.formatNumber(item.price)}</Text> 
             </View>
         </TouchableOpacity>
     )
@@ -103,7 +107,7 @@ class detaiPackage extends Component {
         return (
             <View style={styles.container}>
                 <View style={styles.header}>
-                    <TouchableOpacity onPress={()=> this.props.navigation.goBack()}>
+                    <TouchableOpacity onPress={() => this.props.navigation.navigate('Home')}>
                         <Image source={require('../assets/back.png')} style={{ width:25, height:20, marginRight:8 }} />
                     </TouchableOpacity>
                     <ScrollView

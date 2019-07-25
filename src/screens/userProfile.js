@@ -134,7 +134,6 @@ const style = StyleSheet.create({
         marginLeft: 15,
         color: "#fff",
         fontSize: 25,
-        // marginRight: 20
     },
     profileContainer:{
         display: "flex",
@@ -143,7 +142,7 @@ const style = StyleSheet.create({
     },
     profileItem:{
         flexDirection: "row",
-        marginTop: 25
+        marginTop: 15
     },
     profileIcon:{
         fontSize: 20,
@@ -155,7 +154,7 @@ const style = StyleSheet.create({
     logout:{
         marginTop: 50,
         alignSelf: "center",
-        
+        flexDirection: "row"
     },
     powerIco:{
         fontSize: 30

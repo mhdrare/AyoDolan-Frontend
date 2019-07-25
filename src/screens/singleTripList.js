@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { View, Text,ScrollView,TouchableOpacity,StyleSheet,FlatList,AsyncStorage} from 'react-native';
+import { View, ActivityIndicator, Text, ScrollView, TouchableOpacity, StyleSheet, FlatList, AsyncStorage, Image} from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
 
 import {getOrder} from '../public/redux/action/order'
@@ -39,13 +39,19 @@ class singleTripList extends Component {
                     </TouchableOpacity>
                     <Text style={text.headerTitle}>{'History'.toUpperCase()}</Text>
                 </View>
-                <View style={{paddingTop: 40}}>
-                    <FlatList
-                        data={this.props.order.data}
-                        keyExtractor={(item, index) => index.toString()}
-                        renderItem={this.listMain}
-                    />
-                </View>
+                { this.props.order.isLoading ? 
+                    <View style={{flex: 1, justifyContent: 'flex-end', alignItems: 'center'}}>
+                        <ActivityIndicator size="large" color="#4dd0e1"/>
+                        <Image source={require('../assets/loading.png')} style={{ width: '100%', height: 400}}/>
+                    </View> :
+                    <View style={{paddingTop: 40}}>
+                        <FlatList
+                            data={this.props.order.data}
+                            keyExtractor={(item, index) => index.toString()}
+                            renderItem={this.listMain}
+                        />
+                    </View>
+                }
             </Fragment>
         )
     }
