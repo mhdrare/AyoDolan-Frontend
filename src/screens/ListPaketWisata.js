@@ -87,9 +87,14 @@ class ListPaketWisata extends Component {
                     />
                 </View>
                 }
-                <View>
-                    <Text>{this.state.empty}</Text>
-                </View>
+                {
+                    this.state.empty == '' ?
+                        <View/> :
+                        <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+                            <Text style={{fontSize: 30, fontFamily: 'sans-serif-thin'}}>Paket tidak tersedia.</Text>
+                            <Image source={require('../assets/notfound.png')} style={{width: '100%', height: 300}}/>
+                        </View>
+                }
             </View>
         )
     }

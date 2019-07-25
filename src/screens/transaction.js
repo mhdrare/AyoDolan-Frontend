@@ -57,7 +57,7 @@ export default class singleTransact extends Component {
                             <TouchableOpacity onPress={()=>this.props.navigation.goBack()}>
                                 <Icon name="arrowleft" size={30} />
                             </TouchableOpacity>
-                            <Text style={{ fontSize: 24 }}>Riwayat</Text>
+                            <Text style={{ fontSize: 24 }}>Transaction</Text>
                         </View>
                     </View>
                     <View>

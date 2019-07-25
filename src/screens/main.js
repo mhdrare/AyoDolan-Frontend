@@ -3,6 +3,7 @@ import { ActivityIndicator, AsyncStorage, View, Text, StyleSheet, ScrollView, Fl
 import { Button, Icon } from "native-base";
 
 import {getDestinasi, getPopular} from '../public/redux/action/destinasi'
+import { fetchUser } from '../public/redux/action/users'
 import { connect } from "react-redux"
 
 class main extends Component {
@@ -12,7 +13,7 @@ class main extends Component {
             data: [],
             modalVisible: false,
             selected: [],
-            loading: false
+            loading: false,
         }
         this.bootstrapAsync();
     }
@@ -38,8 +39,10 @@ class main extends Component {
         });
     };
 
-    componentDidMount(){
-        this.props.dispatch(getDestinasi(5))
+    async componentDidMount(){
+        await this.props.dispatch(getDestinasi(5))
+        let user_id = await AsyncStorage.getItem("user_id")
+        await this.props.dispatch(fetchUser(user_id))
     }
 
     listMain = ({ item }) => (
@@ -83,6 +86,7 @@ class main extends Component {
             });
         }
     }
+
     render() {
         return(
             <Fragment>
@@ -201,8 +205,8 @@ class main extends Component {
 
 const mapStateToProps = state => {
     return {
-      destinasi: state.destinasi
-      // auth: state.auth
+      destinasi: state.destinasi,
+      users: state.users
     };
   };
   
