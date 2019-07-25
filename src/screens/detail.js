@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { View, Text, StyleSheet, ScrollView, FlatList, Image, ImageBackground, Button, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
 import ParallaxScroll from '@monterosa/react-native-parallax-scroll';
-import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
+import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
 
 
 export default class details extends Component {
@@ -45,12 +45,17 @@ export default class details extends Component {
                             provider={PROVIDER_GOOGLE} // remove if not using Google Maps
                             style={{ height: 200, width: 400, alignItems: "center" }}
                             region={{
-                                latitude: 37.78825,
-                                longitude: -122.4324,
+                                latitude: parseFloat(this.state.data.latitude),
+                                longitude: parseFloat(this.state.data.longitude),
                                 latitudeDelta: 0.015,
                                 longitudeDelta: 0.0121,
                             }}
                         >
+                        <Marker coordinate={{
+                            latitude: parseFloat(this.state.data.latitude),
+                            longitude: parseFloat(this.state.data.longitude)
+                            }}
+                            pinColor={'gold'} />
                         </MapView>
                     </View>
                     

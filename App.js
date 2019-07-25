@@ -5,6 +5,7 @@ import { Provider } from "react-redux";
 import store from "./src/public/redux/store";
 import OneSignal from 'react-native-onesignal';
 import { ONESIGNAL_API_KEY } from 'react-native-dotenv';
+import phoneID from './src/store/phoneID';
 
 export default class App extends Component {
   constructor(properties) {
@@ -14,7 +15,10 @@ export default class App extends Component {
     OneSignal.addEventListener('received', this.onReceived);
     OneSignal.addEventListener('opened', this.onOpened);
     OneSignal.addEventListener('ids', this.onIds);
-    OneSignal.configure(); 	
+    OneSignal.configure();
+    this.state = {
+      loading: true
+    } 	
   }
 
   componentWillUnmount() {
@@ -34,11 +38,23 @@ export default class App extends Component {
     console.log('openResult: ', openResult);
   }
 
+  trigerr = () =>{
+    this.setState({ loading: false });
+  }
+
   onIds(device) {
-    console.log('Device info: ', device);
+    phoneID.phoneID = device.userId;
+    
+    console.warn('Device info: ', device.userId);
   }
   render() {
     return (
+      // this.state.loading
+      // ?
+      // <View>
+      //   <Text>Getting Phone ID...</Text>
+      // </View>
+      // :
       <Provider store={store}>
         <React.Fragment>
           <AppNavigator />

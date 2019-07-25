@@ -1,8 +1,11 @@
 import React, {Component, Fragment} from 'react';
 import { AsyncStorage, View, Text, StyleSheet, ScrollView, FlatList, Image, ImageBackground, TouchableOpacity, Modal} from 'react-native';
 import { Button, Icon } from "native-base";
+import Icons from 'react-native-vector-icons/Entypo'
+import {getDestinasi, getPopular} from '../public/redux/action/destinasi'
+import { connect } from "react-redux"
 
-export default class main extends Component {
+class main extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -38,15 +41,9 @@ export default class main extends Component {
         this.setModalVisible(false)
     }
 
-    exit = async () => {
-        await AsyncStorage.removeItem("user_id");
-        await AsyncStorage.removeItem("token");
-        this.props.navigation.navigate("Login");
-    };
-
     bootstrapAsync = async () => {
         let user_id = await AsyncStorage.getItem("user_id");
-        let token = await AsyncStorage.getItem("token");
+        let token = await AsyncStorage.getItem("Token");
         this.setState({
             id: user_id,
             token: token,
@@ -54,26 +51,17 @@ export default class main extends Component {
         });
     };
 
-    listMain = ({ item }) => (
-        <TouchableOpacity activeOpacity={0.8} onPress={() => this.setState({ modalVisible: true, selected: item })}>  
-            <ImageBackground source={{ uri: item.url }} style={styles.BgList} imageStyle={{ borderRadius: 15 }}>
-                <View style={{flex: 4}}></View>
-                <View style={{flex: 2, justifyContent: 'center'}}>
-                    <Text style={styles.TitleList} numberOfLines={1} >{item.title}</Text>
-                    <Text style={styles.DescList} numberOfLines={1} >{item.hours}</Text>
-                </View>
-            </ImageBackground>
-        </TouchableOpacity>
-    )
+    componentDidMount(){
+        this.props.dispatch(getDestinasi(50))
+    }
 
     listMainB = ({ item }) => (
-        <TouchableOpacity activeOpacity={0.8} style={{flex: 1}}>
+        <TouchableOpacity activeOpacity={0.8} style={{flex: 1}} onPress={() => this.setState({ modalVisible: true, selected: item })}>
             <View>
-                <ImageBackground source={{ uri: item.url }} style={styles.imagesSecond} imageStyle={{borderRadius: 15}}>
+                <ImageBackground source={{ uri: item.image }} style={styles.imagesSecond} imageStyle={{borderRadius: 15}}>
                     <View style={{flex: 4}}></View>
                     <View style={{flex: 3, justifyContent: 'center'}}>
-                        <Text style={styles.TitleListSecond} numberOfLines={1} >{item.title}</Text>
-                        <Text style={styles.DescListSecond} numberOfLines={1} >{item.hours}</Text>
+                        <Text style={styles.TitleListSecond} numberOfLines={1} >{item.destination}</Text>
                     </View>
                 </ImageBackground>
             </View>
@@ -101,45 +89,31 @@ export default class main extends Component {
     render() {
         return(
             <Fragment>
+                <View style={component.header}>
+                    <TouchableOpacity style={{flex: 1}} onPress={()=>this.props.navigation.goBack()}>
+                        <Icons name="chevron-thin-left" size={24} />
+                    </TouchableOpacity>
+                    <View style={{flex: 3}}>
+                        <Text style={{fontFamily: 'sans-serif-thin', fontSize: 18, textAlign: 'center'}}>{'Destinations'.toUpperCase()}</Text>
+                    </View>
+                    <View style={{flex: 1}}/>
+                </View>
                 <ScrollView>
                     <View style={styles.container}>
-                        <View style={styles.content}>
-                            <Image source={require('../img/menu.png')} style={{ width: 15, height: 15 }} />
-                            {/* <Text>This Main</Text> */}
-                            <Image source={{ uri: 'https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg' }} style={{ width: 28, height: 28, borderRadius: 10 }} />
-                        </View>
-                        <View style={styles.contentTitle}>
-                            <Text style={styles.Title}>Surf Destination</Text>
-                        </View>
-                        <View style={styles.contentSub}>
-                            <Text>Best surf destination for you</Text>
-                            <TouchableOpacity onPress={() => alert}>
-                                <Text style={{ color: "#FF8A65" }}>View All</Text>
-                            </TouchableOpacity>
-                        </View>
-                        <View style={styles.flatlis}>
-                            <FlatList 
-                                horizontal={true}
-                                data={this.state.data}
-                                renderItem={this.listMain}
-                                showsHorizontalScrollIndicator={false}
-                            />
-                        </View>
                         <View style={styles.contentTitle}>
                             <Text style={styles.Title}>Trendings</Text>
                         </View>
                         <View style={styles.contentSub}>
                             <Text>High season, everyone here</Text>
-                            <TouchableOpacity>
-                                <Text style={{ color: "#FF8A65" }}>View All</Text>
-                            </TouchableOpacity>
+                            <Text style={{ color: "#ffffff" }}>View All</Text>
                         </View>
                         <View style={styles.flatlisB}>
                             <FlatList
                                 style={{width: '100%', paddingLeft: 20, paddingRight: 20}}
                                 horizontal={false}
-                                data={this.state.data}
+                                data={this.props.destinasi.datadestinasi}
                                 renderItem={this.listMainB}
+                                keyExtractor={(item,index)=>index.toString()}
                                 showsHorizontalScrollIndicator={false}
                             />
                         </View>
@@ -157,17 +131,15 @@ export default class main extends Component {
                             style={styles.modelstyle}>
                             <View style={styles.imageModal}>
                                 <View style={{flex: 2,backgroundColor: "#fff",borderRadius: 5,padding: 5}}>
-                                    <ImageBackground source={{ uri: this.state.selected.url }} style={styles.images}>
+                                    <ImageBackground source={{ uri: this.state.selected.image }} style={styles.images}>
                                         <View style={{flex: 4}}></View>
-                                        <View style={{flex: 1}}>
+                                        <View style={{flex: 2, justifyContent: 'flex-end'}}>
                                             <Text style={{fontSize: 20,textAlign: "center",fontWeight: "bold",color: "#ffffff",padding: 5}}>
-                                                {this.state.selected.title}
+                                                {this.state.selected.destination}
                                             </Text>
                                             <View style={{flexDirection: "row",width: "100%",paddingLeft: 20,paddingRight: 20,marginTop: 5,marginBottom: 15}}>
                                                 <Button
-                                                    onPress={() => {
-                                                        alert('this chat btn');
-                                                    }}
+                                                    onPress={this.goPackage}
                                                     primary
                                                     light
                                                     style={{
@@ -204,6 +176,26 @@ export default class main extends Component {
     }
 }
 
+const mapStateToProps = state => {
+    return {
+      destinasi: state.destinasi
+      // auth: state.auth
+    };
+  };
+  
+export default connect(mapStateToProps)(main);
+
+const component = StyleSheet.create({
+    header: {
+        height: 50,
+        flexDirection: 'row',
+        backgroundColor: '#fff',
+        width: '100%',
+        alignItems: 'center',
+        paddingLeft: 10,
+        paddingRight: 10
+    }
+})
 const styles = StyleSheet.create({
     modelstyle: {
         position: "absolute",
@@ -231,7 +223,7 @@ const styles = StyleSheet.create({
         alignSelf: "center"
     },
     container:{
-        display: "flex",
+        display: 'flex'
     },
     content:{
         flexDirection: "row",
@@ -310,7 +302,6 @@ const styles = StyleSheet.create({
         alignSelf: "flex-end",
         marginTop: 160,
         color: "#fff"
-        
     },
     imagesSecond: {
         height: 150,

@@ -10,58 +10,43 @@ import {
     SafeAreaView,
     FlatList
 } from 'react-native';
+import {getPaket} from '../public/redux/action/paket'
+import { connect } from "react-redux"
+
 const { width, height } = Dimensions.get('window');
 
-export default class Login extends Component {
+class ListPaketWisata extends Component {
     constructor(props){
         super(props);
         this.state = {
-            data: [{
-                category: 'Wisata Alam',
-                title: "Sunrise in Gunung Bromo - Tur 1 Hari",
-                jarak: '107 m dari Mount Bromo',
-                review: '(734 review)',
-                price: 'Rp 300.000',
-                img: 'https://images.unsplash.com/photo-1540040496035-b3e1d8c127b0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80'
-            },
-            {
-                category: 'Wisata Alam',
-                title: "Sunrise in Gunung Bromo - Tur 1 Hari",
-                jarak: '107 m dari Mount Bromo',
-                review: '(734 review)',
-                price: 'Rp 300.000',
-                img: 'https://images.unsplash.com/photo-1532518166026-5c82c8583b9d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1051&q=80'
-            },
-            {
-                category: 'Wisata Alam',
-                title: "Sunrise in Gunung Bromo - Tur 1 Hari",
-                jarak: '107 m dari Mount Bromo',
-                review: '(734 review)',
-                price: 'Rp 300.000',
-                img: 'https://images.unsplash.com/photo-1531500510780-9847487a9518?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80'
-            },
-            {
-                category: 'Wisata Alam',
-                title: "Sunrise in Gunung Bromo - Tur 1 Hari",
-                jarak: '107 m dari Mount Bromo',
-                review: '8.4 (734 review)',
-                price: 'Rp 300.000',
-                img: 'https://images.unsplash.com/photo-1509421063299-06b684502b0e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80'
-            }]
+            id : this.props.navigation.state.params
         }
     }
+
+    fetchdata = () =>{
+        let id = this.state.id
+        this.props.dispatch(getPaket(id))
+    }
+
+    componentDidMount(){
+        this.fetchdata()
+    }
+
     listMain = ({ item }) =>(
-        <TouchableOpacity style={{height:210,width:width*0.92,backgroundColor:'#fff', flexDirection:'row', alignSelf:'center', marginTop:5, marginBottom:5,borderRadius:5,elevation:3}}
-            onPress={() => this.props.navigation.navigate('DetailPackage')}>  
+        <TouchableOpacity style={{height:150,width:width*0.92,backgroundColor:'#fff', flexDirection:'row', alignSelf:'center', marginTop:5, marginBottom:5,borderRadius:5,elevation:3}}
+            onPress={() => this.props.navigation.navigate('DetailPackage', item)}>  
             <View style={{flex:1}}>
-                <Image source={{uri:item.img}} style={{height:'100%',width:'100%',borderTopLeftRadius:5,borderBottomLeftRadius:5}}/>
+                <Image source={{uri:item.image}} style={{height:'100%',width:'100%',borderTopLeftRadius:5,borderBottomLeftRadius:5}}/>
             </View>
-            <View style={{flex:2,padding:10}}>
-                <Text style={{color:'red'}}>{item.category}</Text>
-                <Text style={{color:'#000',fontSize:14,fontWeight:'bold',marginTop:10}}>{item.title}</Text>
-                <Text style={{color:'#444',marginTop:8}}>{item.jarak}</Text>
-                <Text style={{color:'#393939',marginTop:8}}>{item.review}</Text>
-                <Text style={{color:'red',fontSize:19,marginTop:25}}>{item.price}</Text>
+            <View style={component.descriptionPackage}>
+                <Text style={text.namePackage}>{item.nama_paket}</Text>
+                <Text style={{color:'#444', flex: 1}}>Paket 4 orang {'\n'}Cocok untuk Keluarga</Text>
+                <View style={{flexDirection: 'row', flex: 2, alignItems: 'flex-end'}}>
+                    <View style={{flex: 1}} />
+                    <Text style={{color:'red', fontSize:19, flex: 1, textAlign: 'right'}}>
+                        Rp {item.price}
+                    </Text>
+                </View>
             </View>
         </TouchableOpacity>
     )
@@ -77,8 +62,9 @@ export default class Login extends Component {
                     {/* <Image source={require('../assets/menu2.png')} style={{ width:23,height:23,borderRadius:10,marginLeft:8 }} /> */}
                 </View>
                 <View style={{paddingBottom:90}}>
+                    { console.log(this.listMain) }
                     <FlatList
-                        data={this.state.data}
+                        data={this.props.paket.data}
                         renderItem={this.listMain}
                         showsVerticalScrollIndicator={false}
                         keyExtractor={(item,index)=>index.toString()}
@@ -88,6 +74,33 @@ export default class Login extends Component {
         )
     }
 }
+
+const mapStateToProps = state => {
+    return {
+      paket: state.paket
+      // auth: state.auth
+    };
+  };
+  
+export default connect(mapStateToProps)(ListPaketWisata);
+
+const component = StyleSheet.create({
+    descriptionPackage: {
+        flex:2,
+        padding:10
+    }
+})
+
+const text = StyleSheet.create({
+    namePackage: {
+        color:'red', 
+        textTransform: 'capitalize', 
+        fontFamily: 'sans-serif-medium', 
+        fontSize: 20,
+        flex: 1
+    }
+})
+
 const styles = StyleSheet.create({
     container: {
         width,

@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { View, Text, StyleSheet, ScrollView, FlatList, Image, ImageBackground, TouchableOpacity, Animated, Easing } from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
 import {IPAYMU_API_KEY} from 'react-native-dotenv';
+import phoneID from '../store/phoneID';
 import axios from 'axios';
 
 export default class singleTransact extends Component {
@@ -9,13 +10,16 @@ export default class singleTransact extends Component {
         super(props);
         this.state = {
             data: props.navigation.getParam('data'),
-            tax: '3000'
-            
+            va: '',
+            processing: false,
+            stat: ''
         }
     }
 
     orderNow = () =>{
         // alert('hello');
+
+        this.setState({ processing: true });
 
         let data = {
                 key: IPAYMU_API_KEY,
@@ -25,10 +29,88 @@ export default class singleTransact extends Component {
             }
 
         axios.post("https://my.ipaymu.com/api/getbniva", data).then(res => {
-            alert(JSON.stringify(res.data));
+            // alert(JSON.stringify(res.data));
+            this.setState({ va: res.data.va, processing: false, stat: 'finish' });
         }).catch(error => {
             alert('transaction failed'+JSON.stringify(error));
         });
+    }
+
+    MonthFormat = (month=0) =>{
+
+        let newDate;
+
+        if (month == 1) {
+            newDate = 'jan';
+        }
+        else if (month == 2) {
+            newDate = 'feb';
+
+        }
+        else if (month == 3) {
+            newDate = 'mar';
+
+        }
+        else if (month == 4) {
+            newDate = 'apr';
+
+        }
+        else if (month == 5) {
+            newDate = 'may';
+
+        }
+        else if (month == 6) {
+            newDate = 'jun';
+
+        }
+        else if (month == 7) {
+            newDate = 'jul';
+
+        }
+        else if (month == 8) {
+            newDate = 'aug';
+
+        }
+        else if (month == 9) {
+            newDate = 'sep';
+
+        }
+        else if (month == 10) {
+            newDate = 'oct';
+
+        }
+        else if (month == 11) {
+            newDate = 'nov';
+
+        }
+        else if (month == 12) {
+            newDate = 'dec';
+
+        }
+        else {
+            newDate = 'jan';
+
+        }
+
+        return newDate;
+    }
+
+    DateNow = (mode='showcase') =>{
+        var today = new Date();
+        var dd = String(today.getDate()).padStart(2, '0');
+        var mm = String(today.getMonth() + 1).padStart(2, '0');
+        var yyyy = today.getFullYear();
+
+        if(mode == 'showcase')
+        {
+            today = dd + ' ' + this.MonthFormat(mm) +' '+ yyyy;
+        }
+        else if(mode == 'sql')
+        {
+            today = yyyy + '-' + mm + '-' + dd;
+        }
+
+        return today;
     }
 
     listMainB = ({ item }) => (
@@ -43,8 +125,13 @@ export default class singleTransact extends Component {
         </TouchableOpacity>
     )
 
+    formatNumber = nums => {
+        return nums.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+    };
+
     render() {
-        console.warn("[single GET] : "+JSON.stringify(this.state.data));
+        // console.warn("[single GET] : "+JSON.stringify(this.state.data));
+        console.warn("Phone ID notification : ",phoneID.phoneID);
         return (
             <Fragment>
                 <ImageBackground source={require('../img/bgb.png')} style={{ width: "100%", height: "100%" }}>
@@ -66,24 +153,49 @@ export default class singleTransact extends Component {
                         <View style={styles.PaymentContent}>
                             <View style={styles.PaymentTitle}>
                                 <Text>Price</Text>
-                                <Text style={styles.money}>Rp. {this.state.data.price}</Text>
+                                <Text style={styles.money}>Rp. {this.formatNumber(this.state.data.price)}</Text>
                             </View>
                             <View style={styles.PaymentValue}>
-                                <Text>Date</Text>
-                                <Text style={styles.dates}>15 jul 2018</Text>
+                                <Text>Order Date</Text>
+                                <Text style={styles.dates}>{this.DateNow('showcase')}</Text>
                             </View>
                         </View>
-                        
-                        
                     </View>
+                    {
+                        this.state.va != ''
+                        ?
+                            <View style={styles.containt}>
+                                <View>
+                                    <Text style={{ fontSize: 20, marginBottom: 15, textAlign: "center" }}>Please Complete your payment via BNI</Text>
+                                </View>
+                                <View>
+                                    <Text style={{ fontSize: 40, marginBottom: 15, textAlign: "center" }}>VA: {this.state.va}</Text>
+                                </View>
+                            </View>
+                        :
+                        null
+                    }
                     
                 </ScrollView>
                 <View style={{ flex: 1 }}>
                     {/* <View><Text>my text</Text></View> */}
                     <View style={{ position: 'absolute', left: 0, right: 0, bottom: 0, backgroundColor: "#81C784", padding: 20 }}>
-                        <TouchableOpacity onPress={() => {this.orderNow()}}>
-                            <Text style={{ textAlign: "center", fontSize: 20 }}>Order Now</Text>
-                        </TouchableOpacity>
+                        {
+                        this.state.processing
+                        ?
+                            <Text style={{ textAlign: "center", fontSize: 20 }}>Processing...</Text>
+                        :
+                            this.state.stat == ''
+                            ?
+                            <TouchableOpacity onPress={() => {this.orderNow()}}>
+                                <Text style={{ textAlign: "center", fontSize: 20 }}>Order Now</Text>
+                            </TouchableOpacity>
+                            :
+                            <TouchableOpacity onPress={() => { alert('comming soon') }}>
+                                <Text style={{ textAlign: "center", fontSize: 20 }}>Go to order list</Text>
+                            </TouchableOpacity>
+
+                        }
                     </View>
                 </View>
                 </ImageBackground>
