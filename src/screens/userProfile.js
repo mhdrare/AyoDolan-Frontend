@@ -1,8 +1,9 @@
 import React, {Component, Fragment} from 'react';
 import {View, Text, TouchableOpacity, StyleSheet, ImageBackground, Image, Alert, AsyncStorage} from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
+import { connect } from "react-redux"
 
-export default class Profile extends Component {
+class Profile extends Component {
     logout = async () => {
         await AsyncStorage.removeItem('id')
         AsyncStorage.removeItem('Token', (error) => {
@@ -33,6 +34,10 @@ export default class Profile extends Component {
         )
     }
 
+    async componentDidMount() {
+        
+    }
+
     render() {
         return(
             <Fragment>
@@ -43,8 +48,32 @@ export default class Profile extends Component {
                         </TouchableOpacity>
                     </View>
                     <Image source={{ uri: 'https://st4.depositphotos.com/5934840/20525/v/600/depositphotos_205253058-stock-video-young-man-cartoon-hd-animation.jpg'}} style={style.imageProfile} />
-                    <View style={style.userProfile}>
+                    {/* <View style={style.userProfile}>
                         <Text style={style.userName}>This Profile</Text>
+                    </View> */}
+                </ImageBackground>
+                <View style={{flex: 1, flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
+                    <View style={{flex: 1, alignItems: 'center', paddingLeft: 20, justifyContent: 'center'}}>
+                        <TouchableOpacity onPress={() => { this.props.navigation.navigate('SingleTrip') }}  style={{flexDirection: 'row', padding: 5}}>
+                            <Icon style={{flex:1, alignSelf: 'center'}} name="bars" size={20}/>
+                            <Text style={{flex:2, fontSize: 14, fontFamily: 'sans-serif-medium'}}>Riwayat</Text>
+                        </TouchableOpacity>
+                    </View>
+                    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+                        <TouchableOpacity onPress={() => { this.props.navigation.navigate('Transaction') }}  style={{flexDirection: 'row', padding: 5}}>
+                            <Icon style={{flex:1, alignSelf: 'center'}} name="profile" size={20}/>
+                            <Text style={{flex:2, fontSize: 14, fontFamily: 'sans-serif-medium'}}>Transaksi</Text>
+                        </TouchableOpacity>
+                    </View>
+                    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+                        <TouchableOpacity onPress={this.logoutHandler} style={{flexDirection: 'row', padding: 5}}>
+                            <Icon style={{flex:1, alignSelf: 'center'}} name="poweroff" size={20} color={'red'}/>
+                            <Text style={{flex:2, fontSize: 14, fontFamily: 'sans-serif-medium', color: 'red'}}>Logout</Text>
+                        </TouchableOpacity>
+{/*
+                    <Image source={{uri:this.props.users.data.image}} style={style.imageProfile} />
+                    <View style={style.userProfile}>
+                        <Text style={style.userName}>{this.props.users.data.name}</Text>
                         <TouchableOpacity>
                             <Icon name="edit" style={style.ico} />
                         </TouchableOpacity>
@@ -53,32 +82,32 @@ export default class Profile extends Component {
                 <View style={style.profileContainer}>
                     <View style={style.profileItem}>
                         <Icon name="idcard" style={style.profileIcon} />
-                        <Text style={style.profileName}>Username</Text>
+                        <Text style={style.profileName}>{this.props.users.data.username}</Text>
                     </View>
                     <View style={style.profileItem}>
                         <Icon name="mail" style={style.profileIcon} />
-                        <Text style={style.profileName}>e-mail</Text>
+                        <Text style={style.profileName}>{this.props.users.data.email}</Text>
                     </View>
                     <View style={style.profileItem}>
                         <Icon name="phone" style={style.profileIcon} />
-                        <Text style={style.profileName}>Phone Number</Text>
+                        <Text style={style.profileName}>{this.props.users.data.no_phone}</Text>
+*/}
                     </View>
                     
-                </View>
-                <View style={style.logout}>
-                    <TouchableOpacity onPress={this.logoutHandler}>
-                        <Icon name="poweroff" style={style.powerIco} />
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={() => { this.props.navigation.navigate('SingleTrip') }}>
-                        {/* <Icon name="poweroff" style={style.powerIco} /> */}
-                        {/* <Text style={{ marginLeft: 50 }}>Paid Order</Text> */}
-                        <Icon name="bars" style={{ marginLeft: 50, fontSize: 30 }} />
-                    </TouchableOpacity>
                 </View>
             </Fragment>
         )
     }
 }
+
+const mapStateToProps = state => {
+    return {
+      destinasi: state.destinasi,
+      users: state.users
+    };
+  };
+  
+export default connect(mapStateToProps)(Profile);
 
 const style = StyleSheet.create({
     container:{
@@ -88,8 +117,8 @@ const style = StyleSheet.create({
     },
     imageProfile:{
         marginTop: 50,
-        width: 150,
-        height: 150,
+        width: 130,
+        height: 130,
         borderRadius: 150,
         alignSelf: "center",
         marginBottom: 30
@@ -110,8 +139,7 @@ const style = StyleSheet.create({
     },
     profileContainer:{
         display: "flex",
-        // justifyContent: "flex-start",
-        marginTop: -100,
+        flex: 1,
         alignSelf: "center"
     },
     profileItem:{

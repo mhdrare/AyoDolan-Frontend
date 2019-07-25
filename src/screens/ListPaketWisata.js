@@ -8,7 +8,8 @@ import {
     Image,
     StyleSheet,
     SafeAreaView,
-    FlatList
+    FlatList,
+    ActivityIndicator
 } from 'react-native';
 import {getPaket} from '../public/redux/action/paket'
 import { connect } from "react-redux"
@@ -19,13 +20,22 @@ class ListPaketWisata extends Component {
     constructor(props){
         super(props);
         this.state = {
-            id : this.props.navigation.state.params
+            id : this.props.navigation.state.params,
+            empty: ''
         }
     }
 
     fetchdata = () =>{
         let id = this.state.id
         this.props.dispatch(getPaket(id))
+        .then(() => {
+            console.log('FULFILLED')
+        })
+        .catch(err => {
+            this.setState({
+                empty: 'Paket tidak ada.'
+            })
+        });
     }
 
     formatNumber = nums => {
@@ -65,6 +75,12 @@ class ListPaketWisata extends Component {
                     <Text style={{fontSize:17,color:'#fff',alignSelf:'center'}}>.</Text>    
                     {/* <Image source={require('../assets/menu2.png')} style={{ width:23,height:23,borderRadius:10,marginLeft:8 }} /> */}
                 </View>
+                { this.props.paket.isLoading ? 
+                    <View style={{flex: 1, justifyContent: 'flex-end', alignItems: 'center'}}>
+                        <ActivityIndicator size="large" color="#4dd0e1"/>
+                        <Image source={require('../assets/loading.png')} style={{ width: '100%', height: 400}}/>
+                    </View>
+                 :
                 <View style={{paddingBottom:90}}>
                     { console.log(this.listMain) }
                     <FlatList
@@ -74,6 +90,15 @@ class ListPaketWisata extends Component {
                         keyExtractor={(item,index)=>index.toString()}
                     />
                 </View>
+                }
+                {
+                    this.state.empty == '' ?
+                        <View/> :
+                        <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+                            <Text style={{fontSize: 30, fontFamily: 'sans-serif-thin'}}>Paket tidak tersedia.</Text>
+                            <Image source={require('../assets/notfound.png')} style={{width: '100%', height: 300}}/>
+                        </View>
+                }
             </View>
         )
     }
@@ -109,7 +134,6 @@ const styles = StyleSheet.create({
     container: {
         width,
         height,
-        backgroundColor:'#f1f1f1',
     },
     header: {
         flexDirection: 'row',

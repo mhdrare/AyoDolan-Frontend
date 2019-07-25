@@ -16,95 +16,41 @@ class singleTransact extends Component {
         this.state = {
             data: props.navigation.getParam('data'),
             va: '',
-            processing: false,
             stat: '',
             date: moment(new Date()).format('DD-MM-YYYY'),
             isDateTimePickerVisible: false,
-            datas:[]
         }
     }
 
-    orderNow = async() =>{
-        // alert('hello');
-        this.setState({ processing: true });
-
-        let data = {
-                key: IPAYMU_API_KEY,
-                price: this.state.data.price,
-                uniqid: "1",
-                notify_url: "http://websiteanda.com/notify.php"
-            }
-
-        await axios.post("https://my.ipaymu.com/api/getbniva", data).then(res => {
-            // alert(JSON.stringify(res.data));
-            this.setState({ va: res.data.va, processing: false, stat: 'finish', datas: res.data });
-            this.triggerNotif();
-        }).catch(error => {
-            alert('transaction failed'+JSON.stringify(error));
-        });
-
-        let id = await AsyncStorage.getItem('id')
-        let a = this.state.date;
+    confirmOrder = () =>{
+        let dates = moment(this.state.data.date).format('DD-MM-YYYY')
+        let a = dates;
         let b = a.split('-');
         let newDate = b[2]+"-"+b[1]+"-"+b[0];
-
-        let value = {
-            id: this.state.datas.id,
-            va: this.state.datas.va,
-            displayName: this.state.datas.displayName,
-            id_user : id,
-            id_destination: this.state.data.id_destination,
-            price: this.state.data.price,
-            date: newDate
-        }
-        this.props.dispatch(postTransaksi(value))
-    }
-
-    confirmOrder = async() =>{
-
-        let id = await AsyncStorage.getItem('user_id')
         let value = ''
-        let a = this.state.date;
-        let b = a.split('-');
-        let newDate = b[2]+"-"+b[1]+"-"+b[0];
         
         if (this.state.data.category) {
             value = {
-                id_user: id,
+                id_user: this.state.data.id,
                 id_destination: this.state.data.id_destination,
-                id_transaksi: this.state.datas.id,
+                id_transaksi: this.state.data.id_transaksi,
                 date: newDate,
                 price: this.state.data.price,
-                category: this.state.data.category
+                category: 1
             }    
-            console.warn(id);
         }else{
             value = {
-                id_user: id,
+                id_user: this.state.data.id,
                 id_destination: this.state.data.id_destination,
-                id_transaksi: this.state.datas.id,
+                id_transaksi: this.state.data.id_transaksi,
                 date: newDate,
                 price: this.state.data.price,
                 category: 0
             }
-            console.warn(id);
         }
 
-
-
-        await this.props.dispatch(postOrder(value))
+        this.props.dispatch(postOrder(value))
         this.props.navigation.navigate('Home')
-    }
-
-    triggerNotif = () =>{
-
-        let data = {
-            phoneid: phoneID.phoneID,
-            msg: "Please continue the payment via BNI",
-            header: "Transaction"
-        }
-
-        axios.post("https://ayodolanbackend.herokuapp.com/singleorder/notif", data);
     }
 
     setModalVisible(visible) {
@@ -221,7 +167,9 @@ class singleTransact extends Component {
     };
 
     render() {
-        // console.log(this.state.data.price)
+        console.log(this.state.data)
+        // // console.warn("[single GET] : "+JSON.stringify(this.state.data));
+        // console.warn("Phone ID notification : ",phoneID.phoneID);
         return (
             <Fragment>
                 <ImageBackground source={require('../img/bgb.png')} style={{ width: "100%", height: "100%" }}>
@@ -232,25 +180,11 @@ class singleTransact extends Component {
                         </TouchableOpacity>
                         <Text style={{flex: 1, fontSize: 24, textAlign: 'right'}} >Payment</Text>
                     </View>
-                    <View style={{flex: 1, alignSelf: 'center'}}>
-                        <View style={component.date}>
-                            <View style={{flex: 2, justifyContent: 'center'}}>
-                                <Text style={{fontSize: 20, fontFamily: 'sans-serif-thin', paddingLeft: 5}}>{this.state.date}</Text>
-                            </View>
-                            <View style={{flex: 1, justifyContent: 'center'}}>
-                                <Button title="Tanggal" onPress={this.showDateTimePicker}/>
-                                <DateTimePicker
-                                    isVisible={this.state.isDateTimePickerVisible}
-                                    onConfirm={this.handleDatePicked}
-                                    onCancel={this.hideDateTimePicker}
-                                />
-                            </View>
-                        </View>
-                    </View>
+
                     <View style={component.body}>
                         <View style={component.card}>
                             <View style={{flex: 1}}>
-                                <Text style={{ fontSize: 20 }}>{this.state.data.destination}</Text>
+                                <Text style={{ fontSize: 20 }}>{this.state.data.id_destination}</Text>
                             </View>
                             <View style={{ height: 30 }}>
                                 
@@ -262,15 +196,12 @@ class singleTransact extends Component {
                                 </View>
                                 <View style={{flex: 1}}>
                                     <Text style={{ textAlign: 'right', fontFamily: 'sans-serif-medium' }}>Order Date</Text>
-                                    <Text style={{ textAlign: 'right', fontSize: 18 }}>{this.state.date}</Text>
+                                    <Text style={{ textAlign: 'right', fontSize: 18 }}>{moment(this.state.data.date).format('DD-MM-YYYY')}</Text>
                                 </View>
                             </View>
                         </View>
                     </View>
                     <View style={component.body}>
-                    {
-                        this.state.va != ''
-                        ?
                             <View style={component.card}>
                                 <View style={{flex: 1}}>
                                     <Text style={{ fontSize: 16, marginBottom: 15, textAlign: "center" }}>
@@ -279,34 +210,18 @@ class singleTransact extends Component {
                                 </View>
                                 <View style={{flex: 1}}>
                                     <Text style={{ fontSize: 26, marginBottom: 15, textAlign: "center" }}>
-                                        VA: {this.state.va}
+                                        VA: {this.state.data.va}
                                     </Text>
                                 </View>
                             </View>
-                        :
-                        null
-                    }
                     </View>
                     
                 </ScrollView>
                 <View style={{ flex: 1 }}>
                     <View style={{ position: 'absolute', left: 0, right: 0, bottom: 0, padding: 20 }}>
-                        {
-                        this.state.processing
-                        ?
-                            <Text style={{ textAlign: "center", fontSize: 20,backgroundColor: "#18d92b", padding:15}}>Processing...</Text>
-                        :
-                            this.state.stat == ''
-                            ?
-                            <TouchableOpacity onPress={() => {this.orderNow()}} style={{backgroundColor: "#18d92b", padding:15}}>
-                                <Text style={{ textAlign: "center", fontSize: 20 }}>Order Now</Text>
-                            </TouchableOpacity>
-                            :
                             <TouchableOpacity onPress={() => {this.confirmOrder()}} style={{backgroundColor: "#7ce619", padding:15}}>
                                 <Text style={{ textAlign: "center", fontSize: 20 }}>confirmation</Text>
                             </TouchableOpacity>
-
-                        }
                     </View>
                 </View>
                 </ImageBackground>

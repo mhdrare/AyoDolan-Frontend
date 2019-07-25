@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Platform, StyleSheet, Text, View } from "react-native";
+import { Root } from "native-base";
 import AppNavigator from "./src/routes/rootNavigator";
 import { Provider } from "react-redux";
 import store from "./src/public/redux/store";
@@ -15,7 +15,7 @@ export default class App extends Component {
     OneSignal.addEventListener('received', this.onReceived);
     OneSignal.addEventListener('opened', this.onOpened);
     OneSignal.addEventListener('ids', this.onIds);
-    OneSignal.addEventListener('NotificationOpened', this.onNotificationOpened);
+    // OneSignal.addEventListener('NotificationOpened', this.onNotificationOpened);
     OneSignal.configure();
     this.state = {
       loading: true
@@ -39,13 +39,13 @@ export default class App extends Component {
     console.log('openResult: ', openResult);
   }
 
-    onNotificationOpened(message, data, isActive) {
-    if (data.p2p_notification) {
-      for (var num in data.p2p_notification) {
-        console.log(data.p2p_notification[num]);
-      }
-    }
-  }
+  //   onNotificationOpened(message, data, isActive) {
+  //   if (data.p2p_notification) {
+  //     for (var num in data.p2p_notification) {
+  //       console.log(data.p2p_notification[num]);
+  //     }
+  //   }
+  // }
 
   trigerr = () =>{
     this.setState({ loading: false });
@@ -65,7 +65,7 @@ export default class App extends Component {
       // :
       <Provider store={store}>
         <React.Fragment>
-          <AppNavigator />
+          <Root><AppNavigator/></Root>
         </React.Fragment>
       </Provider>
     );

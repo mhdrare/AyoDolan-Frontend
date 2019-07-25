@@ -9,9 +9,9 @@ import {
   StyleSheet,
   StatusBar,
   ScrollView,
-  SafeAreaView,
   Picker
 } from "react-native";
+import { Toast } from 'native-base';
 import ImagePicker from "react-native-image-picker";
 
 //redux
@@ -68,7 +68,104 @@ class Register extends Component {
   // onChangeTextLongitude = longitude => this.setState({ longitude });
 
   register = async () => {
-    if (
+    let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    if (this.state.name == "") {
+      Toast.show({
+        text: 'Name is required',
+        buttonText: 'Okay',
+        position: 'top',
+        type: 'danger'
+      })
+    }
+    else if (this.state.name.length < 6) {
+      Toast.show({
+        text: 'At least 6 char in name',
+        buttonText: 'Okay',
+        position: 'top',
+        type: 'danger'
+      })
+    }
+    else if (this.state.username == "") {
+      Toast.show({
+        text: 'Username is required',
+        buttonText: 'Okay',
+        position: 'top',
+        type: 'danger'
+      })
+    }
+    else if (this.state.username.length < 6) {
+      Toast.show({
+        text: 'At least 6 char in username',
+        buttonText: 'Okay',
+        position: 'top',
+        type: 'danger'
+      })
+    }
+    else if (this.state.email == "") {
+      Toast.show({
+        text: 'Email is required',
+        buttonText: 'Okay',
+        position: 'top',
+        type: 'danger'
+      })
+    }
+    else if (reg.test(this.state.email) === false) {
+      Toast.show({
+        text: 'Incorrect email format',
+        buttonText: 'Okay',
+        position: 'top',
+        type: 'danger'
+      })
+    }
+    else if (this.state.password == "") {
+      Toast.show({
+        text: 'Password is required',
+        buttonText: 'Okay',
+        position: 'top',
+        type: 'danger'
+      })
+    }
+    else if (this.state.password.length < 6) {
+      Toast.show({
+        text: 'At least 6 char in password',
+        buttonText: 'Okay',
+        position: 'top',
+        type: 'danger'
+      })
+    }
+    else if (this.state.gender == "") {
+      Toast.show({
+        text: 'Gender is required',
+        buttonText: 'Okay',
+        position: 'top',
+        type: 'danger'
+      })
+    }
+    else if (this.state.phone == "") {
+      Toast.show({
+        text: 'Phone number is required',
+        buttonText: 'Okay',
+        position: 'top',
+        type: 'danger'
+      })
+    }
+    else if (this.state.phone.length < 12) {
+      Toast.show({
+        text: 'At least 12 char in phone number',
+        buttonText: 'Okay',
+        position: 'top',
+        type: 'danger'
+      })
+    }
+    else if (this.state.avatarSource == null) {
+      Toast.show({
+        text: 'Photo is required',
+        buttonText: 'Okay',
+        position: 'top',
+        type: 'danger'
+      })
+    }
+    else if (
       this.state.name != "" &&
       this.state.username != "" &&
       this.state.email != "" &&
@@ -88,10 +185,14 @@ class Register extends Component {
           name: this.state.fileName,
           type: "image/jpg"
         }
-      };
+      }
       await this.props.dispatch(addUser(dataReg));
       this.props.navigation.navigate("Login")
-      alert("register")
+      Toast.show({
+        text: 'Register Success, please login !',
+        position: 'top',
+        type: 'success'
+      })
     }
   };
 
@@ -153,6 +254,7 @@ class Register extends Component {
                 <TextInput
                   style={styles.input}
                   placeholder={"Email"}
+                  keyboardType={'email-address'}
                   onChangeText={this.onChangeTextEmail}
                 />
                 <TextInput
@@ -179,30 +281,37 @@ class Register extends Component {
                   style={styles.input}
                   placeholder={"No. Handphone"}
                   onChangeText={this.onChangeTextPhone}
+                  keyboardType={'number-pad'}
                 />
-                <View style={{ flexDirection: "row", width: "50%" }}>
-                  <TouchableOpacity
-                    style={styles.btnUpload}
-                    onPress={this.getImage}
-                  >
-                    <Image
-                      style={{ width: 20, height: 20, marginRight: 5 }}
-                      source={require("../assets/upload.png")}
-                    />
-                    <Text style={{ color: "#fff" }}>Image</Text>
-                  </TouchableOpacity>
-                  <Text>{this.state.fileName}</Text>
+                <View style={{width: "50%"}}>
+                  <View>
+                    <Text style={{ marginTop: 7 }}>Upload Photo Profile</Text>
+                  </View>
+                  <View style={{flexDirection:'row',width:'100%',marginTop:10,marginBottom:15}}>
+                    <TouchableOpacity
+                      style={styles.btnUpload}
+                      onPress={this.getImage}
+                    >
+                      <Image
+                        style={{ width: 20, height: 20, marginRight: 5 }}
+                        source={require("../assets/upload.png")}
+                      />
+                      <Text style={{ color: "#fff" }}>Image</Text>
+                    </TouchableOpacity>
+                    <Text style={{marginLeft:10,alignSelf:'center'}}>{this.state.fileName}</Text>
+                  </View>
+                  
                 </View>
                 {/* <TextInput 
-                                    style={styles.input} 
-                                    placeholder={'Latitude'}
-                                    onChangeText={this.onChangeTextLatitude}
-                                />
-                                <TextInput 
-                                    style={styles.input} 
-                                    placeholder={'Longitude'}
-                                    onChangeText={this.onChangeTextLongitude}
-                                /> */}
+                      style={styles.input} 
+                      placeholder={'Latitude'}
+                      onChangeText={this.onChangeTextLatitude}
+                  />
+                  <TextInput 
+                      style={styles.input} 
+                      placeholder={'Longitude'}
+                      onChangeText={this.onChangeTextLongitude}
+                  /> */}
               </ScrollView>
             </View>
             <View style={{ flex: 1, width: "100%", alignItems: "center" }}>
