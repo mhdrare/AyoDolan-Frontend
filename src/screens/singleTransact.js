@@ -1,21 +1,29 @@
 import React, { Component, Fragment } from 'react';
-import { View, Text, StyleSheet, ScrollView, FlatList, Image, ImageBackground, TouchableOpacity, Animated, Easing } from 'react-native';
+import { View, Text, StyleSheet, Button, ScrollView, FlatList, Image, ImageBackground, TouchableOpacity, Animated, Easing } from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
 import {IPAYMU_API_KEY} from 'react-native-dotenv';
+import phoneID from '../store/phoneID';
 import axios from 'axios';
+import moment from 'moment'
+import DateTimePicker from "react-native-modal-datetime-picker";
 
 export default class singleTransact extends Component {
     constructor(props) {
         super(props);
         this.state = {
             data: props.navigation.getParam('data'),
-            tax: '3000'
-            
+            va: '',
+            processing: false,
+            stat: '',
+            date: moment(new Date()).format('DD-MM-YYYY'),
+            isDateTimePickerVisible: false
         }
     }
 
     orderNow = () =>{
         // alert('hello');
+
+        this.setState({ processing: true });
 
         let data = {
                 key: IPAYMU_API_KEY,
@@ -25,10 +33,107 @@ export default class singleTransact extends Component {
             }
 
         axios.post("https://my.ipaymu.com/api/getbniva", data).then(res => {
-            alert(JSON.stringify(res.data));
+            // alert(JSON.stringify(res.data));
+            this.setState({ va: res.data.va, processing: false, stat: 'finish' });
         }).catch(error => {
             alert('transaction failed'+JSON.stringify(error));
         });
+    }
+
+    setModalVisible(visible) {
+        this.setState({modalVisible: visible});
+    }
+
+    showDateTimePicker = () => {
+        this.setState({ isDateTimePickerVisible: true });
+    };
+
+    hideDateTimePicker = () => {
+        this.setState({ isDateTimePickerVisible: false });
+    };
+
+    handleDatePicked = date => {
+        this.setState({
+            date: moment(new Date(date)).format('DD-MM-YYYY')
+        })
+        this.hideDateTimePicker();
+    };
+
+    MonthFormat = (month=0) =>{
+
+        let newDate;
+
+        if (month == 1) {
+            newDate = 'Jan';
+        }
+        else if (month == 2) {
+            newDate = 'Feb';
+
+        }
+        else if (month == 3) {
+            newDate = 'Mar';
+
+        }
+        else if (month == 4) {
+            newDate = 'Apr';
+
+        }
+        else if (month == 5) {
+            newDate = 'May';
+
+        }
+        else if (month == 6) {
+            newDate = 'Jun';
+
+        }
+        else if (month == 7) {
+            newDate = 'Jul';
+
+        }
+        else if (month == 8) {
+            newDate = 'Aug';
+
+        }
+        else if (month == 9) {
+            newDate = 'Sep';
+
+        }
+        else if (month == 10) {
+            newDate = 'Oct';
+
+        }
+        else if (month == 11) {
+            newDate = 'Nov';
+
+        }
+        else if (month == 12) {
+            newDate = 'Dec';
+
+        }
+        else {
+            newDate = 'Jan';
+
+        }
+
+        return newDate;
+    }
+
+    DateNow = (mode='showcase') =>{
+        var today = new Date();
+        var dd = String(today.getDate()).padStart(2, '0');
+        var mm = String(today.getMonth() + 1).padStart(2, '0');
+        var yyyy = today.getFullYear();
+
+        if(mode == 'showcase')
+        {
+            today = dd + ' ' + this.MonthFormat(mm) +' '+ yyyy;
+        }
+        else if(mode == 'sql')
+        {
+            today = yyyy + '-' + mm + '-' + dd;
+        }
+
+        return today;
     }
 
     listMainB = ({ item }) => (
@@ -43,47 +148,98 @@ export default class singleTransact extends Component {
         </TouchableOpacity>
     )
 
+    formatNumber = nums => {
+        return nums.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+    };
+
     render() {
-        console.warn("[single GET] : "+JSON.stringify(this.state.data));
+        // console.warn("[single GET] : "+JSON.stringify(this.state.data));
+        console.warn("Phone ID notification : ",phoneID.phoneID);
         return (
             <Fragment>
                 <ImageBackground source={require('../img/bgb.png')} style={{ width: "100%", height: "100%" }}>
-
                 <ScrollView>
-                    <View style={styles.container}>
-                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: "12%", marginTop: 40, marginBottom: 20 }}>
-                            {/* <Text>back</Text> */}
-                            <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
-                                <Icon name="arrowleft" size={30} />
-                            </TouchableOpacity>
-                            <Text style={{ fontSize: 28 }}>Payment</Text>
+                    <View style={component.header}>
+                        <TouchableOpacity style={{flex: 1}} onPress={() => this.props.navigation.goBack()}>
+                            <Icon name="left" size={24}/>
+                        </TouchableOpacity>
+                        <Text style={{flex: 1, fontSize: 24, textAlign: 'right'}} >Payment</Text>
+                    </View>
+                    <View style={{flex: 1, alignSelf: 'center'}}>
+                        <View style={component.date}>
+                            <View style={{flex: 2, justifyContent: 'center'}}>
+                                <Text style={{fontSize: 20, fontFamily: 'sans-serif-thin', paddingLeft: 5}}>{this.state.date}</Text>
+                            </View>
+                            <View style={{flex: 1, justifyContent: 'center'}}>
+                                <Button title="Tanggal" onPress={this.showDateTimePicker}/>
+                                <DateTimePicker
+                                    isVisible={this.state.isDateTimePickerVisible}
+                                    onConfirm={this.handleDatePicked}
+                                    onCancel={this.hideDateTimePicker}
+                                />
+                            </View>
                         </View>
                     </View>
-                    <View style={styles.containt}>
-                        <View>
-                            <Text style={{ fontSize: 20, marginBottom: 15 }}>{this.state.data.destination}</Text>
-                        </View>
-                        <View style={styles.PaymentContent}>
-                            <View style={styles.PaymentTitle}>
-                                <Text>Price</Text>
-                                <Text style={styles.money}>Rp. {this.state.data.price}</Text>
+                    <View style={component.body}>
+                        <View style={component.card}>
+                            <View style={{flex: 1}}>
+                                <Text style={{ fontSize: 20 }}>{this.state.data.destination}</Text>
                             </View>
-                            <View style={styles.PaymentValue}>
-                                <Text>Date</Text>
-                                <Text style={styles.dates}>15 jul 2018</Text>
+                            <View style={{ height: 30 }}>
+                                
+                            </View>
+                            <View style={{flex: 1, flexDirection: 'row'}}>
+                                <View style={{flex: 1}}>
+                                    <Text style={{ fontFamily: 'sans-serif-medium' }}>Price</Text>
+                                    <Text style={{ fontSize: 18 }}>Rp {this.formatNumber(this.state.data.price)}</Text>
+                                </View>
+                                <View style={{flex: 1}}>
+                                    <Text style={{ textAlign: 'right', fontFamily: 'sans-serif-medium' }}>Order Date</Text>
+                                    <Text style={{ textAlign: 'right', fontSize: 18 }}>{this.state.date}</Text>
+                                </View>
                             </View>
                         </View>
-                        
-                        
+                    </View>
+                    <View style={component.body}>
+                    {
+                        this.state.va != ''
+                        ?
+                            <View style={component.card}>
+                                <View style={{flex: 1}}>
+                                    <Text style={{ fontSize: 16, marginBottom: 15, textAlign: "center" }}>
+                                        Please complete your payment via BNI
+                                    </Text>
+                                </View>
+                                <View style={{flex: 1}}>
+                                    <Text style={{ fontSize: 26, marginBottom: 15, textAlign: "center" }}>
+                                        VA: {this.state.va}
+                                    </Text>
+                                </View>
+                            </View>
+                        :
+                        null
+                    }
                     </View>
                     
                 </ScrollView>
                 <View style={{ flex: 1 }}>
-                    {/* <View><Text>my text</Text></View> */}
                     <View style={{ position: 'absolute', left: 0, right: 0, bottom: 0, backgroundColor: "#81C784", padding: 20 }}>
-                        <TouchableOpacity onPress={() => {this.orderNow()}}>
-                            <Text style={{ textAlign: "center", fontSize: 20 }}>Order Now</Text>
-                        </TouchableOpacity>
+                        {
+                        this.state.processing
+                        ?
+                            <Text style={{ textAlign: "center", fontSize: 20 }}>Processing...</Text>
+                        :
+                            this.state.stat == ''
+                            ?
+                            <TouchableOpacity onPress={() => {this.orderNow()}}>
+                                <Text style={{ textAlign: "center", fontSize: 20 }}>Order Now</Text>
+                            </TouchableOpacity>
+                            :
+                            <TouchableOpacity onPress={() => { alert('comming soon') }}>
+                                <Text style={{ textAlign: "center", fontSize: 20 }}>Go to order list</Text>
+                            </TouchableOpacity>
+
+                        }
                     </View>
                 </View>
                 </ImageBackground>
@@ -91,6 +247,38 @@ export default class singleTransact extends Component {
         )
     }
 }
+
+const component = StyleSheet.create({
+    header: {
+        flexDirection: 'row',
+        flex: 1,
+        paddingLeft: 15,
+        paddingRight: 20,
+        paddingTop: 20,
+        paddingBottom: 20
+    },
+    body: {
+        flex: 1,
+        marginTop: 25,
+    },
+    card: {
+        width: '90%', 
+        backgroundColor: "#EEEEEE", 
+        alignSelf: 'center', 
+        padding: 20,
+        borderRadius: 15
+    },
+    date: {
+        height:60, 
+        flexDirection: 'row', 
+        paddingLeft: 15, 
+        paddingRight: 15, 
+        backgroundColor: '#EEEEEE', 
+        justifyContent: 'center', 
+        width: '90%', 
+        borderRadius: 15
+    }
+})
 
 const styles = StyleSheet.create({
     container: {
@@ -125,7 +313,7 @@ const styles = StyleSheet.create({
     },
     money:{
         marginTop: 12,
-        fontSize: 30
+        fontSize: 24
     },
     PaymentTitle:{
         flex: 1,

@@ -93,46 +93,50 @@ class main extends Component {
                                 <Image source={{ uri: 'https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg' }} style={{ width: 28, height: 28, borderRadius: 10, paddingRight: 5 }} />
                             </TouchableOpacity>
                         </View>
-                        <ScrollView>
+
+                    <ScrollView>
+                        <View style={styles.container}>
+                            
                             <View style={styles.contentTitle}>
                                 <Text style={styles.Title}>Surf Destination</Text>
                             </View>
                             <View style={styles.contentSub}>
                                 <Text>Best surf destination for you</Text>
-                                <TouchableOpacity onPress={()=>this.props.navigation.navigate('ViewAllDestination')}>
+                                <TouchableOpacity onPress={() => this.props.navigation.navigate('ViewAllDestination')}>
                                     <Text style={{ color: "#FF8A65" }}>View All</Text>
                                 </TouchableOpacity>
                             </View>
                             <View style={styles.flatlis}>
-                                <FlatList 
+                                <FlatList
                                     horizontal={true}
                                     data={this.props.destinasi.datadestinasi}
                                     renderItem={this.listMain}
-                                    keyExtractor={(item,index)=>index.toString()}
+                                    keyExtractor={(item, index) => index.toString()}
                                     showsHorizontalScrollIndicator={false}
                                 />
                             </View>
                             <View style={styles.contentTitle}>
-                                <Text style={styles.Title}>Other Choices</Text>
+                                <Text style={styles.Title}>Trendings</Text>
                             </View>
                             <View style={styles.contentSub}>
                                 <Text>High season, everyone here</Text>
-                                <TouchableOpacity onPress={()=>this.props.navigation.navigate('ViewAllDestination')}>
+                                <TouchableOpacity onPress={() => this.props.navigation.navigate('ViewAllDestination')}>
                                     <Text style={{ color: "#FF8A65" }}>View All</Text>
                                 </TouchableOpacity>
                             </View>
                             <View style={styles.flatlisB}>
                                 <FlatList
-                                    style={{width: '100%', paddingLeft: 20, paddingRight: 20}}
+                                    style={{ width: '100%', paddingLeft: 20, paddingRight: 20 }}
                                     horizontal={false}
                                     data={this.props.destinasi.datadestinasi}
-                                    keyExtractor={(item,index)=>index.toString()}
+                                    keyExtractor={(item, index) => index.toString()}
                                     renderItem={this.listMainB}
                                     showsHorizontalScrollIndicator={false}
                                 />
                             </View>
-                        </ScrollView>
-                    </View>
+                        </View>
+                    </ScrollView>
+                </View>
 
                 <Modal
                     transparent={true}

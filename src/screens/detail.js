@@ -57,8 +57,7 @@ export default class details extends Component {
                             latitude: parseFloat(this.state.data.latitude),
                             longitude: parseFloat(this.state.data.longitude)
                             }}
-                            title="You"
-                            description="in here"
+                            pinColor={'gold'}
                         />
                         </MapView>
                     </View>

@@ -37,7 +37,6 @@ class Login extends Component {
         password: this.state.password
       };
       await this.props.dispatch(loginUser(user));
-      
       await AsyncStorage.getItem("Token", (error, result) => {
         if (result) {
           this.props.navigation.navigate("Home");

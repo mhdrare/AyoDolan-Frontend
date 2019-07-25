@@ -37,12 +37,7 @@ class detaiPackage extends Component {
             id: this.props.navigation.state.params.id_paket,
             price:'',
             datas: [],
-            date: moment(new Date()).format('DD-MM-YYYY'),
-            isDateTimePickerVisible: false
         }
-    }
-    setModalVisible(visible) {
-        this.setState({modalVisible: visible});
     }
 
     fatchData = () =>{
@@ -54,44 +49,32 @@ class detaiPackage extends Component {
         this.fatchData()
     }
 
-    showDateTimePicker = () => {
-        this.setState({ isDateTimePickerVisible: true });
-    };
-
-    hideDateTimePicker = () => {
-        this.setState({ isDateTimePickerVisible: false });
-    };
-
-    handleDatePicked = date => {
-        this.setState({
-            date: moment(new Date(date)).format('DD-MM-YYYY')
-        })
-        this.hideDateTimePicker();
-    };
-
     booking = async (total) =>{
-        let data = {
-            key: 'A31409C1-631F-4392-A823-B6A5EEDECF5B',
-            price: total,
-            uniqid: "130797",
-            notify_url: "http://websiteanda.com/notify.php"
-        }
+        // let data = {
+        //     key: 'A31409C1-631F-4392-A823-B6A5EEDECF5B',
+        //     price: total,
+        //     uniqid: "130797",
+        //     notify_url: "http://websiteanda.com/notify.php"
+        // }
 
-        await axios.post("https://my.ipaymu.com/api/getbniva", data).then(res => {
-            this.setState({
-                datas: res.data
-            })
-        }).catch(error => {
-            alert('transaction failed'+JSON.stringify(error));
-        });
+        // await axios.post("https://my.ipaymu.com/api/getbniva", data).then(res => {
+        //     this.setState({
+        //         datas: res.data
+        //     })
+        // }).catch(error => {
+        //     alert('transaction failed'+JSON.stringify(error));
+        // });
 
-        let value = {
+        // let value = {
             
-        }
+        // }
         
-        //console.log(this.state.datas)
-        await this.props.dispatch(postTransaksi(this.state.datas))
-        this.props.navigation.navigate('SingleTransact')
+        const datax = JSON.stringify(this.props.paket)
+        this.setState({
+            datas: datax
+        })
+        // await this.props.dispatch(postTransaksi(this.state.datas))
+        this.props.navigation.navigate('SingleTransact', {data: this.state.datas})
     }
 
     listMain = ({ item }) =>(
@@ -224,27 +207,13 @@ class detaiPackage extends Component {
                         <Text>Cocok untuk: Petualang, Keajaiban Alam </Text>
                     </View>
                 </ScrollView>
-
-                <View style={{height:40, borderTopWidth:2, borderColor:'#ddd', flexDirection: 'row', paddingLeft: 15, paddingRight: 15}}>
-                    <View style={{flex: 2, justifyContent: 'center'}}>
-                        <Text style={{fontSize: 20, fontFamily: 'sans-serif-thin', paddingLeft: 5}}>{this.state.date}</Text>
-                    </View>
-                    <View style={{flex: 1}}>
-                        <Button title="Tanggal" onPress={this.showDateTimePicker}/>
-                        <DateTimePicker
-                            isVisible={this.state.isDateTimePickerVisible}
-                            onConfirm={this.handleDatePicked}
-                            onCancel={this.hideDateTimePicker}
-                        />
-                    </View>
-                </View>
                 <View style={{height:70,borderTopWidth:2,borderColor:'#ddd',flexDirection:'row'}}>
                     <View style={{flex:1,margin:10,marginHorizontal:20}}>
                         <Text style={{color:'#000'}}>Harga Paket 4 orang</Text>
                         <Text style={{color:'red',fontSize:17}}>Rp {this.props.paket.total}</Text>
                     </View>
                    <View style={{flex:1,justifyContent:'center',alignItems:'center', paddingRight: 15}}>
-                       <TouchableOpacity style={{width:'70%',backgroundColor:'#00b8d4', alignSelf:'flex-end',borderRadius:5}} onPress={() => this.booking(this.props.paket.total)}>
+                       <TouchableOpacity style={{width:'70%',backgroundColor:'#00b8d4', alignSelf:'flex-end',borderRadius:5}} onPress={() => this.booking(this.props.paket)}>
                            <Text style={{textAlign: 'center', margin:10, color:'#fff'}}>Booking</Text>
                        </TouchableOpacity>
                    </View>
