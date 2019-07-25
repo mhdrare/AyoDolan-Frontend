@@ -6,6 +6,7 @@ import destinasi from './destinasi';
 import paket from './paket';
 import order from './order';
 import users from './users';
+import transaksi from './transaksi';
 
 // combine them
 const appReducer = combineReducers({
@@ -14,6 +15,7 @@ const appReducer = combineReducers({
     paket,
     order,
     users,
+    transaksi
 })
 
 export default appReducer;

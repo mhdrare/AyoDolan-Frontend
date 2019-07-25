@@ -23,6 +23,7 @@ import ConfirmCode from '../screens/confirmCode';
 import NewPassword from '../screens/newPassword';
 import Transaction from '../screens/transaction';
 import Chat from '../screens/Chat';
+import confirmPayment from '../screens/confirmPayment'
 
 const AuthNavigator = createStackNavigator({
 	Login,
@@ -48,7 +49,8 @@ const HomeNavigator = createStackNavigator({
     ConfirmCode,
     NewPassword,
     Transaction,
-    Chat
+    Chat,
+    confirmPayment
 }, {
 	initialRouteName: 'Home',
 	headerMode: 'none'
