@@ -14,6 +14,7 @@ import {
 //redux
 import { connect } from "react-redux";
 import { loginUser } from "../public/redux/action/auth";
+import { getUser } from "../public/redux/action/users";
 
 const { width, height } = Dimensions.get("window");
 
@@ -49,7 +50,7 @@ class Login extends Component {
           .dispatch(
             loginUser(user)
           )
-          .then(() => {
+          .then(() => {  
             this.setState(
               {
                 loading: false
@@ -187,7 +188,8 @@ class Login extends Component {
 
 const mapStateToProps = state => {
   return {
-    auth: state.auth
+    auth: state.auth,
+    users: state.users
     // auth: state.auth
   };
 };

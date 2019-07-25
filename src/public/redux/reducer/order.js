@@ -38,6 +38,21 @@ export default ( order = (state = initialState, action)=>{
                 isError: false,
                 data: action.payload.data.data
             }
+        case 'GET_ORDER_PENDING':
+            return{
+                isLoading: true
+            }
+        case 'GET_ORDER_REJECTED':
+            return{
+                isLoading:false,
+                isError:true
+            }
+        case 'GET_ORDER_FULFILLED':
+            return{
+                isLoading: false,
+                isError: false,
+                data: action.payload.data.data
+            }
         default:
             return state;
     }

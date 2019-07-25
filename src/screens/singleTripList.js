@@ -1,32 +1,26 @@
 import React, { Component, Fragment } from 'react';
-import { View, Text,ScrollView,TouchableOpacity,StyleSheet,FlatList} from 'react-native';
+import { View, Text,ScrollView,TouchableOpacity,StyleSheet,FlatList,AsyncStorage} from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
 
+import {getOrder} from '../public/redux/action/order'
+import { connect } from "react-redux"
 
-export default class singleTransact extends Component {
+
+class singleTripList extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            data: [
-            {
-                id: 1,
-                dest: 'Sleman-Pogung',
-                date: '2015-06-09',
-                price: '2000'
-            },
-            {
-                id: 2,
-                dest: 'Sleman-Pogung',
-                date: '2015-06-09',
-                price: '2000'
-            }]
+            data: this.props.order.data
         }
     }
 
-
+    async componentDidMount(){
+        let id = await AsyncStorage.getItem("id");
+        await this.props.dispatch(getOrder(id))
+    }
 
     listMain = ({ item }) => (
-        <TouchableOpacity activeOpacity={0.8} onPress={() => this.props.navigation.navigate('OrderPackage')}>
+        <TouchableOpacity activeOpacity={0.8} onPress={() => this.props.navigation.navigate('OrderPackage', item)}>
             <View style={{ padding: 10, backgroundColor: '#f2f2f2', margin: 10, borderRadius: 10}}>
                 <Text style={{ marginLeft: 12, marginTop: 10, fontSize: 20, fontFamily: 'sans-serif-condensed' }}>{item.dest}</Text>
                 <Text style={{ marginLeft: 12, marginTop: 10, fontSize: 15 }}>Rp. {item.price}</Text>
@@ -36,6 +30,7 @@ export default class singleTransact extends Component {
     )
 
     render() {
+        
         return (
             <Fragment>
                 <View style={component.header}>
@@ -46,7 +41,7 @@ export default class singleTransact extends Component {
                 </View>
                 <View style={{paddingTop: 40}}>
                     <FlatList
-                        data={this.state.data}
+                        data={this.props.order.data}
                         keyExtractor={(item, index) => index.toString()}
                         renderItem={this.listMain}
                     />
@@ -55,6 +50,15 @@ export default class singleTransact extends Component {
         )
     }
 }
+
+const mapStateToProps = state => {
+    return {
+      order: state.order,
+      users: state.users
+    };
+  };
+  
+export default connect(mapStateToProps)(singleTripList);
 
 const text = StyleSheet.create({
     headerTitle: {

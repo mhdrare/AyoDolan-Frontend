@@ -3,7 +3,7 @@ import { ActivityIndicator, AsyncStorage, View, Text, StyleSheet, ScrollView, Fl
 import { Button, Icon } from "native-base";
 
 import {getDestinasi, getPopular} from '../public/redux/action/destinasi'
-import { fetchUser } from '../public/redux/action/users'
+import {getUser} from '../public/redux/action/users'
 import { connect } from "react-redux"
 
 class main extends Component {
@@ -30,19 +30,18 @@ class main extends Component {
     }
 
     bootstrapAsync = async () => {
-        let user_id = await AsyncStorage.getItem("user_id");
+        let id = await AsyncStorage.getItem("id");
         let token = await AsyncStorage.getItem("Token");
         this.setState({
-            id: user_id,
+            id: id,
             token: token,
             loading: false
         });
+        this.props.dispatch(getUser(id))
     };
 
-    async componentDidMount(){
-        await this.props.dispatch(getDestinasi(5))
-        let user_id = await AsyncStorage.getItem("user_id")
-        await this.props.dispatch(fetchUser(user_id))
+    componentDidMount(){
+        this.props.dispatch(getDestinasi(5))
     }
 
     listMain = ({ item }) => (

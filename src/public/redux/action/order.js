@@ -17,3 +17,9 @@ export const postTransaksi = (data) =>{
         payload: Axios.post(api+'transaksi',{id_transaksi:data.id, keterangan:'pending', va:data.va,dn:data.displayName })
     }
 }
+export const getOrder = (id) =>{
+    return{
+        type:'GET_ORDER',
+        payload: Axios.get(api+`order/${id}`)
+    }
+}

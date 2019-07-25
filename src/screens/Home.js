@@ -12,19 +12,20 @@ export default class Home extends Component {
   }
 
   exit = async () => {
-    await AsyncStorage.removeItem("user_id");
+    await AsyncStorage.removeItem("id");
     await AsyncStorage.removeItem("token");
     this.props.navigation.navigate("Login");
   };
 
   bootstrapAsync = async () => {
-    let user_id = await AsyncStorage.getItem("user_id");
+    let id = await AsyncStorage.getItem("id");
     let token = await AsyncStorage.getItem("Token");
     this.setState({
-      id: user_id,
+      id: id,
       token: token,
       loading: false
     });
+    this.props.dispatch(getUser(id))    
   };
 
   render() {

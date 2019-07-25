@@ -1,12 +1,11 @@
 import React, {Component, Fragment} from 'react';
 import {View, Text, TouchableOpacity, StyleSheet, ImageBackground, Image, Alert, AsyncStorage} from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
-import { fetchUser } from '../public/redux/action/users'
 import { connect } from "react-redux"
 
 class Profile extends Component {
     logout = async () => {
-        await AsyncStorage.removeItem('user_id')
+        await AsyncStorage.removeItem('id')
         AsyncStorage.removeItem('Token', (error) => {
             if (error) {
                 alert(error)
@@ -36,8 +35,7 @@ class Profile extends Component {
     }
 
     async componentDidMount() {
-        let user_id = await AsyncStorage.getItem("user_id")
-        await this.props.dispatch(fetchUser(user_id))
+        
     }
 
     render() {
@@ -72,6 +70,28 @@ class Profile extends Component {
                             <Icon style={{flex:1, alignSelf: 'center'}} name="poweroff" size={20} color={'red'}/>
                             <Text style={{flex:2, fontSize: 14, fontFamily: 'sans-serif-medium', color: 'red'}}>Logout</Text>
                         </TouchableOpacity>
+{/*
+                    <Image source={{uri:this.props.users.data.image}} style={style.imageProfile} />
+                    <View style={style.userProfile}>
+                        <Text style={style.userName}>{this.props.users.data.name}</Text>
+                        <TouchableOpacity>
+                            <Icon name="edit" style={style.ico} />
+                        </TouchableOpacity>
+                    </View>
+                </ImageBackground>
+                <View style={style.profileContainer}>
+                    <View style={style.profileItem}>
+                        <Icon name="idcard" style={style.profileIcon} />
+                        <Text style={style.profileName}>{this.props.users.data.username}</Text>
+                    </View>
+                    <View style={style.profileItem}>
+                        <Icon name="mail" style={style.profileIcon} />
+                        <Text style={style.profileName}>{this.props.users.data.email}</Text>
+                    </View>
+                    <View style={style.profileItem}>
+                        <Icon name="phone" style={style.profileIcon} />
+                        <Text style={style.profileName}>{this.props.users.data.no_phone}</Text>
+*/}
                     </View>
                 </View>
             </Fragment>
@@ -81,7 +101,8 @@ class Profile extends Component {
 
 const mapStateToProps = state => {
     return {
-        users: state.users
+      destinasi: state.destinasi,
+      users: state.users
     };
   };
   
