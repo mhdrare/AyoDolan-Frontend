@@ -17,17 +17,6 @@ export default class Login extends Component {
         super(props);
         this.state = {
             data: this.props.navigation.state.params
-            // data: {
-            //     name: 'Rizqi',
-            //     phone: '+6287345987123',
-            //     email: 'rizqi@live.com',
-            //     time: 'Sab, 27 Jul 2019',
-            //     title: "Sunrise in Gunung Bromo - Tur 1 Hari",
-            //     paket: 'Open Trip (Warga Negara Indonesia) - Keberangkatan Malang',
-            //     price: 'Rp 300.000',
-            //     img: 'https://images.unsplash.com/photo-1540040496035-b3e1d8c127b0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80',
-            //     code: 'HVX7E1A'
-            // }
         }
         console.log("this.props.navigation.state.params");
         console.log(this.props.navigation.state.params);
@@ -46,25 +35,22 @@ export default class Login extends Component {
                         <Text style={{fontSize:17,color:'#000'}}>{this.state.data.destination}</Text>    
                     </ScrollView>    
                     <Text style={{fontSize:17,color:'#fff',alignSelf:'center'}}>.</Text>    
-                    {/* <Image source={require('../assets/menu2.png')} style={{ width:23,height:23,borderRadius:10,marginLeft:8 }} /> */}
                 </View>
                 <ScrollView>
 
-                    {/* QRCode */}
                     <View style={styles.qr}>
                         <View style={{flexDirection:'row',width,marginBottom:10,alignItems:'center',justifyContent:'center'}}>
                             <Text style={{color:'#000',fontSize:16}}>Kode Booking : </Text>
                             <Text style={{color:'#00b8d4',fontSize:17}}>{this.state.data.id_transaksi}</Text>
                         </View>
                         <QRCode
-                            value={this.state.data.id_transaksi}
+                            value={this.state.data.id_transaksi.toString()}
                             size={150}
                             bgColor='#000'
                             fgColor='white'
                         />
                     </View>
 
-                    {/* Your Package */}
                     <View style={{width,alignItems:'center',justifyContent:'center'}}>
                         <Text style={{fontSize:18,padding:10,fontWeight:'bold'}}>Your Package</Text>
                     </View>
@@ -113,7 +99,6 @@ export default class Login extends Component {
                         </View>
                     </View>
 
-                    {/* Tanggal Kunjungan */}
                     <View style={{width,alignItems:'center',justifyContent:'center'}}>
                         <Text style={{fontSize:18,padding:10,fontWeight:'bold'}}>Tanggal Kunjungan</Text>
                     </View>
@@ -128,7 +113,6 @@ export default class Login extends Component {
                         </View>
                     </View>
 
-                    {/* Rincian Harga */}
                     <View style={{width,alignItems:'center',justifyContent:'center'}}>
                         <Text style={{fontSize:18,padding:10,fontWeight:'bold'}}>Rincian Harga</Text>
                     </View>
