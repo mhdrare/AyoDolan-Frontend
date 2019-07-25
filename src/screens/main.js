@@ -9,6 +9,7 @@ class main extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            data: [],
             modalVisible: false,
             selected: [],
             loading: false
@@ -17,7 +18,7 @@ class main extends Component {
     }
 
     goDetails = async () => {
-        await this.props.navigation.navigate('Details',this.state.selected)
+        await this.props.navigation.navigate('Details', { item: this.state.selected })
         this.setModalVisible(false)
     }
 
@@ -85,54 +86,53 @@ class main extends Component {
     render() {
         return(
             <Fragment>
-                <ScrollView>
                     <View style={styles.container}>
                         <View style={styles.content}>
-                            <Image source={require('../img/menu.png')} style={{ width: 15, height: 15 }} />
-                            {/* <Text>This Main</Text> */}
+                            <Text style={{ fontSize: 20, fontFamily: 'sans-serif-condensed', paddingLeft: 5 }}>AyoDolan</Text>
                             <TouchableOpacity onPress={() => { this.props.navigation.navigate('userProfile') }}>
-                                <Image source={{ uri: 'https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg' }} style={{ width: 28, height: 28, borderRadius: 10 }} />
+                                <Image source={{ uri: 'https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg' }} style={{ width: 28, height: 28, borderRadius: 10, paddingRight: 5 }} />
                             </TouchableOpacity>
                         </View>
-                        <View style={styles.contentTitle}>
-                            <Text style={styles.Title}>Surf Destination</Text>
-                        </View>
-                        <View style={styles.contentSub}>
-                            <Text>Best surf destination for you</Text>
-                            <TouchableOpacity onPress={()=>this.props.navigation.navigate('ViewAllDestination')}>
-                                <Text style={{ color: "#FF8A65" }}>View All</Text>
-                            </TouchableOpacity>
-                        </View>
-                        <View style={styles.flatlis}>
-                            <FlatList 
-                                horizontal={true}
-                                data={this.props.destinasi.datadestinasi}
-                                renderItem={this.listMain}
-                                keyExtractor={(item,index)=>index.toString()}
-                                showsHorizontalScrollIndicator={false}
-                            />
-                        </View>
-                        <View style={styles.contentTitle}>
-                            <Text style={styles.Title}>Trendings</Text>
-                        </View>
-                        <View style={styles.contentSub}>
-                            <Text>High season, everyone here</Text>
-                            <TouchableOpacity onPress={()=>this.props.navigation.navigate('ViewAllDestination')}>
-                                <Text style={{ color: "#FF8A65" }}>View All</Text>
-                            </TouchableOpacity>
-                        </View>
-                        <View style={styles.flatlisB}>
-                            <FlatList
-                                style={{width: '100%', paddingLeft: 20, paddingRight: 20}}
-                                horizontal={false}
-                                data={this.props.destinasi.datadestinasi}
-                                keyExtractor={(item,index)=>index.toString()}
-                                renderItem={this.listMainB}
-                                showsHorizontalScrollIndicator={false}
-                            />
-                        </View>
+                        <ScrollView>
+                            <View style={styles.contentTitle}>
+                                <Text style={styles.Title}>Surf Destination</Text>
+                            </View>
+                            <View style={styles.contentSub}>
+                                <Text>Best surf destination for you</Text>
+                                <TouchableOpacity onPress={()=>this.props.navigation.navigate('ViewAllDestination')}>
+                                    <Text style={{ color: "#FF8A65" }}>View All</Text>
+                                </TouchableOpacity>
+                            </View>
+                            <View style={styles.flatlis}>
+                                <FlatList 
+                                    horizontal={true}
+                                    data={this.props.destinasi.datadestinasi}
+                                    renderItem={this.listMain}
+                                    keyExtractor={(item,index)=>index.toString()}
+                                    showsHorizontalScrollIndicator={false}
+                                />
+                            </View>
+                            <View style={styles.contentTitle}>
+                                <Text style={styles.Title}>Other Choices</Text>
+                            </View>
+                            <View style={styles.contentSub}>
+                                <Text>High season, everyone here</Text>
+                                <TouchableOpacity onPress={()=>this.props.navigation.navigate('ViewAllDestination')}>
+                                    <Text style={{ color: "#FF8A65" }}>View All</Text>
+                                </TouchableOpacity>
+                            </View>
+                            <View style={styles.flatlisB}>
+                                <FlatList
+                                    style={{width: '100%', paddingLeft: 20, paddingRight: 20}}
+                                    horizontal={false}
+                                    data={this.props.destinasi.datadestinasi}
+                                    keyExtractor={(item,index)=>index.toString()}
+                                    renderItem={this.listMainB}
+                                    showsHorizontalScrollIndicator={false}
+                                />
+                            </View>
+                        </ScrollView>
                     </View>
-                </ScrollView>
 
                 <Modal
                     transparent={true}
@@ -230,7 +230,8 @@ const styles = StyleSheet.create({
     content:{
         flexDirection: "row",
         justifyContent: "space-between",
-        margin: 25
+        padding: 10,
+        alignItems: 'center'
     },
     contentTitle:{
         marginTop: 12,
@@ -255,6 +256,7 @@ const styles = StyleSheet.create({
         marginTop: 12,
         flex: 1,
         alignItems: 'center',
+        marginBottom: 150
     },
     BgList:{
         backgroundColor: "#EEEEEE",

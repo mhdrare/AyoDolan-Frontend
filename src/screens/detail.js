@@ -10,46 +10,7 @@ export default class details extends Component {
         super(props);
         this.state = {
             detail: this.props.navigation.state.params,
-            data: [{
-                id: 1,
-                pict: 'https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg'
-            },
-            {
-                id: 2,
-                pict: 'https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg'
-            }],
-            dataGuide: [{
-                id: 1,
-                pict: 'https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg'
-            },
-            {
-                id: 2,
-                pict: 'https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg'
-            },
-            {
-                id: 3,
-                pict: 'https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg'
-            },
-            {
-                id: 4,
-                pict: 'https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg'
-            },
-            {
-                id: 5,
-                pict: 'https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg'
-            },
-            {
-                id: 6,
-                pict: 'https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg'
-            },
-            {
-                id: 7,
-                pict: 'https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg'
-            },
-            {
-                id: 8,
-                pict: 'https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg'
-            }],
+            data: props.navigation.getParam('item'),
             favorite: false}
     }
 
@@ -62,13 +23,11 @@ export default class details extends Component {
     )
 
     render() {
-        console.log("this.props.navigation.state.params");
-        console.log(parseInt(this.state.detail.latitude));
         
         return (
             <Fragment>
                 <ScrollView>
-                    <ImageBackground source={{ uri: this.state.detail.image }} style={{ width:"100%", height: 250 }}>
+                    <ImageBackground source={{ uri: `${this.state.data.image}` }} style={{ width:"100%", height: 250 }}>
                         <View style={styles.container}>
                             <View style={styles.header}>
                                 <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
@@ -78,8 +37,8 @@ export default class details extends Component {
                         </View>
                     </ImageBackground>
                     <View style={styles.content}>
-                        <Text style={styles.contentHead}>{this.state.detail.destination}</Text>
-                        <Text style={{ fontSize: 18 }}>{this.state.detail.description}</Text>
+                        <Text style={styles.contentHead}>{this.state.data.destination}</Text>
+                        <Text style={{ fontSize: 18 }}>{this.state.data.description}</Text>
                     </View>
                     
                     <View style={{ marginTop: 30 }}>
@@ -87,16 +46,16 @@ export default class details extends Component {
                             provider={PROVIDER_GOOGLE} // remove if not using Google Maps
                             style={{ height: 200, width: 400, alignItems: "center" }}
                             region={{
-                                latitude: parseFloat(this.state.detail.latitude),
-                                longitude: parseFloat(this.state.detail.longitude),
+                                latitude: parseFloat(this.state.data.latitude),
+                                longitude: parseFloat(this.state.data.longitude),
                                 latitudeDelta: 0.015,
                                 longitudeDelta: 0.0121,
                             }}
                         >
                         <Marker
                             coordinate={{
-                            latitude: parseFloat(this.state.detail.latitude),
-                            longitude: parseFloat(this.state.detail.longitude)
+                            latitude: parseFloat(this.state.data.latitude),
+                            longitude: parseFloat(this.state.data.longitude)
                             }}
                             title="You"
                             description="in here"
@@ -105,7 +64,7 @@ export default class details extends Component {
                     </View>
                     
                     <View style={styles.boxContent}>
-                        <View style={styles.innerBox}>
+                        {/* <View style={styles.innerBox}>
                             <Text style={{ marginBottom: 8, fontWeight: "bold", fontSize: 16 }}>Surfing Spots</Text>
                             <FlatList 
                                 data={this.state.data}
@@ -115,21 +74,21 @@ export default class details extends Component {
                                 showsHorizontalScrollIndicator={false}
                             />
                             <Text style={{ marginTop: 8 }}>21 spots</Text>
-                        </View>
-                        <View style={styles.innerBox}>
+                        </View> */}
+                        {/* <View style={styles.innerBox}>
                             <Text style={{ marginBottom: 8, fontWeight: "bold", fontSize: 16 }}>Surfing Shops</Text>
                             <Image source={{ uri: `https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg` }} style={styles.minipictA} />
                             <Text style={{ marginTop: 8 }}>21+ Shops</Text>
 
-                        </View>
-                        <ImageBackground source={{ uri: 'https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg' }} style={styles.innerBox} imageStyle={{ borderRadius: 15 }}>
+                        </View> */}
+                        {/* <ImageBackground source={{ uri: 'https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg' }} style={styles.innerBox} imageStyle={{ borderRadius: 15 }}>
                             <Text style={{ marginBottom: 8, fontWeight: "bold", fontSize: 16, color: "#fff" }}>Surfing Spots</Text>
-                        </ImageBackground>
+                        </ImageBackground> */}
                         <View style={styles.innerBoxOrder}>
                             <Text style={{ marginBottom: 4, fontWeight: "bold", fontSize: 16 }}>Order ?</Text>
                             {/* <Button title="Order" color="#841584" style={{ width: 20, borderRadius: 50 }} /> */}
                             <Text style={{ marginTop: 3 }}>Want to order this Trip</Text>
-                            <TouchableOpacity onPress={() => this.props.navigation.navigate('SingleTransact')}>
+                            <TouchableOpacity onPress={() => this.props.navigation.navigate('SingleTransact', {data: this.state.data })}>
                                 <View style={{ borderColor: "#fff", backgroundColor:"#EEEEEE", borderRadius: 25, width: "100%",Height:50, padding: 15, borderWidth: 0.4, marginTop: 10 }}>
                                     <Text style={{ textAlign: "center" }}>Order Now</Text>
                                 </View>
@@ -185,13 +144,13 @@ const styles = StyleSheet.create({
         elevation: 5
     },
     innerBoxOrder: {
-        width: 140,
+        flex: 1,
         height: 140,
         borderRadius: 15,
         backgroundColor: "#4dd0e1",
         margin: 5,
         padding: 20,
-        // alignItems: "center"
+        alignSelf: 'center'
     },
     minipictA:{
         width: 50,

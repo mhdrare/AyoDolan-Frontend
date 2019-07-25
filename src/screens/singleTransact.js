@@ -1,17 +1,35 @@
 import React, { Component, Fragment } from 'react';
 import { View, Text, StyleSheet, ScrollView, FlatList, Image, ImageBackground, TouchableOpacity, Animated, Easing } from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
-
+import {IPAYMU_API_KEY} from 'react-native-dotenv';
+import axios from 'axios';
 
 export default class singleTransact extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            data: []
+            data: props.navigation.getParam('data'),
+            tax: '3000'
+            
         }
     }
 
-    
+    orderNow = () =>{
+        // alert('hello');
+
+        let data = {
+                key: IPAYMU_API_KEY,
+                price: this.state.data.price,
+                uniqid: "1",
+                notify_url: "http://websiteanda.com/notify.php"
+            }
+
+        axios.post("https://my.ipaymu.com/api/getbniva", data).then(res => {
+            alert(JSON.stringify(res.data));
+        }).catch(error => {
+            alert('transaction failed'+JSON.stringify(error));
+        });
+    }
 
     listMainB = ({ item }) => (
         <TouchableOpacity activeOpacity={0.8}>
@@ -26,7 +44,7 @@ export default class singleTransact extends Component {
     )
 
     render() {
-
+        console.warn("[single GET] : "+JSON.stringify(this.state.data));
         return (
             <Fragment>
                 <ImageBackground source={require('../img/bgb.png')} style={{ width: "100%", height: "100%" }}>
@@ -42,10 +60,13 @@ export default class singleTransact extends Component {
                         </View>
                     </View>
                     <View style={styles.containt}>
+                        <View>
+                            <Text style={{ fontSize: 20, marginBottom: 15 }}>{this.state.data.destination}</Text>
+                        </View>
                         <View style={styles.PaymentContent}>
                             <View style={styles.PaymentTitle}>
                                 <Text>Price</Text>
-                                <Text style={styles.money}>Rp. 20.000</Text>
+                                <Text style={styles.money}>Rp. {this.state.data.price}</Text>
                             </View>
                             <View style={styles.PaymentValue}>
                                 <Text>Date</Text>
@@ -53,23 +74,14 @@ export default class singleTransact extends Component {
                             </View>
                         </View>
                         
-                        <View style={{ marginTop: 50 }}>
-                            <View style={styles.containtB}>
-                                <Text style={styles.AdditionTitle}>Tax</Text>
-                                <Text style={styles.AdditionValue}>Rp.5.000</Text>
-                            </View>
-                            <View style={styles.containtB}>
-                                <Text style={styles.AdditionTitle}>Total</Text>
-                                <Text style={styles.AdditionValue}>Rp.25.000</Text>
-                            </View>
-                        </View>
+                        
                     </View>
                     
                 </ScrollView>
                 <View style={{ flex: 1 }}>
                     {/* <View><Text>my text</Text></View> */}
                     <View style={{ position: 'absolute', left: 0, right: 0, bottom: 0, backgroundColor: "#81C784", padding: 20 }}>
-                        <TouchableOpacity>
+                        <TouchableOpacity onPress={() => {this.orderNow()}}>
                             <Text style={{ textAlign: "center", fontSize: 20 }}>Order Now</Text>
                         </TouchableOpacity>
                     </View>
@@ -134,7 +146,7 @@ const styles = StyleSheet.create({
         marginLeft: "5%",
         borderRadius: 15,
         width: "90%",
-        height: 250,
+        height: 160,
         backgroundColor: "#EEEEEE",
         padding: 20
         
