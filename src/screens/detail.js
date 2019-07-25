@@ -2,13 +2,14 @@ import React, { Component, Fragment } from 'react';
 import { View, Text, StyleSheet, ScrollView, FlatList, Image, ImageBackground, Button, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
 import ParallaxScroll from '@monterosa/react-native-parallax-scroll';
-import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
+import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
 
 
 export default class details extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            detail: this.props.navigation.state.params,
             data: [{
                 id: 1,
                 pict: 'https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg'
@@ -61,10 +62,13 @@ export default class details extends Component {
     )
 
     render() {
+        console.log("this.props.navigation.state.params");
+        console.log(parseInt(this.state.detail.latitude));
+        
         return (
             <Fragment>
                 <ScrollView>
-                    <ImageBackground source={{ uri: 'https://images.pexels.com/photos/248797/pexels-photo-248797.jpeg' }} style={{ width:"100%", height: 250 }}>
+                    <ImageBackground source={{ uri: this.state.detail.image }} style={{ width:"100%", height: 250 }}>
                         <View style={styles.container}>
                             <View style={styles.header}>
                                 <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
@@ -74,8 +78,8 @@ export default class details extends Component {
                         </View>
                     </ImageBackground>
                     <View style={styles.content}>
-                        <Text style={styles.contentHead}>Santa Monica</Text>
-                        <Text style={{ fontSize: 18 }}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus volutpat ultrices nulla eget fringilla. Nullam iaculis ac ex ac aliquam. Suspendisse non convallis sem, quis vulputate purus. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Etiam sit amet fermentum ante. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Praesent mattis erat non nulla ultricies viverra. </Text>
+                        <Text style={styles.contentHead}>{this.state.detail.destination}</Text>
+                        <Text style={{ fontSize: 18 }}>{this.state.detail.description}</Text>
                     </View>
                     
                     <View style={{ marginTop: 30 }}>
@@ -83,12 +87,20 @@ export default class details extends Component {
                             provider={PROVIDER_GOOGLE} // remove if not using Google Maps
                             style={{ height: 200, width: 400, alignItems: "center" }}
                             region={{
-                                latitude: 37.78825,
-                                longitude: -122.4324,
+                                latitude: parseFloat(this.state.detail.latitude),
+                                longitude: parseFloat(this.state.detail.longitude),
                                 latitudeDelta: 0.015,
                                 longitudeDelta: 0.0121,
                             }}
                         >
+                        <Marker
+                            coordinate={{
+                            latitude: parseFloat(this.state.detail.latitude),
+                            longitude: parseFloat(this.state.detail.longitude)
+                            }}
+                            title="You"
+                            description="in here"
+                        />
                         </MapView>
                     </View>
                     

@@ -17,7 +17,7 @@ class main extends Component {
     }
 
     goDetails = async () => {
-        await this.props.navigation.navigate('Details')
+        await this.props.navigation.navigate('Details',this.state.selected)
         this.setModalVisible(false)
     }
 
