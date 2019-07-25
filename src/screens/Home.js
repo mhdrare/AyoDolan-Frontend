@@ -19,7 +19,7 @@ export default class Home extends Component {
 
   bootstrapAsync = async () => {
     let user_id = await AsyncStorage.getItem("user_id");
-    let token = await AsyncStorage.getItem("token");
+    let token = await AsyncStorage.getItem("Token");
     this.setState({
       id: user_id,
       token: token,

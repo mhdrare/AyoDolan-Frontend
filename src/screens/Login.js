@@ -38,7 +38,7 @@ class Login extends Component {
       };
       await this.props.dispatch(loginUser(user));
       
-      await AsyncStorage.getItem("token", (error, result) => {
+      await AsyncStorage.getItem("Token", (error, result) => {
         if (result) {
           this.props.navigation.navigate("Home");
           alert("Welcome To Ayodolan!");
