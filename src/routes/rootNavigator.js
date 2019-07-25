@@ -19,6 +19,8 @@ import ListPaketWisata from '../screens/ListPaketWisata';
 import SingleTrip from '../screens/singleTripList';
 import userProfile from '../screens/userProfile';
 import OrderPackage from '../screens/OrderPackage';
+import ConfirmCode from '../screens/confirmCode';
+import NewPassword from '../screens/newPassword';
 
 const AuthNavigator = createStackNavigator({
 	Login,
@@ -40,7 +42,9 @@ const HomeNavigator = createStackNavigator({
     SingleTrip,
 	userProfile,
     AuthCheck,
-    OrderPackage
+    OrderPackage,
+    ConfirmCode,
+    NewPassword
 }, {
 	initialRouteName: 'Home',
 	headerMode: 'none'

@@ -23,3 +23,22 @@ export const loginUser = dataLogin => {
     payload: Axios.post(api + "login", dataLogin)
   };
 };
+
+export const forgotPassword = (email) => {
+  return {
+      type: 'FORGOT_PASSWORD',
+      payload: Axios.post(api+"mailer", {
+          email: email,
+      })
+  }
+}
+
+export const newPassword = (data) => {
+  return {
+      type: 'NEW_PASSWORD',
+      payload: Axios.post(api+`change/${data.id}`, {
+          password: data.password,
+          newPassword: data.confPassword,
+      })
+  }
+}
