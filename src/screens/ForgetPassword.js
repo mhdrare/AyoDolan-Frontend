@@ -73,6 +73,7 @@ class ForgetPassword extends Component {
                             <TextInput 
                                 style={styles.input} 
                                 placeholder={'Email'}
+                                keyboardType={'email-address'}
                                 onChangeText={this.onChangeTextEmail}
                             />
                         </View>

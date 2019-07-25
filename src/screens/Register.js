@@ -253,6 +253,7 @@ class Register extends Component {
                 <TextInput
                   style={styles.input}
                   placeholder={"Email"}
+                  keyboardType={'email-address'}
                   onChangeText={this.onChangeTextEmail}
                 />
                 <TextInput
