@@ -72,7 +72,9 @@ class detaiPackage extends Component {
 
         let data = {
             price: this.props.paket.total,
-            destination: this.props.paket.data[0].nama_paket
+            destination: this.props.paket.data[0].nama_paket,
+            id_destination: this.props.paket.data[0].id_destination,
+            category:1
         }
         console.log(data)
         // await this.props.dispatch(postTransaksi(this.state.datas))
