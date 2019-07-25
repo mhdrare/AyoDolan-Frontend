@@ -17,7 +17,7 @@ import {detaiPaket} from '../public/redux/action/paket'
 import {postOrder, postTransaksi} from '../public/redux/action/order'
 import { connect } from "react-redux"
 import DateTimePicker from "react-native-modal-datetime-picker";
-import moment from 'moment'
+import moment from 'moment';
 
 const { width, height } = Dimensions.get('window');
 
@@ -68,13 +68,14 @@ class detaiPackage extends Component {
         // let value = {
             
         // }
-        
-        const datax = JSON.stringify(this.props.paket)
-        this.setState({
-            datas: datax
-        })
+
+        let data = {
+            price: this.props.paket.total,
+            destination: this.props.paket.data[0].nama_paket
+        }
+        console.log(data)
         // await this.props.dispatch(postTransaksi(this.state.datas))
-        this.props.navigation.navigate('SingleTransact', {data: this.state.datas})
+        this.props.navigation.navigate('SingleTransact',{data: data})
     }
 
     listMain = ({ item }) =>(
