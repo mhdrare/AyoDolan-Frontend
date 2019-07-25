@@ -11,7 +11,11 @@ import {
 } from 'react-native';
 const { width, height } = Dimensions.get('window');
 
-export default class Login extends Component {
+//redux
+import { connect } from "react-redux";
+import { forgotPassword } from "../public/redux/action/auth";
+
+class ForgetPassword extends Component {
     constructor(props){
         super(props);
         this.state = {
@@ -19,6 +23,35 @@ export default class Login extends Component {
         }
     }
     onChangeTextEmail = email => this.setState({ email });
+
+    forgotHandler = async () => {
+		if (this.state.email == '') {
+			this.setState({
+				errEmail: 'Email is empty!'
+			})
+		} else {
+			await this.setState({
+				loading: true
+			})
+
+			this.props.dispatch(forgotPassword(this.state.email))
+			.then(() => {
+				this.setState({
+					loading: false
+				}, () => {
+					this.props.navigation.navigate('ConfirmCode')
+				})
+			})
+			.catch((err)=>{
+        		this.setState({
+					loading: false
+				}, () => {
+        			alert('Email not found!')
+				})
+        	})
+		}
+
+	}
 
     render() {
         return (
@@ -44,7 +77,7 @@ export default class Login extends Component {
                             />
                         </View>
                         <View style={{flex:1,width:'100%',alignItems:'center'}}>
-                            <TouchableOpacity style={styles.btnLogin}>
+                            <TouchableOpacity style={styles.btnLogin} onPress={() => {this.forgotHandler()}}>
                                 <Text style={{color:'#fff',fontSize:18}}>Send</Text>
                             </TouchableOpacity> 
                         </View>
@@ -67,7 +100,19 @@ export default class Login extends Component {
             </View>
         )
     }
-}const styles = StyleSheet.create({
+}
+
+const mapStateToProps = state => {
+    return {
+      auth: state.auth
+      // auth: state.auth
+    };
+  };
+  
+  // connect with redux,first param is map and second is component
+  export default connect(mapStateToProps)(ForgetPassword);
+
+const styles = StyleSheet.create({
     container: {
         position:'absolute',
         width,

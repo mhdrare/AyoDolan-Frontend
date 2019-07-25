@@ -46,6 +46,46 @@ export default (reducer = async (state = initialState, action) => {
         token: action.payload.data.token
       };
 
+
+    case "FORGOT_PASSWORD_PENDING":
+      return {
+        ...state,
+        isLoading: true,
+        isError: false
+      };
+    case "FORGOT_PASSWORD_FULFILLED":
+      return {
+        ...state,
+        isLoading: false,
+        data: action.payload.data
+      };
+    case "FORGOT_PASSWORD_REJECTED":
+      return {
+        ...state,
+        isLoading: false,
+        isError: true
+      };
+
+      
+    case "NEW_PASSWORD_PENDING":
+      return {
+        ...state,
+        isLoading: true,
+        isError: false
+      };
+    case "NEW_PASSWORD_FULFILLED":
+      return {
+        ...state,
+        isLoading: false,
+        data: action.payload.data
+      };
+    case "NEW_PASSWORD_REJECTED":
+      return {
+        ...state,
+        isLoading: false,
+        isError: true
+      };
+
     default:
       return state;
   }
