@@ -135,10 +135,7 @@ class detaiPackage extends Component {
                             <ActivityIndicator size="large" color="#4dd0e1"/>
                         </View> : 
                         <View style={{marginBottom:2}}>
-                            <TouchableOpacity onPress={() => {
-                                this.setModalVisible(true);
-                                this.setState({img:'https://images.unsplash.com/photo-1493604480588-31082be2c411?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=729&q=80'});
-                            }} >
+                            <TouchableOpacity>
                                 <FlatList 
                                     horizontal={true}
                                     data={this.props.paket.image}

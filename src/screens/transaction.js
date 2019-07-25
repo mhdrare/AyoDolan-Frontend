@@ -26,7 +26,7 @@ class Transaction extends Component {
     }
 
     fatchData = async() =>{
-        let id = await AsyncStorage.getItem('user_id')
+        let id = await AsyncStorage.getItem('id')
         this.props.dispatch(getTransaksi(id))
     }
 
@@ -35,7 +35,7 @@ class Transaction extends Component {
     }
 
     movePage = async (data) =>{
-        let id = await AsyncStorage.getItem('user_id')
+        let id = await AsyncStorage.getItem('id')
 
         let value = {
             id: id,
@@ -65,7 +65,6 @@ class Transaction extends Component {
     )
 
     render() {
-        console.log(this.props.transaksi.data)
         return (
             <Fragment>
                 <View style={component.header}>

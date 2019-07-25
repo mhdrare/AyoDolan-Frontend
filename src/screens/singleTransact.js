@@ -42,7 +42,7 @@ class singleTransact extends Component {
             alert('transaction failed'+JSON.stringify(error));
         });
 
-        let id = await AsyncStorage.getItem('user_id')
+        let id = await AsyncStorage.getItem('id')
         let a = this.state.date;
         let b = a.split('-');
         let newDate = b[2]+"-"+b[1]+"-"+b[0];
@@ -61,7 +61,7 @@ class singleTransact extends Component {
 
     confirmOrder = async() =>{
 
-        let id = await AsyncStorage.getItem('user_id')
+        let id = await AsyncStorage.getItem('id')
         let value = ''
         let a = this.state.date;
         let b = a.split('-');

@@ -31,6 +31,7 @@ class Login extends Component {
   onChangeTextPassword = password => this.setState({ password });
 
   login = async () => {
+    let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     if (this.state.email === "" || this.state.password === "") {
       Toast.show({
         text: 'Email or Password is required',
@@ -59,6 +60,13 @@ class Login extends Component {
         this.setState({loading: false });
         Toast.show({
           text: 'Invalid Password',
+          buttonText: 'Okay',
+          position: 'top',
+          type: 'danger'
+        })
+      } else if (reg.test(this.state.email) === false) {
+        Toast.show({
+          text: 'Incorrect email format',
           buttonText: 'Okay',
           position: 'top',
           type: 'danger'

@@ -28,7 +28,7 @@ class main extends Component {
     }
 
     bootstrapAsync = async () => {
-        let user_id = await AsyncStorage.getItem("user_id");
+        let user_id = await AsyncStorage.getItem("id");
         let token = await AsyncStorage.getItem("Token");
         this.setState({
             id: user_id,

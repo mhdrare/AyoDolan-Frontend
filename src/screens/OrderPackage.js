@@ -18,9 +18,6 @@ export default class Login extends Component {
         this.state = {
             data: this.props.navigation.state.params
         }
-        console.log("this.props.navigation.state.params");
-        console.log(this.props.navigation.state.params);
-        
     }
     render() {
         return (
