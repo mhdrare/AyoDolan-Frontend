@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Platform, StyleSheet, Text, View } from "react-native";
+import { Root } from "native-base";
 import AppNavigator from "./src/routes/rootNavigator";
 import { Provider } from "react-redux";
 import store from "./src/public/redux/store";
@@ -56,7 +56,7 @@ export default class App extends Component {
       // :
       <Provider store={store}>
         <React.Fragment>
-          <AppNavigator />
+          <Root><AppNavigator/></Root>
         </React.Fragment>
       </Provider>
     );
