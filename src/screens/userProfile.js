@@ -2,9 +2,14 @@ import React, {Component, Fragment} from 'react';
 import {View, Text, TouchableOpacity, StyleSheet, ImageBackground, Image, Alert, AsyncStorage} from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
 
-export default class Profile extends Component {
+import { connect } from "react-redux"
+
+
+
+
+class Profile extends Component {
     logout = async () => {
-        await AsyncStorage.removeItem('user_id')
+        await AsyncStorage.removeItem('id')
         AsyncStorage.removeItem('Token', (error) => {
             if (error) {
                 alert(error)
@@ -42,9 +47,9 @@ export default class Profile extends Component {
                             <Icon name="arrowleft" style={{ color: "#fff", fontSize: 30 }} />
                         </TouchableOpacity>
                     </View>
-                    <Image source={{ uri: 'https://st4.depositphotos.com/5934840/20525/v/600/depositphotos_205253058-stock-video-young-man-cartoon-hd-animation.jpg'}} style={style.imageProfile} />
+                    <Image source={{uri:this.props.users.data.image}} style={style.imageProfile} />
                     <View style={style.userProfile}>
-                        <Text style={style.userName}>This Profile</Text>
+                        <Text style={style.userName}>{this.props.users.data.name}</Text>
                         <TouchableOpacity>
                             <Icon name="edit" style={style.ico} />
                         </TouchableOpacity>
@@ -53,15 +58,15 @@ export default class Profile extends Component {
                 <View style={style.profileContainer}>
                     <View style={style.profileItem}>
                         <Icon name="idcard" style={style.profileIcon} />
-                        <Text style={style.profileName}>Username</Text>
+                        <Text style={style.profileName}>{this.props.users.data.username}</Text>
                     </View>
                     <View style={style.profileItem}>
                         <Icon name="mail" style={style.profileIcon} />
-                        <Text style={style.profileName}>e-mail</Text>
+                        <Text style={style.profileName}>{this.props.users.data.email}</Text>
                     </View>
                     <View style={style.profileItem}>
                         <Icon name="phone" style={style.profileIcon} />
-                        <Text style={style.profileName}>Phone Number</Text>
+                        <Text style={style.profileName}>{this.props.users.data.no_phone}</Text>
                     </View>
                 </View>
                 <View style={style.logout}>
@@ -78,6 +83,16 @@ export default class Profile extends Component {
         )
     }
 }
+
+const mapStateToProps = state => {
+    return {
+      destinasi: state.destinasi,
+      users: state.users
+      // auth: state.auth
+    };
+  };
+  
+export default connect(mapStateToProps)(Profile);
 
 const style = StyleSheet.create({
     container:{

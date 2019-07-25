@@ -16,18 +16,22 @@ export default class Login extends Component {
     constructor(props){
         super(props);
         this.state = {
-            data: {
-                name: 'Rizqi',
-                phone: '+6287345987123',
-                email: 'rizqi@live.com',
-                time: 'Sab, 27 Jul 2019',
-                title: "Sunrise in Gunung Bromo - Tur 1 Hari",
-                paket: 'Open Trip (Warga Negara Indonesia) - Keberangkatan Malang',
-                price: 'Rp 300.000',
-                img: 'https://images.unsplash.com/photo-1540040496035-b3e1d8c127b0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80',
-                code: 'HVX7E1A'
-            }
+            data: this.props.navigation.state.params
+            // data: {
+            //     name: 'Rizqi',
+            //     phone: '+6287345987123',
+            //     email: 'rizqi@live.com',
+            //     time: 'Sab, 27 Jul 2019',
+            //     title: "Sunrise in Gunung Bromo - Tur 1 Hari",
+            //     paket: 'Open Trip (Warga Negara Indonesia) - Keberangkatan Malang',
+            //     price: 'Rp 300.000',
+            //     img: 'https://images.unsplash.com/photo-1540040496035-b3e1d8c127b0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80',
+            //     code: 'HVX7E1A'
+            // }
         }
+        console.log("this.props.navigation.state.params");
+        console.log(this.props.navigation.state.params);
+        
     }
     render() {
         return (
@@ -39,7 +43,7 @@ export default class Login extends Component {
                         horizontal={true} 
                         showsHorizontalScrollIndicator={false}
                     >
-                        <Text style={{fontSize:17,color:'#000'}}>{this.state.data.title}</Text>    
+                        <Text style={{fontSize:17,color:'#000'}}>{this.state.data.destination}</Text>    
                     </ScrollView>    
                     <Text style={{fontSize:17,color:'#fff',alignSelf:'center'}}>.</Text>    
                     {/* <Image source={require('../assets/menu2.png')} style={{ width:23,height:23,borderRadius:10,marginLeft:8 }} /> */}
@@ -50,10 +54,10 @@ export default class Login extends Component {
                     <View style={styles.qr}>
                         <View style={{flexDirection:'row',width,marginBottom:10,alignItems:'center',justifyContent:'center'}}>
                             <Text style={{color:'#000',fontSize:16}}>Kode Booking : </Text>
-                            <Text style={{color:'#00b8d4',fontSize:17}}>{this.state.data.code}</Text>
+                            <Text style={{color:'#00b8d4',fontSize:17}}>{this.state.data.id_transaksi}</Text>
                         </View>
                         <QRCode
-                            value={this.state.data.code}
+                            value={this.state.data.id_transaksi}
                             size={150}
                             bgColor='#000'
                             fgColor='white'
@@ -67,20 +71,20 @@ export default class Login extends Component {
                     <View style={styles.pack}>
                         <View style={{flex:2,flexDirection:'row'}}>
                             <View style={{flex:1}}>
-                                <Image source={{uri:this.state.data.img}} style={{height:'100%',width:'100%',borderTopLeftRadius:5}}/>
+                                <Image source={{uri:this.state.data.image_destination}} style={{height:'100%',width:'100%',borderTopLeftRadius:5}}/>
                             </View>
                             <View style={{flex:3,padding:10}}>
                                 <ScrollView
                                     horizontal={true} 
                                     showsHorizontalScrollIndicator={false}
                                 >
-                                    <Text style={{fontSize:17,color:'#000',fontWeight:'bold'}}>{this.state.data.title}</Text>
+                                    <Text style={{fontSize:17,color:'#000',fontWeight:'bold'}}>{this.state.data.destination}</Text>
                                 </ScrollView>
                                 <ScrollView
                                     horizontal={true} 
                                     showsHorizontalScrollIndicator={false}
                                 >
-                                    <Text>{this.state.data.paket}</Text>
+                                    <Text>{this.state.data.destination}</Text>
                                 </ScrollView>
                                 <Text>Jumlah : 4 Orang</Text>
                             </View>
@@ -97,15 +101,15 @@ export default class Login extends Component {
                     <View style={styles.pemesan}>
                         <View style={styles.data}>
                             <Text>Name</Text>
-                            <Text>{this.state.data.name}</Text>
+                            <Text>{this.state.data.guide_name}</Text>
                         </View>
                         <View style={styles.data}>
                             <Text>No. Handphone</Text>
-                            <Text>{this.state.data.phone}</Text>
+                            <Text>{this.state.data.phone_guide}</Text>
                         </View>
                         <View style={styles.data}>
                             <Text>Email</Text>
-                            <Text>{this.state.data.email}</Text>
+                            <Text>{this.state.data.email_guide}</Text>
                         </View>
                     </View>
 
@@ -116,7 +120,7 @@ export default class Login extends Component {
                     <View style={styles.pack}>
                         <View style={{flex:1,flexDirection:'row',width:'100%',alignItems:'center',marginLeft:40}}>
                             <Image source={require('../assets/calendar.png')} style={{ width:25,height:25,marginRight:8 }} />
-                            <Text>{this.state.data.time}</Text>
+                            <Text>{this.state.data.date}</Text>
                         </View>
                         <View style={styles.warn}>
                             <Image source={require('../assets/warning.png')} style={{ width:25,height:25,marginRight:8,marginLeft:20,alignSelf:'center'}} />
@@ -143,7 +147,7 @@ export default class Login extends Component {
                     containerStyle={{}}
                     style={{ backgroundColor: "#FFFCFC", marginBottom:25 }}
                     position="bottomRight"
-                    onPress={() => this.props.navigation.navigate("Chat")}
+                    onPress={() => this.props.navigation.navigate("Chat", this.state.data)}
                 >
                 <Icon name="ios-chatboxes" style={{ color: "#4dd0e1" }} />
                 </Fab>

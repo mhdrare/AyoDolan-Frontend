@@ -48,7 +48,7 @@ const HomeNavigator = createStackNavigator({
     NewPassword,
     Chat
 }, {
-	initialRouteName: 'OrderPackage',
+	initialRouteName: 'Home',
 	headerMode: 'none'
 })
 

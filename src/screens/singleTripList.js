@@ -2,46 +2,31 @@ import React, { Component, Fragment } from 'react';
 import { View, Text,ScrollView,TouchableOpacity,StyleSheet,FlatList} from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
 
+import {getOrder} from '../public/redux/action/order'
+import { connect } from "react-redux"
 
-export default class singleTransact extends Component {
+
+class singleTripList extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            data: [{
-                id: 1,
-                dest: 'Sleman-Pogung',
-                date: '2015-06-09',
-                price: '2000'
-            },
-            {
-                id: 2,
-                dest: 'Sleman-Jak',
-                date: '2015-06-09',
-                price: '2100'
-            },
-            {
-                id: 3,
-                dest: 'kidul-Pogung',
-                date: '2015-06-09',
-                price: '2500'
-            },
-            {
-                id: 4,
-                dest: 'Sleman-Kidul',
-                date: '2015-06-09',
-                price: '10000'
-            }]
+            data: this.props.order.data
         }
     }
 
+    componentDidMount(){
+        this.props.dispatch(getOrder(this.props.users.data.user_id))
+    }
 
+
+    _keyExtractor = (item, index) => item.id_order;
 
     listMain = ({ item }) => (
         <ScrollView>
-        <TouchableOpacity activeOpacity={0.8} onPress={() => this.props.navigation.navigate('OrderPackage')}>
+        <TouchableOpacity activeOpacity={0.8} onPress={() => this.props.navigation.navigate('OrderPackage', item)}>
             <View style={{ padding: 40, borderBottomColor: "#EEEEEE", borderWidth: 0.3 }}>
-                <Text style={{ margingLeft: 12, marginTop: 10, fontSize: 25 }}>{item.dest}</Text>
-                <Text style={{ margingLeft: 12, marginTop: 10, fontSize: 15 }}>Rp. {item.price}</Text>
+                <Text style={{ margingLeft: 12, marginTop: 10, fontSize: 25 }}>{item.destination}</Text>
+                <Text style={{ margingLeft: 12, marginTop: 10, fontSize: 15 }}>Rp. {item.price_order}</Text>
                 <Text style={{ margingLeft: 12, marginTop: 10, textAlign: "right" }}>{item.date}</Text>
             </View>
         </TouchableOpacity>
@@ -49,6 +34,9 @@ export default class singleTransact extends Component {
     )
 
     render() {
+        console.log("this.props.order.data");
+        console.log(this.props.order.data);
+        
         return (
             <Fragment>
                 <ScrollView>
@@ -62,8 +50,9 @@ export default class singleTransact extends Component {
                     </View>
                     <View>
                         <FlatList
-                        data={this.state.data}
+                        data={this.props.order.data}
                         renderItem={this.listMain}
+                        keyExtractor={this._keyExtractor}
                         />
                     </View>
                 </ScrollView>
@@ -71,6 +60,15 @@ export default class singleTransact extends Component {
         )
     }
 }
+
+const mapStateToProps = state => {
+    return {
+      order: state.order,
+      users: state.users
+    };
+  };
+  
+export default connect(mapStateToProps)(singleTripList);
 
 const styles = StyleSheet.create({
     container: {

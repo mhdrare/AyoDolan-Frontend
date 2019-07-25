@@ -1,26 +1,37 @@
 import React, { Component } from "react";
 import firebase from "firebase";
 import { GiftedChat } from "react-native-gifted-chat";
- 
- 
-const user = {
-  id: "10001",
-  name: "name penerima",
-  imageUrl:"img"
-}
- 
- 
+
+// const user = {
+//   id: "10001",
+//   name: "name penerima",
+//   imageUrl:"img"
+// }
 export default class Chatty extends Component {
   constructor(props) {
     super(props);
+    
     this.state = {
-      uid: "01110",
-      name: "nama pengirim",
+      user:{
+        id:this.props.navigation.state.params.id_user,
+        name:this.props.navigation.state.params.nama_user,
+        imageUrl:this.props.navigation.state.params.image_user
+      },
+      uid: this.props.navigation.state.params.id_guide,
+      name: this.props.navigation.state.params.guide_name,
       text: "",
       messagesList: []
     };
   }
   async componentDidMount() {
+    // const this.state.user = {
+    //   id: "this.props.navigation.state.params.",
+    //   name: "name penerima",
+    //   imageUrl: "img"
+    // };
+
+    console.log(this.props.navigation.state.params);
+
     let firebaseConfig = {
       apiKey: "AIzaSyBhweWoZS9hUeUYII27hC1lStA12p_P7Oo",
       authDomain: "chatayo-345d4.firebaseapp.com",
@@ -35,17 +46,17 @@ export default class Chatty extends Component {
     }
 
     console.log("xxxx");
-    console.log(user);
+    console.log(this.state.user);
     console.log(this.state);
-   
+
     await firebase
       .database()
       .ref("messages")
-      .child(user.id)
-      .child(user.name)
+      .child("user")
+      .child(this.state.user.id)
+      .child(this.state.user.name)
       .child(this.state.name)
       .on("child_added", value => {
-       
         this.setState(previousState => {
           return {
             messagesList: GiftedChat.append(
@@ -56,7 +67,6 @@ export default class Chatty extends Component {
         });
         console.log("this.state.messagesList");
         console.log(this.state.messagesList);
-         
       });
   }
   sendMessage = async () => {
@@ -64,8 +74,9 @@ export default class Chatty extends Component {
       let msgId = firebase
         .database()
         .ref("messages")
-        .child(user.id)
-        .child(user.name)
+        .child("user")
+        .child(this.state.user.id)
+        .child(this.state.user.name)
         .child(this.state.name)
         .push().key;
       let updates = {};
@@ -74,27 +85,27 @@ export default class Chatty extends Component {
         text: this.state.text,
         createdAt: firebase.database.ServerValue.TIMESTAMP,
         user: {
-            _id: user.id,
-            avatar: user.imageUrl
+          _id: this.state.user.id,
+          avatar: this.state.user.imageUrl
         }
       };
       updates[
-        "messages/" +
-          user.id +
+        "messages/" + "user/"+
+          this.state.user.id +
           "/" +
-          user.name +
+          this.state.user.name +
           "/" +
           this.state.name +
           "/" +
           msgId
       ] = message;
       updates[
-        "messages/" +
+        "messages/" +"guide/"+
           this.state.uid +
           "/" +
           this.state.name +
           "/" +
-          user.name +
+          this.state.user.name +
           "/" +
           msgId
       ] = message;
@@ -112,7 +123,7 @@ export default class Chatty extends Component {
         messages={this.state.messagesList}
         onSend={this.sendMessage}
         user={{
-          _id: user.id
+          _id: this.state.user.id
         }}
         onInputTextChanged={value => this.setState({ text: value })}
       />
