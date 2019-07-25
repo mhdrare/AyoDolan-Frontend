@@ -18,6 +18,7 @@ import SingleTransact from '../screens/singleTransact';
 import ListPaketWisata from '../screens/ListPaketWisata';
 import SingleTrip from '../screens/singleTripList';
 import userProfile from '../screens/userProfile';
+import OrderPackage from '../screens/OrderPackage';
 
 const AuthNavigator = createStackNavigator({
 	Login,
@@ -39,6 +40,7 @@ const HomeNavigator = createStackNavigator({
     SingleTrip,
 	userProfile,
     AuthCheck,
+    OrderPackage
 }, {
 	initialRouteName: 'Home',
 	headerMode: 'none'
