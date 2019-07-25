@@ -1,4 +1,7 @@
 <h1 align="center">AyoDolan E-Ticketing</h1>
+<p align="center">
+  <img width="350" src="https://i.imgur.com/Vut4Cn7.jpg"/>
+</p>
 
 ## Table of Contents
 
@@ -37,12 +40,23 @@ AyoDolan is a application that provides tour ticket online with a focus on domes
 
 ## Screenshots
 
-- [Screenshots]()
+### Login
+  <img src="https://i.imgur.com/w7ooeBe.png" width=200/>
+  
+### Register
+  <img src="https://i.imgur.com/zxvp8FG.png" width=200/>
+  
+### Home
+  <img src="https://i.imgur.com/9VxWMsv.png" width=200/>
+  
+### Profile
+  <img src="https://i.imgur.com/bG6ziXo.png" width=200/>
+  
 - [Watch Demo App]()
 
 ## Release APK
 
-<a href="https://drive.google.com/file/d/163zsPcnHT-tH-NN_CVjKnkdpE-Su6xbU/view?usp=sharing">
+<a href="#">
   <img src="https://thecorrespondent.in/wp-content/uploads/2019/02/GoogleDrive-big.png" width=100/>
 </a>
   

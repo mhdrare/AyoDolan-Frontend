@@ -10,6 +10,7 @@ import {
   StatusBar,
   AsyncStorage
 } from "react-native";
+import { Toast } from 'native-base';
 
 //redux
 import { connect } from "react-redux";
@@ -31,7 +32,12 @@ class Login extends Component {
 
   login = async () => {
     if (this.state.email === "" || this.state.password === "") {
-      alert("Insert email dan password");
+      Toast.show({
+        text: 'Email or Password is required',
+        buttonText: 'Okay',
+        position: 'top',
+        type: 'danger'
+      })
     } else {
       let user = {
         email: this.state.email,
@@ -42,9 +48,21 @@ class Login extends Component {
       });
 
       if (this.state.email.length < 6 || this.state.email == "") {
-        this.setState({ errEmail: "Email is not valid", loading: false });
+        this.setState({ loading: false });
+        Toast.show({
+          text: 'Invalid Email',
+          buttonText: 'Okay',
+          position: 'top',
+          type: 'danger'
+        })
       } else if (this.state.password.length < 6 || this.state.password == "") {
-        this.setState({ errPassword: "Password too short", loading: false });
+        this.setState({loading: false });
+        Toast.show({
+          text: 'Invalid Password',
+          buttonText: 'Okay',
+          position: 'top',
+          type: 'danger'
+        })
       } else {
         this.props
           .dispatch(
@@ -56,7 +74,12 @@ class Login extends Component {
                 loading: false
               },
               () => {
-                alert("Welcome To Ayodolan!");
+                Toast.show({
+                  text: 'Login Successful, Welcome to AyoDolan !',
+                  position: 'top',
+                  type: 'success',
+                  duration: 3000
+                })
                 this.props.navigation.navigate("Home");
               }
             );
@@ -67,7 +90,12 @@ class Login extends Component {
                 loading: false
               },
               () => {
-                alert("Gagal login");
+                Toast.show({
+                  text: 'Login Failed',
+                  buttonText: 'Okay',
+                  position: 'top',
+                  type: 'danger'
+                })
               }
             );
           });
