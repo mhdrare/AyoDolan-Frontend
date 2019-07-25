@@ -36,16 +36,42 @@ class Login extends Component {
         email: this.state.email,
         password: this.state.password
       };
-      await this.props.dispatch(loginUser(user));
-      
-      await AsyncStorage.getItem("Token", (error, result) => {
-        if (result) {
-          this.props.navigation.navigate("Home");
-          alert("Welcome To Ayodolan!");
-        } else {
-          alert("salah");
-        }
+
+      this.setState({
+        loading: true
       });
+
+      if (this.state.email.length < 6 || this.state.email == "") {
+        this.setState({ errEmail: "Email is not valid", loading: false });
+      } else if (this.state.password.length < 6 || this.state.password == "") {
+        this.setState({ errPassword: "Password too short", loading: false });
+      } else {
+        this.props
+          .dispatch(
+            loginUser(user)
+          )
+          .then(() => {
+            this.setState(
+              {
+                loading: false
+              },
+              () => {
+                alert("Welcome To Ayodolan!");
+                this.props.navigation.navigate("Home");
+              }
+            );
+          })
+          .catch(err => {
+            this.setState(
+              {
+                loading: false
+              },
+              () => {
+                alert("Gagal login");
+              }
+            );
+          });
+      }
 
       // console.log("this.state.data");
       // console.log(this.state.data);
