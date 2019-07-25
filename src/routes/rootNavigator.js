@@ -21,6 +21,7 @@ import userProfile from '../screens/userProfile';
 import OrderPackage from '../screens/OrderPackage';
 import ConfirmCode from '../screens/confirmCode';
 import NewPassword from '../screens/newPassword';
+import Chat from '../screens/Chat';
 
 const AuthNavigator = createStackNavigator({
 	Login,
@@ -44,9 +45,10 @@ const HomeNavigator = createStackNavigator({
     AuthCheck,
     OrderPackage,
     ConfirmCode,
-    NewPassword
+    NewPassword,
+    Chat
 }, {
-	initialRouteName: 'Home',
+	initialRouteName: 'OrderPackage',
 	headerMode: 'none'
 })
 

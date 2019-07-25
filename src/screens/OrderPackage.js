@@ -9,6 +9,7 @@ import {
     ScrollView,
 } from 'react-native';
 import QRCode from 'react-native-qrcode';
+import { Fab, Icon } from "native-base";
 const { width, height } = Dimensions.get('window');
 
 export default class Login extends Component {
@@ -137,6 +138,15 @@ export default class Login extends Component {
                         <Text style={{fontSize:18,fontWeight:'bold',color:'#fff'}}>Lanjutkan</Text>
                     </TouchableOpacity>
                 </ScrollView>
+                <Fab
+                    direction="up"
+                    containerStyle={{}}
+                    style={{ backgroundColor: "#FFFCFC", marginBottom:25 }}
+                    position="bottomRight"
+                    onPress={() => this.props.navigation.navigate("Chat")}
+                >
+                <Icon name="ios-chatboxes" style={{ color: "#4dd0e1" }} />
+                </Fab>
             </View>
         )
     }
