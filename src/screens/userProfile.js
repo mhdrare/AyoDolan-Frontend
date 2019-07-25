@@ -68,6 +68,11 @@ export default class Profile extends Component {
                     <TouchableOpacity onPress={this.logoutHandler}>
                         <Icon name="poweroff" style={style.powerIco} />
                     </TouchableOpacity>
+                    <TouchableOpacity onPress={() => { this.props.navigation.navigate('SingleTrip') }}>
+                        {/* <Icon name="poweroff" style={style.powerIco} /> */}
+                        {/* <Text style={{ marginLeft: 50 }}>Paid Order</Text> */}
+                        <Icon name="bars" style={{ marginLeft: 50, fontSize: 30 }} />
+                    </TouchableOpacity>
                 </View>
             </Fragment>
         )
