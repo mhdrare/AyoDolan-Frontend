@@ -63,10 +63,16 @@ export default class Profile extends Component {
                         <Icon name="phone" style={style.profileIcon} />
                         <Text style={style.profileName}>Phone Number</Text>
                     </View>
+                    
                 </View>
                 <View style={style.logout}>
                     <TouchableOpacity onPress={this.logoutHandler}>
                         <Icon name="poweroff" style={style.powerIco} />
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => { this.props.navigation.navigate('SingleTrip') }}>
+                        {/* <Icon name="poweroff" style={style.powerIco} /> */}
+                        {/* <Text style={{ marginLeft: 50 }}>Paid Order</Text> */}
+                        <Icon name="bars" style={{ marginLeft: 50, fontSize: 30 }} />
                     </TouchableOpacity>
                 </View>
             </Fragment>
@@ -110,7 +116,7 @@ const style = StyleSheet.create({
     },
     profileItem:{
         flexDirection: "row",
-        marginTop: 25
+        marginTop: 15
     },
     profileIcon:{
         fontSize: 20,
@@ -122,7 +128,7 @@ const style = StyleSheet.create({
     logout:{
         marginTop: 50,
         alignSelf: "center",
-        
+        flexDirection: "row"
     },
     powerIco:{
         fontSize: 30

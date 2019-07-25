@@ -38,7 +38,7 @@ export default class singleTransact extends Component {
 
     listMain = ({ item }) => (
         <ScrollView>
-        <TouchableOpacity activeOpacity={0.8} onPress={() => this.props.navigation.navigate('Details')}>
+            <TouchableOpacity activeOpacity={0.8} onPress={() => this.props.navigation.navigate('confirmCode')}>
             <View style={{ padding: 40, borderBottomColor: "#EEEEEE", borderWidth: 0.3 }}>
                 <Text style={{ margingLeft: 12, marginTop: 10, fontSize: 25 }}>{item.dest}</Text>
                 <Text style={{ margingLeft: 12, marginTop: 10, fontSize: 15 }}>Rp. {item.price}</Text>
@@ -54,10 +54,10 @@ export default class singleTransact extends Component {
                 <ScrollView>
                     <View style={styles.container}>
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: "12%", marginTop: 40, marginBottom: 20 }}>
-                            <TouchableOpacity>
+                            <TouchableOpacity onPress={() => this.props.navigation.navigate('Home')}>
                                 <Icon name="arrowleft" size={30} />
                             </TouchableOpacity>
-                            <Text style={{ fontSize: 28 }}>Single Trip</Text>
+                            <Text style={{ fontSize: 28 }}>Paid Order</Text>
                         </View>
                     </View>
                     <View>

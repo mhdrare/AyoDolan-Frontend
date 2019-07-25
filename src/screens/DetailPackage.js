@@ -45,6 +45,10 @@ class detaiPackage extends Component {
         this.props.dispatch(detaiPaket(id))
     }
 
+    formatNumber = nums => {
+        return nums.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+    };
+
     componentDidMount(){
         this.fatchData()
     }
@@ -79,14 +83,10 @@ class detaiPackage extends Component {
     }
 
     listMain = ({ item }) =>(
-        <TouchableOpacity 
-            onPress={() => {
-                this.setModalVisible(true);
-                this.setState({img:item.image});
-            }}
+        <View 
             style={{height:270,width,backgroundColor:'#fff',flexDirection:'row',alignSelf:'center',marginRight:2,borderRadius:5,elevation:3}}>  
             <Image source={{uri:item.image}} style={{height:'100%',width:'100%'}}/>
-        </TouchableOpacity>
+        </View>
     )
     listHarga = ({ item }) =>(
         <TouchableOpacity 
@@ -96,7 +96,7 @@ class detaiPackage extends Component {
                 <Text style={{fontSize:14,color:'#000'}}>{item.destination}</Text>
             </View>
             <View style={{flex:1,paddingTop:10,alignItems:'center'}}>
-                <Text style={{color:'red'}}>Rp {item.price}</Text> 
+                <Text style={{color:'red'}}>Rp {this.formatNumber(item.price)}</Text> 
             </View>
         </TouchableOpacity>
     )
@@ -117,26 +117,10 @@ class detaiPackage extends Component {
                     {/* <Image source={require('../assets/menu2.png')} style={{ width:23,height:23,borderRadius:10,marginLeft:8 }} /> */}
                 </View>
                 <ScrollView style={{flex:1}}>
-                    <Modal
-                        animationType="fade"
-                        transparent={true}
-                        visible={this.state.modalVisible}
-                    >
-                        <View style={{width:'100%',height:235,zIndex:2,position:'absolute',top:height*0.3}}>
-                            <Image source={{uri:this.state.img}} 
-                            style={{height:'100%',width:'100%'}}/>
-                        </View>
-                        <TouchableOpacity
-                            style={{width,height,zIndex:1,backgroundColor: 'black',opacity: 0.8}}
-                            onPress={() => {this.setModalVisible(!this.state.modalVisible)}}>
-                        </TouchableOpacity>
-                    </Modal>
+                    
 
                     <View style={{marginBottom:2}}>
-                        <TouchableOpacity onPress={() => {
-                            this.setModalVisible(true);
-                            this.setState({img:'https://images.unsplash.com/photo-1493604480588-31082be2c411?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=729&q=80'});
-                        }} >
+                        
                              {/* <Image source={{uri:'https://images.unsplash.com/photo-1493604480588-31082be2c411?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=729&q=80'}} style={{height:235,width:'100%',borderTopLeftRadius:5,borderBottomLeftRadius:5}}/> 
                                 */}
                             <FlatList 
@@ -146,7 +130,6 @@ class detaiPackage extends Component {
                             showsHorizontalScrollIndicator={false}
                             keyExtractor={(item,index)=>index.toString()}
                         />
-                        </TouchableOpacity>
                     </View>
 
                     <View style={{height:108,paddingHorizontal:15,borderBottomWidth:2,borderColor:'#ddd'}}>

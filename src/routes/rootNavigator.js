@@ -40,11 +40,11 @@ const HomeNavigator = createStackNavigator({
     ListPaketWisata,
     ViewAllDestination,
     SingleTrip,
-	userProfile,
+	  userProfile,
     AuthCheck,
     OrderPackage,
-    ConfirmCode,
-    NewPassword
+    NewPassword,
+    ConfirmCode
 }, {
 	initialRouteName: 'Home',
 	headerMode: 'none'

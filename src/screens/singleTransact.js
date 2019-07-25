@@ -35,9 +35,21 @@ export default class singleTransact extends Component {
         axios.post("https://my.ipaymu.com/api/getbniva", data).then(res => {
             // alert(JSON.stringify(res.data));
             this.setState({ va: res.data.va, processing: false, stat: 'finish' });
+            this.triggerNotif();
         }).catch(error => {
             alert('transaction failed'+JSON.stringify(error));
         });
+    }
+
+    triggerNotif = () =>{
+
+        let data = {
+            phoneid: phoneID.phoneID,
+            msg: "Please continue the payment via BNI",
+            header: "Transaction"
+        }
+
+        axios.post("https://ayodolanbackend.herokuapp.com/singleorder/notif", data);
     }
 
     setModalVisible(visible) {
@@ -235,7 +247,7 @@ export default class singleTransact extends Component {
                                 <Text style={{ textAlign: "center", fontSize: 20 }}>Order Now</Text>
                             </TouchableOpacity>
                             :
-                            <TouchableOpacity onPress={() => { alert('comming soon') }}>
+                            <TouchableOpacity onPress={() => { this.props.navigation.navigate('SingleTrip') }}>
                                 <Text style={{ textAlign: "center", fontSize: 20 }}>Go to order list</Text>
                             </TouchableOpacity>
 
