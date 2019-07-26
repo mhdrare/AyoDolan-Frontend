@@ -3,7 +3,7 @@ import { View, ActivityIndicator, Text, ScrollView, TouchableOpacity, StyleSheet
 import Icon from 'react-native-vector-icons/AntDesign';
 import { getTransaksi} from '../public/redux/action/transaksi';
 import { connect } from "react-redux";
-import moment from "moment"
+import moment from "moment";
 
 class Transaction extends Component {
     constructor(props) {
@@ -27,6 +27,7 @@ class Transaction extends Component {
 
     fatchData = async() =>{
         let id = await AsyncStorage.getItem('id')
+        console.log(id)
         this.props.dispatch(getTransaksi(id))
     }
 
