@@ -22,7 +22,7 @@ class singleTripList extends Component {
     listMain = ({ item }) => (
         <TouchableOpacity activeOpacity={0.8} onPress={() => this.props.navigation.navigate('OrderPackage', item)}>
             <View style={{ padding: 10, backgroundColor: '#f2f2f2', margin: 10, borderRadius: 10}}>
-                <Text style={{ marginLeft: 12, marginTop: 10, fontSize: 20, fontFamily: 'sans-serif-condensed' }}>{item.dest}</Text>
+                <Text style={{ marginLeft: 12, marginTop: 10, fontSize: 20, fontFamily: 'sans-serif-condensed' }}>{item.destination}</Text>
                 <Text style={{ marginLeft: 12, marginTop: 10, fontSize: 15 }}>Rp. {item.price}</Text>
                 <Text style={{ marginLeft: 12, marginTop: 10, textAlign: 'right', fontFamily: 'sans-serif-thin' }}>{item.date}</Text>
             </View>
