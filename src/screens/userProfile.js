@@ -47,9 +47,9 @@ class Profile extends Component {
                             <Icon name="arrowleft" style={{ color: "#fff", fontSize: 30 }} />
                         </TouchableOpacity>
                     </View>
-                    <Image source={{ uri: this.props.users.data.image}} style={style.imageProfile} />
+                    <Image source={{ uri: 'https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg'}} style={style.imageProfile} />
                     <View style={style.userProfile}>
-                        <Text numberOfLines={2} style={style.userName}>{this.props.users.data.name}</Text>
+                        
                     </View>
                 </ImageBackground>
                 <View style={{flex: 1, flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
