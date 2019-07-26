@@ -47,10 +47,10 @@ class Profile extends Component {
                             <Icon name="arrowleft" style={{ color: "#fff", fontSize: 30 }} />
                         </TouchableOpacity>
                     </View>
-                    <Image source={{ uri: 'https://st4.depositphotos.com/5934840/20525/v/600/depositphotos_205253058-stock-video-young-man-cartoon-hd-animation.jpg'}} style={style.imageProfile} />
-                    {/* <View style={style.userProfile}>
-                        <Text style={style.userName}>This Profile</Text>
-                    </View> */}
+                    <Image source={{ uri: this.props.users.data.image}} style={style.imageProfile} />
+                    <View style={style.userProfile}>
+                        <Text numberOfLines={2} style={style.userName}>{this.props.users.data.name}</Text>
+                    </View>
                 </ImageBackground>
                 <View style={{flex: 1, flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
                     <View style={{flex: 1, alignItems: 'center', paddingLeft: 20, justifyContent: 'center'}}>
@@ -123,8 +123,10 @@ const style = StyleSheet.create({
         marginBottom: 30
     },
     userName:{
-        fontSize: 30,
-        color: "#fff"
+        fontSize: 35,
+        color: "#fff",
+        fontWeight:"bold",
+        textTransform:"uppercase"
     },
     userProfile:{
         alignSelf: "center",

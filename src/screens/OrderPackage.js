@@ -8,7 +8,7 @@ import {
     StyleSheet,
     ScrollView,
 } from 'react-native';
-import QRCode from 'react-native-qrcode';
+import QRCode from 'react-native-qrcode-svg';
 import { Fab, Icon } from "native-base";
 const { width, height } = Dimensions.get('window');
 
@@ -47,9 +47,7 @@ export default class Login extends Component {
                         </View>
                         <QRCode
                             value={this.state.data.id_transaksi.toString()}
-                            size={150}
-                            bgColor='#000'
-                            fgColor='white'
+                            logoSize={30}
                         />
                     </View>
 
