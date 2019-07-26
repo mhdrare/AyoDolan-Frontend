@@ -186,13 +186,38 @@ class Register extends Component {
           type: "image/jpg"
         }
       }
-      await this.props.dispatch(addUser(dataReg));
-      this.props.navigation.navigate("Login")
-      Toast.show({
-        text: 'Register Success, please login !',
-        position: 'top',
-        type: 'success'
+      await this.props.dispatch(addUser(dataReg))
+      .then(() => {  
+        this.setState(
+          {
+            loading: false
+          },
+          () => {
+            Toast.show({
+              text: 'Register Success, please login !',
+              position: 'top',
+              type: 'success'
+            })
+            this.props.navigation.navigate("Login");
+          }
+        );
       })
+      .catch(err => {
+        this.setState(
+          {
+            loading: false
+          },
+          () => {
+            Toast.show({
+              text: 'Email Has Been Used',
+              buttonText: 'Okay',
+              position: 'top',
+              type: 'danger'
+            })
+          }
+        );
+      });
+     
     }
   };
 
