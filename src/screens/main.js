@@ -98,7 +98,10 @@ class main extends Component {
                         <View style={styles.content}>
                             <Text style={{ fontSize: 20, fontFamily: 'sans-serif-condensed', paddingLeft: 5 }}>AyoDolan</Text>
                             <TouchableOpacity onPress={() => { this.props.navigation.navigate('userProfile') }}>
-                                <Image source={{ uri: 'https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg' }} style={{ width: 28, height: 28, borderRadius: 10, paddingRight: 5 }} />
+                            {this.props.users.data.image ? <Image source={{ uri: this.props.users.data.image }} style={{ width: 28, height: 28, borderRadius: 10, paddingRight: 5 }} />
+                            : <Image source={{ uri: 'https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg' }} style={{ width: 28, height: 28, borderRadius: 10, paddingRight: 5 }} />
+                            }
+                                {/* <Image source={{ uri: this.props.users.data.image }} style={{ width: 28, height: 28, borderRadius: 10, paddingRight: 5 }} /> */}
                             </TouchableOpacity>
                         </View>
                         <ScrollView>
