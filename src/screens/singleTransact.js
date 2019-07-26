@@ -225,6 +225,12 @@ class singleTransact extends Component {
                         </TouchableOpacity>
                         <Text style={{flex: 1, fontSize: 24, textAlign: 'right'}} >Payment</Text>
                     </View>
+                    {this.props.paket.isError ?
+                        alert("guide Habis")
+                    :
+                        null
+                    }
+                    
                     <View style={{flex: 1, alignSelf: 'center'}}>
                         <View style={component.date}>
                             <View style={{flex: 2, justifyContent: 'center'}}>
