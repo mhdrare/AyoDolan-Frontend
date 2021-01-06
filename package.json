@@ -8,7 +8,7 @@
   },
   "dependencies": {
     "@monterosa/react-native-parallax-scroll": "^1.8.0",
-    "axios": "^0.19.0",
+    "axios": "^0.21.1",
     "firebase": "^6.3.1",
     "jetifier": "^1.6.3",
     "moment": "^2.24.0",
